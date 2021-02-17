@@ -1,0 +1,106 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.hkshopu.hk"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Anko
+    implementation "org.jetbrains.anko:anko:$ANKO_VERSION"
+    implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$ANKO_VERSION"
+    implementation "org.jetbrains.anko:anko-appcompat-v7:$ANKO_VERSION"
+    implementation "org.jetbrains.anko:anko-support-v4-commons:$ANKO_VERSION"
+    implementation "org.jetbrains.anko:anko-support-v4:$ANKO_VERSION"
+    implementation "org.jetbrains.anko:anko-recyclerview-v7:$ANKO_VERSION"
+
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    //ReactiveX
+    implementation "io.reactivex.rxjava2:rxjava:$RXJAVA2_VERSION"
+    implementation "io.reactivex.rxjava2:rxkotlin:$RXKOTLIN_VERSION"
+    implementation "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
+
+    //RXView
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    implementation "com.trello.rxlifecycle2:rxlifecycle:$RXLIFE_VERSION"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android:$RXLIFE_VERSION"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-kotlin:$RXLIFE_VERSION"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:$RXLIFE_VERSION"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:$GLIDE_VERSION") {
+        exclude group: "com.android.support"
+    }
+    implementation "com.github.bumptech.glide:okhttp3-integration:$GLIDE_VERSION"
+    implementation "com.github.bumptech.glide:recyclerview-integration:${GLIDE_VERSION}@aar"
+    kapt'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'  //高斯模糊
+
+
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
+
+    implementation 'com.mallotec.reb:plugin-locale:1.0.12'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'com.github.tiper:MaterialSpinner:1.4.2'
+
+    //Facebook
+    implementation 'com.facebook.android:facebook-login:4.36.1'
+
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
