@@ -3,9 +3,12 @@
     <string name="menu_title">HKShop</string>
     <string name="empty"></string>
     <string name="sign_up">SIGN-UP</string>
+    <string name="register_email">EMAIL註冊</string>
     <string name="login">LOGIN</string>
+    <string name="login_fb">FACEBOOK 登入</string>
+    <string name="login_google">GOOGLE 登入</string>
     <string name="skip">SKIP</string>
-    <string name="or">OR</string>
+    <string name="member_already">已經是會員了嗎？</string>
     <string name="please_login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

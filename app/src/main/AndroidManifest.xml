@@ -56,6 +56,10 @@
             android:name="com.hkshopu.hk.ui.user.activity.RegisterActivity"
             android:launchMode="singleTask" />
         <activity
+            android:name="com.hkshopu.hk.ui.main.activity.OnBoardActivity"
+            android:launchMode="singleTask" />
+
+        <activity
             android:name="com.hkshopu.hk.ui.main.activity.ShopmenuActivity"
             android:launchMode="singleTask" />
         <activity

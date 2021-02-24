@@ -12,9 +12,10 @@ import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.hkshopu.hk.R
-import com.roan.lyde.qoqo.component.EventShopDesUpdated
+import com.hkshopu.hk.component.EventShopDesUpdated
+import com.hkshopu.hk.utils.rxjava.RxBus
 
-import com.roan.lyde.qoqo.utils.rxjava.RxBus
+
 
 import org.jetbrains.anko.find
 import java.util.regex.Pattern

@@ -16,24 +16,25 @@ import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
+import com.hkshopu.hk.databinding.ActivityLoginBinding
+import com.hkshopu.hk.databinding.ActivityRegisterBinding
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.hkshopu.hk.widget.view.disable
 import com.hkshopu.hk.widget.view.enable
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.titleBack
-import kotlinx.android.synthetic.main.activity_register.*
+
 
 
 class RegisterActivity : BaseActivity(), TextWatcher {
-
+    private lateinit var binding: ActivityRegisterBinding
     private val VM = AuthVModel()
     var email: String = ""
     var gender: String = ""
     val genders = arrayListOf("Male", "Female")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         initView()
@@ -42,14 +43,14 @@ class RegisterActivity : BaseActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
-        val username = editUserName.text.toString()
-        val email = editEmail_reg.text.toString()
-        val password = password_reg.text.toString()
-        val passwordcof = passwordConf.text.toString()
+        val username = binding.editUserName.text.toString()
+        val email = binding.editEmailReg.text.toString()
+        val password = binding.passwordReg.text.toString()
+        val passwordcof = binding.passwordConf.text.toString()
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || passwordcof.isEmpty()) {
-            btnSignUp.disable()
+            binding.btnSignUp.disable()
         } else {
-            btnSignUp.enable()
+            binding.btnSignUp.enable()
         }
     }
 
@@ -74,7 +75,7 @@ class RegisterActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initView() {
-        layout_register.setOnTouchListener(object : View.OnTouchListener {
+        binding.layoutRegister.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN -> KeyboardUtil.hideKeyboard(v)
@@ -85,8 +86,8 @@ class RegisterActivity : BaseActivity(), TextWatcher {
         })
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, genders)
-        gender_spinner.adapter = adapter
-        gender_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.genderSpinner.adapter = adapter
+        binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 Log.d("RegisterActivity", "你選的是" + genders[pos])
                 gender = genders[pos]
@@ -99,28 +100,28 @@ class RegisterActivity : BaseActivity(), TextWatcher {
 
         initEditText()
         initClick()
-        editUserName.requestFocus()
-        KeyboardUtil.showKeyboard(editUserName)
-        password_reg.setFilters(arrayOf<InputFilter>(LengthFilter(16)))
-        editmobile1.setFilters(arrayOf<InputFilter>(LengthFilter(8)))
+        binding.editUserName.requestFocus()
+        KeyboardUtil.showKeyboard(binding.editUserName)
+        binding.passwordReg.setFilters(arrayOf<InputFilter>(LengthFilter(16)))
+        binding.editmobile1.setFilters(arrayOf<InputFilter>(LengthFilter(8)))
 
     }
 
     private fun initClick() {
-        titleBack.setOnClickListener {
+        binding.titleBack.setOnClickListener {
 
             finish()
         }
-        btnSignUp.setOnClickListener {
-            val account_name = editUserName.text.toString()
-            val email = editEmail_reg.text.toString()
-            val password = password_reg.text.toString()
-            val confirm_password = passwordConf.text.toString()
-            val first_name = editFirstName.text.toString()
-            val last_name = editlastName.text.toString()
-            val birthday = editbirth.text.toString()
-            val phone = editmobile.text.toString() + editmobile1.text.toString()
-            val address = editaddress.text.toString()
+        binding.btnSignup.setOnClickListener {
+            val account_name = binding.editUserName.text.toString()
+            val email = binding.editEmailReg.text.toString()
+            val password = binding.passwordReg.text.toString()
+            val confirm_password = binding.passwordConf.text.toString()
+            val first_name = binding.editFirstName.text.toString()
+            val last_name = binding.editlastName.text.toString()
+            val birthday = binding.editbirth.text.toString()
+            val phone = binding.editmobile.text.toString() + binding.editmobile1.text.toString()
+            val address = binding.editaddress.text.toString()
             if (confirm_password.equals(password)) {
                 VM.register(
                     this,
@@ -141,7 +142,7 @@ class RegisterActivity : BaseActivity(), TextWatcher {
                 val toast = Toast.makeText(this, R.string.please_confirm_password, duration)
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0)
                 toast.show()
-                btnSignUp.disable()
+                binding.btnSignUp.disable()
             }
 
         }
@@ -149,9 +150,9 @@ class RegisterActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initEditText() {
-        editEmail_reg.addTextChangedListener(this)
-        password_reg.addTextChangedListener(this)
-        passwordConf.addTextChangedListener(this)
+        binding.editEmailReg.addTextChangedListener(this)
+        binding.passwordReg.addTextChangedListener(this)
+        binding.passwordConf.addTextChangedListener(this)
     }
 
 }

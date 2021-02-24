@@ -4,29 +4,30 @@ package com.hkshopu.hk.ui.main.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.BaseFragment
 import com.hkshopu.hk.R
+import com.hkshopu.hk.databinding.ActivityAddshopBinding
 import com.hkshopu.hk.ui.main.fragment.ProductFragment
 import com.hkshopu.hk.ui.main.fragment.ShopInfoFragment
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 
-import kotlinx.android.synthetic.main.activity_addshop.*
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.layout_title_first.*
 
 
 class AddShopActivity : BaseActivity(), TextWatcher, ViewPager.OnPageChangeListener {
+    private lateinit var binding: ActivityAddshopBinding
     lateinit var manager: FragmentManager
     var showTab : Int = 1
 
     private val VM = AuthVModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addshop)
+        binding = ActivityAddshopBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initView()
         initVM()
@@ -45,15 +46,15 @@ class AddShopActivity : BaseActivity(), TextWatcher, ViewPager.OnPageChangeListe
     }
 
     private fun initView() {
-        titleBack_addshop.setOnClickListener {
+        binding.titleBackAddshop.setOnClickListener {
 
             finish()
         }
         initFragment()
         initEditText()
-        mviewPager.currentItem = showTab
+        binding.mviewPager.currentItem = showTab
     }
-    private val fragments = mutableListOf<BaseFragment>()
+    private val fragments = mutableListOf<Fragment>()
     private fun initFragment() {
         manager = supportFragmentManager
         if (fragments.isNotEmpty())return
@@ -62,13 +63,13 @@ class AddShopActivity : BaseActivity(), TextWatcher, ViewPager.OnPageChangeListe
 
         fragments.add(ProductFragment)
         fragments.add(ShopInfoFragment)
-        mviewPager.adapter = object : FragmentPagerAdapter(manager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+        binding.mviewPager.adapter = object : FragmentPagerAdapter(manager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
             override fun getItem(position: Int) =  fragments[position]
             override fun getCount() = fragments.size
         }
-        mviewPager.setPagingEnabled(false)
-        mviewPager.addOnPageChangeListener(this)
-        tabLayout.setViewPager(mviewPager, arrayOf(getString(R.string.product),getString(R.string.info)))
+        binding.mviewPager.setPagingEnabled(false)
+        binding.mviewPager.addOnPageChangeListener(this)
+//        binding.setViewPager(binding.mviewPager, arrayOf(getString(R.string.product),getString(R.string.info)))
     }
 
     private fun initEditText() {

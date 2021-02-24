@@ -1,6 +1,7 @@
-package com.roan.lyde.qoqo.net.imageloader
+package com.hkshopu.hk.net.net.imageloader
 
-import com.roan.lyde.qoqo.net.imageloader.glide.GlideImageLoader
+import com.hkshopu.hk.net.imageloader.ImageLoader
+import com.hkshopu.hk.net.net.imageloader.glide.GlideImageLoader
 
 
 /**

@@ -12,9 +12,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.hkshopu.hk.R
-import com.roan.lyde.qoqo.component.EventShopNameUpdated
-import com.roan.lyde.qoqo.utils.rxjava.RxBus
-import kotlinx.android.synthetic.main.dialog_fragment_des_add.*
+import com.hkshopu.hk.component.EventShopNameUpdated
+import com.hkshopu.hk.utils.rxjava.RxBus
+
 import org.jetbrains.anko.find
 import java.util.regex.Pattern
 
@@ -36,6 +36,8 @@ class AddNameDialogFragment : DialogFragment(), View.OnClickListener {
             return f
         }
     }
+    private var _binding: AddNameDialogFragment? = null
+    private val binding get() = _binding!!
     var et_shopName:EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,5 +89,9 @@ class AddNameDialogFragment : DialogFragment(), View.OnClickListener {
                 }
             }
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

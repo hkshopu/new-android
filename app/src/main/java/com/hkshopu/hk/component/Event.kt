@@ -1,4 +1,4 @@
-package com.roan.lyde.qoqo.component
+package com.hkshopu.hk.component
 
 /**
  * Created by Administrator on 2018/4/20 0020.

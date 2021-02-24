@@ -7,7 +7,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.hkshopu.hk.R
-import com.roan.lyde.qoqo.net.imageloader.ImageLoaderProvider
+import com.hkshopu.hk.net.net.imageloader.ImageLoaderProvider
+
 
 /**
  * @Author: YangYang

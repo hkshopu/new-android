@@ -3,27 +3,30 @@ package com.hkshopu.hk.ui.main.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.navigation.NavigationView
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.R
+import com.hkshopu.hk.databinding.ActivityShopmenuBinding
 import com.hkshopu.hk.ui.main.fragment.ShopManageFragment
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.activity.RegisterActivity
-import kotlinx.android.synthetic.main.activity_shopmenu.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+
 
 class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+    private lateinit var binding: ActivityShopmenuBinding
     lateinit var manager: FragmentManager
-
+    lateinit var includedView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shopmenu)
-
+        binding = ActivityShopmenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        includedView = binding.navBar.toolbar
         toggle()
         initActivity()
         initClick()
@@ -31,21 +34,22 @@ class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     fun toggle() {
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+                this, binding.drawerLayout,
+            includedView as Toolbar?, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        drawer_layout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }
 
     fun initActivity() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(includedView as Toolbar?)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
         manager = supportFragmentManager
 //        manager.beginTransaction().add(R.id.main, Fragment_main()).commit()
-        nav_view.setNavigationItemSelectedListener(this)
+        binding.navView.setNavigationItemSelectedListener(this)
     }
 
     fun initClick(){
@@ -67,8 +71,8 @@ class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedL
         }
     }
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -80,7 +84,7 @@ class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedL
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             android.R.id.home -> {
-                drawer_layout.openDrawer(GravityCompat.START)
+                binding.drawerLayout.openDrawer(GravityCompat.START)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -127,7 +131,7 @@ class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
         }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 

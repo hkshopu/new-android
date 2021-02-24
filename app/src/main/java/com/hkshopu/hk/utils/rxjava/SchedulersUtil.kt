@@ -1,4 +1,4 @@
-package com.roan.lyde.qoqo.utils.rxjava
+package com.hkshopu.hk.utils.rxjava
 
 import com.hkshopu.hk.application.App
 import com.hkshopu.hk.utils.RxUtils

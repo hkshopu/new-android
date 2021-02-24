@@ -4,9 +4,9 @@ package com.hkshopu.hk.data.repository
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.hkshopu.hk.data.service.AuthService
-import com.roan.lyde.qoqo.net.retrofit.RetrofitClient
-import com.roan.lyde.qoqo.utils.rxjava.RxBus
-import com.roan.lyde.qoqo.utils.rxjava.SchedulersUtil
+import com.hkshopu.hk.net.retrofit.RetrofitClient
+import com.hkshopu.hk.utils.rxjava.SchedulersUtil
+
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindUntilEvent
 import io.reactivex.Observable
 

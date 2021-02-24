@@ -9,15 +9,18 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.R
+import com.hkshopu.hk.databinding.ActivityLaunchBinding
+import com.hkshopu.hk.ui.main.activity.OnBoardActivity
 import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
-import kotlinx.android.synthetic.main.activity_launch.*
+
 
 
 class LaunchActivity : BaseActivity() {
-
+    private lateinit var binding: ActivityLaunchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launch)
+        binding = ActivityLaunchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         nextPage()
         initVM()
@@ -32,7 +35,7 @@ class LaunchActivity : BaseActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent()
 
-            intent.setClass(this@LaunchActivity, ShopmenuActivity::class.java)
+            intent.setClass(this@LaunchActivity, OnBoardActivity::class.java)
 
             startActivity(intent)
            finish()

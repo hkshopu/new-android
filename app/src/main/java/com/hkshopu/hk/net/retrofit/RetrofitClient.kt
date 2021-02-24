@@ -1,4 +1,4 @@
-package com.roan.lyde.qoqo.net.retrofit
+package com.hkshopu.hk.net.retrofit
 
 import android.content.Context
 import com.google.gson.GsonBuilder

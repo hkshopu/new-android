@@ -1,4 +1,4 @@
-package com.roan.lyde.qoqo.net.imageloader
+package com.hkshopu.hk.net.imageloader
 
 import android.graphics.Bitmap
 import android.widget.ImageView

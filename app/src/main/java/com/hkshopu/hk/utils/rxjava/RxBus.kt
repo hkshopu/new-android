@@ -1,4 +1,4 @@
-package com.roan.lyde.qoqo.utils.rxjava
+package com.hkshopu.hk.utils.rxjava
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

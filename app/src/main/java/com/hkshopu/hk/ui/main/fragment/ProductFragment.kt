@@ -4,12 +4,13 @@ package com.hkshopu.hk.ui.main.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.hkshopu.hk.Base.BaseFragment
 import com.hkshopu.hk.R
 import com.tiper.MaterialSpinner
 
 
-class ProductFragment : BaseFragment() {
+class ProductFragment : Fragment(R.layout.fragment_product) {
     companion object {
         fun newInstance() : ProductFragment{
             val args = Bundle()
@@ -30,9 +31,9 @@ class ProductFragment : BaseFragment() {
             }
         }
     }
-    override fun getLayoutId() = R.layout.fragment_product
 
-    override fun initView() {
+
+    fun initView() {
         initClick()
 
 
@@ -42,7 +43,7 @@ class ProductFragment : BaseFragment() {
 
     }
 
-    override fun initData() {
+    fun initData() {
 
     }
 

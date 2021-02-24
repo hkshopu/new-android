@@ -9,22 +9,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
+import com.hkshopu.hk.databinding.ActivityLaunchBinding
+import com.hkshopu.hk.databinding.ActivityLoginBinding
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.hkshopu.hk.widget.view.disable
 import com.hkshopu.hk.widget.view.enable
-import kotlinx.android.synthetic.main.activity_login.*
+
 
 
 class LoginActivity : BaseActivity(), TextWatcher {
-
+    private lateinit var binding: ActivityLoginBinding
     var email: String = ""
 
     var to: Int = 0
     private val VM = AuthVModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         initView()
@@ -33,12 +36,12 @@ class LoginActivity : BaseActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
-        val email = editEmail.text.toString()
-        val password = password1.text.toString()
+        val email = binding.editEmail.text.toString()
+        val password = binding.password1.text.toString()
         if (email.isEmpty() || password.isEmpty()) {
-            btnLogin.disable()
+            binding.btnLogin.disable()
         } else {
-            btnLogin.enable()
+            binding.btnLogin.enable()
         }
     }
 
@@ -63,30 +66,30 @@ class LoginActivity : BaseActivity(), TextWatcher {
         initEditText()
         initClick()
         if (email.isNotEmpty()) {
-            editEmail.setText(email)
-            password1.requestFocus()
-            KeyboardUtil.showKeyboard(password1)
+            binding.editEmail.setText(email)
+            binding.password1.requestFocus()
+            KeyboardUtil.showKeyboard(binding.password1)
         }
 
     }
 
     private fun initClick() {
-        titleBack.setOnClickListener {
+        binding.titleBack.setOnClickListener {
 
             finish()
         }
-        btnLogin.setOnClickListener {
-            val email = editEmail.text.toString()
-            val password = password1.text.toString()
+        binding.btnLogin.setOnClickListener {
+            val email = binding.editEmail.text.toString()
+            val password = binding.password1.text.toString()
             VM.login(this, email, password)
         }
 
-        goRetrieve.setOnClickListener {
+        binding.goRetrieve.setOnClickListener {
 
 
         }
 
-        goRegister.setOnClickListener {
+        binding.goRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
@@ -95,8 +98,8 @@ class LoginActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initEditText() {
-        editEmail.addTextChangedListener(this)
-        password1.addTextChangedListener(this)
+        binding.editEmail.addTextChangedListener(this)
+        binding.password1.addTextChangedListener(this)
     }
 
 }
