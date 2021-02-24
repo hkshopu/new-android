@@ -89,11 +89,15 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
         }
 
-        binding.goRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-            finish()
+        binding.checkBoxStayLogin.setOnClickListener {
+
         }
+
+//        binding.goRegister.setOnClickListener {
+//            val intent = Intent(this, RegisterActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
 
     }
 

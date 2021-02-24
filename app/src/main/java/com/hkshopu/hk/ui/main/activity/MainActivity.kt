@@ -19,7 +19,7 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.activity.RegisterActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
-import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -61,32 +61,32 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initClick() {
-        iv_Fb.setOnClickListener {
-
-        }
-
-        iv_Google.setOnClickListener {
-
-            GoogleSignIn()
-        }
-
-        btn_Signup.setOnClickListener {
-
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        btn_Login.setOnClickListener {
-
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
-        }
-
-        btn_Skip.setOnClickListener {
-            val intent = Intent(this, ShopmenuActivity::class.java)
-            startActivity(intent)
-        }
+//        iv_Fb.setOnClickListener {
+//
+//        }
+//
+//        iv_Google.setOnClickListener {
+//
+//            GoogleSignIn()
+//        }
+//
+//        btn_Signup.setOnClickListener {
+//
+//            val intent = Intent(this, RegisterActivity::class.java)
+//            startActivity(intent)
+//        }
+//
+//        btn_Login.setOnClickListener {
+//
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//
+//        }
+//
+//        btn_Skip.setOnClickListener {
+//            val intent = Intent(this, ShopmenuActivity::class.java)
+//            startActivity(intent)
+//        }
 
     }
 

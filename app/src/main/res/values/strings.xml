@@ -10,11 +10,15 @@
     <string name="skip">SKIP</string>
     <string name="member_already">已經是會員了嗎？</string>
     <string name="please_login">Login</string>
+    <string name="please_login_ch">登入帳戶</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="password_notify">格式必須包括大小階英文、數字及符號、至少8位</string>
-    <string name="hint_password">XXXXX</string>
+    <string name="hint_email">電子郵件地址</string>
+    <string name="hint_password">密碼</string>
+    <string name="stay_login_ch">保持登入</string>
     <string name="forgetpassword">Forget Password?</string>
+    <string name="forgetpassword_ch">忘記密碼?</string>
     <string name="please_register">Sign-Up</string>
     <string name="facebook_app_id">957507501005342</string>
     <string name="fb_login_protocol_scheme">957507501005342</string>

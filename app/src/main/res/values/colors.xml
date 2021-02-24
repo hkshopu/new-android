@@ -23,6 +23,7 @@
     <color name="tomato">#ee3224</color>
     <color name="purpley_grey">#9b9b9b</color>
     <color name="material_grey_700">#616161</color>
+    <color name="transparent">#FFFFFFFF</color>
 
 
 </resources>
