@@ -19,6 +19,14 @@
     <string name="stay_login_ch">保持登入</string>
     <string name="forgetpassword">Forget Password?</string>
     <string name="forgetpassword_ch">忘記密碼?</string>
+    <string name="please_input_ur_passwd">請輸入你的密碼</string>
+    <string name="fail_to_recieve_passwd">我沒收到密碼</string>
+    <string name="resend_email">再寄一次</string>
+    <string name="notification_title">店匯would like to send you notification</string>
+    <string name="notification_content01">Join same device as Gauging Gadget</string>
+    <string name="notification_content02">On my own device</string>
+    <string name="notification_dontallow">DON\'T ALLOW</string>
+    <string name="notification_allow">ALLOW</string>
     <string name="please_register">Sign-Up</string>
     <string name="facebook_app_id">957507501005342</string>
     <string name="fb_login_protocol_scheme">957507501005342</string>
@@ -55,4 +63,10 @@
     <string name="fee_fix">$HKD運費為</string>
     <string name="fee_follow">運費只根據商品設定</string>
     <string name="shippingfee">Shipping Fee Setting</string>
+    <string name="title_activity_notification">NotificationActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
