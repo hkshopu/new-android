@@ -10,6 +10,12 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,14 +26,17 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.BoardingObjBean
 import com.hkshopu.hk.databinding.ActivityOnboardBinding
 import com.hkshopu.hk.ui.user.activity.LoginActivity
-import com.hkshopu.hk.ui.user.activity.RegisterActivity
+import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
+class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private lateinit var binding: ActivityOnboardBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     val RC_SIGN_IN = 900;
+    lateinit var callbackManager: CallbackManager
     private val VM = AuthVModel()
     lateinit var points: ArrayList<ImageView> //指示器圖片
     val list = ArrayList<BoardingObjBean>()
@@ -37,6 +46,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
         list.add(boardingObj)
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardBinding.inflate(layoutInflater)
@@ -56,15 +66,21 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
         initClick()
 
     }
+
     private fun initViewPager() {
         binding.pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
             }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
 
             }
+
             override fun onPageSelected(position: Int) {
 
             }
@@ -76,19 +92,20 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
         initPoints()
 
     }
+
     private fun initPoints() {
         points = arrayListOf()
         for (i in 0 until list.size) {
             val point = ImageView(this)
-            point.setPadding(10,10,10,10)
+            point.setPadding(10, 10, 10, 10)
             point.scaleType = ImageView.ScaleType.FIT_XY
 
             if (i == 0) {
                 point.setImageResource(R.drawable.banner_radius)
-                point.layoutParams = ViewGroup.LayoutParams(96,36)
+                point.layoutParams = ViewGroup.LayoutParams(96, 36)
             } else {
                 point.setImageResource(R.drawable.banner_radius_unselect)
-                point.layoutParams = ViewGroup.LayoutParams(36,36)
+                point.layoutParams = ViewGroup.LayoutParams(36, 36)
             }
 
             binding.indicator.addView(point)
@@ -100,12 +117,18 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
         VM.socialloginLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-//                    if (url.isNotEmpty()) {
-//                        toast("登录成功")
-//
-//                    }
+//                    Log.d("OnBoardActivity", "Sign-In Result" + it.data)
+                    if (it.data.toString().isNotEmpty()) {
+                        val intent = Intent(this, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
-                    finish()
+                    }else{
+                        val intent = Intent(this, BuildAccountActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
                 }
 //                Status.Start -> showLoading()
 //                Status.Complete -> disLoading()
@@ -115,6 +138,40 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
 
     private fun initClick() {
         binding.btnFb.setOnClickListener {
+            callbackManager = CallbackManager.Factory.create()
+            LoginManager.getInstance().logInWithReadPermissions(
+                this, Arrays.asList("public_profile", "email")
+            )
+            LoginManager.getInstance().registerCallback(callbackManager,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        val request = GraphRequest.newMeRequest(loginResult.accessToken) { `object`, response ->
+                            Log.d("OnBoardActivity", response.toString())
+                            try {
+                                // Application code
+                                val id = response.jsonObject.getString("id")
+                                val email = response.jsonObject.getString("email")
+                                VM.sociallogin(this@OnBoardActivity, email, id, "", "")
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                        val parameters = Bundle()
+                        parameters.putString("fields", "id,name,email,gender,birthday")
+                        request.parameters = parameters
+                        request.executeAsync()
+                    }
+
+                    override fun onCancel() {
+                        Log.d("OnBoardActivity", "Facebook onCancel.")
+
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Log.d("OnBoardActivity", "Facebook onError.")
+
+                    }
+                })
 
         }
 
@@ -125,7 +182,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
 
         binding.btnSignup.setOnClickListener {
 
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, BuildAccountActivity::class.java)
             startActivity(intent)
         }
 
@@ -142,6 +199,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
         }
 
     }
+
 
     private class ImageAdapter internal constructor(arrayList: ArrayList<BoardingObjBean>) :
         PagerAdapter() {
@@ -161,14 +219,14 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
                 imageView.scaleType = ImageView.ScaleType.FIT_XY
             }
 
-//            ImageView bgView = (ImageView) view.findViewById(R.id.bg_view);
-//            bgView.setImageResource(boardingObj.bgResId);
             container.addView(view)
             return view
         }
+
         override fun getCount(): Int {
             return arrayList.size
         }
+
         override fun isViewFromObject(view: View, `object`: Any): Boolean {
             return view === `object`
         }
@@ -186,7 +244,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -194,11 +252,11 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener  {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
                 val email = account.email.toString()
-
-                VM.sociallogin(this, "", email, "")
+                val id = account.id.toString()
+                VM.sociallogin(this, email, "", id, "")
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Log.w("MainActivity", "Google sign in failed", e)
+                Log.d("OnBoardActivity", "Google sign in failed", e)
                 // ...
             }
         }

@@ -13,8 +13,8 @@ import io.reactivex.Observable
 class AuthRepository : BaseRepository(){
     private val service = RetrofitClient.createService(AuthService::class.java)
 
-    fun sociallogin(lifecycleOwner: LifecycleOwner,facebook_account: String, google_account: String,apple_account: String) : Observable<Any>{
-        return service.sociallogin(facebook_account,google_account,apple_account)
+    fun sociallogin(lifecycleOwner: LifecycleOwner,email: String,facebook_account: String, google_account: String,apple_account: String) : Observable<Any>{
+        return service.sociallogin(email,facebook_account,google_account,apple_account)
                 .compose(SchedulersUtil.applySchedulers())
                 .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
                 .map {

@@ -40,13 +40,11 @@ public class BaseParamsInterceptor implements Interceptor {
                 for (int i = 0; i < originalFormBody.size(); i++) {
                     builder.add(originalFormBody.name(i),originalFormBody.value(i));
                 }
-                builder.add("app","2");
                 FormBody formBody = builder.build();
                 Request request = originalRequest.newBuilder().post(formBody).build();
                 response = chain.proceed(request);
             }else{
                 FormBody.Builder builder = new FormBody.Builder();
-                builder.add("app","2");
                 builder.add("appver", BuildConfig.VERSION_NAME);
                 Request request = originalRequest.newBuilder().post(builder.build()).build();
                 response = chain.proceed(request);

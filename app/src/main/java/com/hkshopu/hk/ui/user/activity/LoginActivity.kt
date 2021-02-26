@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
-import com.hkshopu.hk.R
-import com.hkshopu.hk.databinding.ActivityLaunchBinding
 import com.hkshopu.hk.databinding.ActivityLoginBinding
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -90,7 +87,7 @@ class LoginActivity : BaseActivity(), TextWatcher {
         }
 
         binding.goRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, BuildAccountActivity::class.java)
             startActivity(intent)
             finish()
         }

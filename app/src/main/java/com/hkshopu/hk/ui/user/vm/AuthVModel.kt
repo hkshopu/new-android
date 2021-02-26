@@ -17,8 +17,8 @@ class AuthVModel : BaseViewModel() {
     val loginLiveData = MediatorLiveData<UIDataBean<Any>>()
     val resetLiveData = MediatorLiveData<UIDataBean<Any>>()
 
-    fun sociallogin(lifecycleOwner: LifecycleOwner, facebook_account: String, google_account: String,apple_account: String) {
-        repository.sociallogin(lifecycleOwner, facebook_account, google_account,apple_account)
+    fun sociallogin(lifecycleOwner: LifecycleOwner,email: String, facebook_account: String, google_account: String,apple_account: String) {
+        repository.sociallogin(lifecycleOwner, email,facebook_account, google_account,apple_account)
                 .subscribe(StatusResourceObserver(socialloginLiveData, silent = false))
     }
 

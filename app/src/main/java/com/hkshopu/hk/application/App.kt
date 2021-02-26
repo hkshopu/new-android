@@ -6,13 +6,16 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.mallotec.reb.localeplugin.LocaleConstant
 import com.mallotec.reb.localeplugin.LocalePlugin
-
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 class App : Application(), LifecycleOwner {
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         LocalePlugin.init(this, LocaleConstant.RECREATE_CURRENT_ACTIVITY)
+        FacebookSdk.sdkInitialize(this);
+        AppEventsLogger.activateApp(this);
     }
 
     companion object {
