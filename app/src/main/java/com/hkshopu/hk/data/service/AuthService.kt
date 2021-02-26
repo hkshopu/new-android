@@ -8,7 +8,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 interface AuthService{
     @FormUrlEncoded
-    @POST("${ApiConstants.API_PATH}/user/socialLoginProcess")
+    @POST("${ApiConstants.API_PATH}/user/socialLo ginProcess")
     fun sociallogin(@Field("facebook_account") facebook_account : String,@Field("google_account") google_account : String,@Field("apple_account") apple_account: String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded

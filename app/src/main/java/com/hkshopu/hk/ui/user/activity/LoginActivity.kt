@@ -64,11 +64,11 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
     override fun afterTextChanged(s: Editable?) {
         val email = binding.editEmail.text.toString()
-        val password = binding.password1.text.toString()
-        if (email.isEmpty() || password.isEmpty()) {
-            binding.btnLogin.disable()
+//        val password = binding.password1.text.toString()
+        if (email.isEmpty()) {
+            binding.btnNextStep.disable()
         } else {
-            binding.btnLogin.enable()
+            binding.btnNextStep.enable()
         }
     }
 
@@ -94,12 +94,12 @@ class LoginActivity : BaseActivity(), TextWatcher {
         initClick()
         if (email.isNotEmpty()) {
             binding.editEmail.setText(email)
-            binding.password1.requestFocus()
-            KeyboardUtil.showKeyboard(binding.password1)
+//            binding.password1.requestFocus()
+//            KeyboardUtil.showKeyboard(binding.password1)
         }
 
         //hide hidePassword eye and showPassword eye (default)
-        binding.hidePassword.visibility = View.INVISIBLE
+//        binding.hidePassword.visibility = View.INVISIBLE
 
     }
 
@@ -108,17 +108,13 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
             finish()
         }
-        binding.btnLogin.setOnClickListener {
+        binding.btnNextStep.setOnClickListener {
             val email = binding.editEmail.text.toString()
-            val password = binding.password1.text.toString()
-            VM.login(this, email, password)
-
-
-        }
-
-        binding.goRetrieve.setOnClickListener {
-            val intent = Intent(this, Retrieve::class.java)
+//            val password = binding.password1.text.toString()
+//            VM.login(this, email, password)
+            val intent = Intent(this, LoginPasswordActivity::class.java)
             startActivity(intent)
+
         }
 
         binding.checkBoxStayLogin.setOnClickListener {
@@ -147,25 +143,13 @@ class LoginActivity : BaseActivity(), TextWatcher {
                 GoogleSignIn()
         }
 
-        //hide showPassword eye and hidePassword eye show
-        binding.showPassword.setOnClickListener {
-            binding.showPassword.visibility = View.INVISIBLE
-            binding.hidePassword.visibility = View.VISIBLE
-            binding.password1.transformationMethod= PasswordTransformationMethod.getInstance()
-        }
 
-        //hide hidePassword eye and showPassword eye show
-        binding.hidePassword.setOnClickListener {
-            binding.hidePassword.visibility = View.INVISIBLE
-            binding.showPassword.visibility = View.VISIBLE
-            binding.password1.transformationMethod = HideReturnsTransformationMethod.getInstance()
-        }
 
     }
 
     private fun initEditText() {
         binding.editEmail.addTextChangedListener(this)
-        binding.password1.addTextChangedListener(this)
+//        binding.password1.addTextChangedListener(this)
     }
 
     private fun GoogleSignIn() {

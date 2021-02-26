@@ -41,6 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -55,14 +57,14 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginTop="20dp"
-            android:textColor="@color/forget_passwd_gray_txt"
+            android:textColor="@color/gray_txt"
             android:text="已寄送密碼至您登入的電子郵件信箱"
             android:gravity="center_horizontal"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/forget_passwd_gray_txt"
+            android:textColor="@color/gray_txt"
             android:text="elainehan@times-transform.com"
             android:gravity="center_horizontal"/>
         <LinearLayout
@@ -95,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/forget_passwd_gray_txt"
+                android:textColor="@color/gray_txt"
                 android:text="@string/fail_to_recieve_passwd"
                 android:gravity="center_horizontal"/>
             <TextView
@@ -111,22 +113,22 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnLogin"
-            style="@style/buttonStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_Pwd"
-            android:layout_marginTop="30dp"
-            android:background="@color/white"
-            android:src="@mipmap/login" />
+            android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/btnLogin"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_Pwd"
+                android:layout_marginTop="30dp"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:src="@mipmap/btn_login" />
 
-
+        </LinearLayout>
     </LinearLayout>
-
-
-
-
-
 </RelativeLayout>

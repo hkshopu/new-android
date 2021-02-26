@@ -20,12 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.user.dialog.NotificationDialogFragment"></activity>
+        <activity android:name=".ui.user.activity.LoginPasswordActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
         <activity android:name=".ui.user.activity.Retrieve" />
         <activity android:name=".ui.LaunchActivity">
             <intent-filter>
