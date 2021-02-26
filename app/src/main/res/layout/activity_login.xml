@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:gravity="center_horizontal"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="150dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,10 +133,18 @@
                 android:text="@string/stay_login_ch" />
 
         </LinearLayout>
-
     </LinearLayout>
 
-        <!--        <Button-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@mipmap/botton_logo" />
+
+
+
+    <!--        <Button-->
         <!--            style="@style/buttonStyle"-->
         <!--            android:id="@+id/btnLogin"-->
         <!--            android:layout_width="match_parent"-->
@@ -162,4 +170,4 @@
         <!--        android:text="@string/sign_up"-->
         <!--        android:textColor="#999" />-->
 
-</LinearLayout>
+</RelativeLayout>
