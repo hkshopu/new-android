@@ -87,6 +87,7 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$GLIDE_VERSION"
     implementation "com.github.bumptech.glide:recyclerview-integration:${GLIDE_VERSION}@aar"
     implementation 'androidx.wear:wear:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     compileOnly 'com.google.android.wearable:wearable:2.6.0'
     kapt'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'  //高斯模糊
@@ -105,7 +106,11 @@ dependencies {
     //Facebook
     implementation 'com.facebook.android:facebook-login:4.36.1'
 
+    //wheelView
+    implementation 'com.wx.wheelview:wheelview:1.3.3'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
 }

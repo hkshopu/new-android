@@ -1,20 +1,14 @@
-package com.hkshopu.hk.ui.user.dialog
+package com.hkshopu.hk.ui.user.fragmentdialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityAddshopBinding.inflate
 import com.hkshopu.hk.databinding.ActivityLaunchBinding.inflate
 
-import com.hkshopu.hk.databinding.ActivityRetrieveBinding
 import com.hkshopu.hk.databinding.DialogFragmentNotificationBinding
-import com.hkshopu.hk.ui.main.fragment.AddDesDialogFragment
-import com.hkshopu.hk.ui.main.fragment.AddNameDialogFragment
-import com.hkshopu.hk.utils.extension.inflate
 
 class NotificationDialogFragment: DialogFragment() {
     private var _binding: DialogFragmentNotificationBinding? = null

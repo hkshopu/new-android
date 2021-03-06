@@ -106,16 +106,32 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btn_nextStep"
-            style="@style/buttonStyle"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_Pwd"
             android:layout_marginTop="30dp"
-            android:background="@color/white"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/next_step" />
+            android:layout_below="@id/layout_Pwd">
+
+            <ImageButton
+                android:id="@+id/btn_nextStep"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:visibility="invisible"
+                android:src="@mipmap/next_step" />
+            <ImageButton
+                android:id="@+id/btn_nextStep_ineable"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/next_step_uneable" />
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
