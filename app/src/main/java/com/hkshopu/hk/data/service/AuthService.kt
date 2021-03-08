@@ -20,6 +20,14 @@ interface AuthService{
     @POST("${ApiConstants.API_PATH}/user/loginProcess/")
     fun login(@Field("email") email : String,@Field("password") password : String) : Observable<BaseResponse<Any>>
 
+
+    @POST("${ApiConstants.API_PATH}user/reset/generateAndSendValidationCodeProcess/")
+    fun verifycode() : Observable<BaseResponse<Any>>
+
+    @FormUrlEncoded
+    @POST("${ApiConstants.API_PATH}user/reset/validateEmailProcess/")
+    fun emailverify(@Field("email") email : String,@Field("validation_code") validation_code: String) : Observable<BaseResponse<Any>>
+
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/reset/password/")
     fun reset(@Field("phone") phone : String,@Field("passwordOrig") password_orig : String,@Field("password") password : String) : Observable<BaseResponse<Any>>

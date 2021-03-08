@@ -48,6 +48,20 @@ class AuthRepository : BaseRepository(){
             .compose(handleBean())
     }
 
+    fun verifycode(lifecycleOwner: LifecycleOwner) : Observable<Any>{
+        return service.verifycode()
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+
+    fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) : Observable<Any>{
+        return service.emailverify(email,validation_code)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+
     fun reset(lifecycleOwner: LifecycleOwner,phone : String,password_orig: String,password: String) : Observable<Any>{
         return service.reset(phone,password_orig,password)
                 .compose(SchedulersUtil.applySchedulers())

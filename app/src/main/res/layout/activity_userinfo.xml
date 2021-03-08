@@ -33,9 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/titleBar_userInfo"
-        android:layout_marginLeft="27dp"
+        android:layout_marginLeft="28dp"
         android:layout_marginTop="70dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="27dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -62,7 +62,7 @@
                 android:id="@+id/editlastName"
                 android:layout_width="160dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
                 android:hint="@string/first_name"
                 android:background="@drawable/bg_edit_login"
                 android:inputType="text"
@@ -81,23 +81,57 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_FirstName"
         android:layout_marginLeft="27dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="30dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gender"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_height="60dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_edit_login"
+            android:orientation="horizontal"
+            android:weightSum="3">
             <TextView
+                android:id="@+id/tv_male"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gender"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:layout_height="52dp"
+                android:text="@string/male"
+                android:textColor="@color/black_hint"
+                android:background="@drawable/bg_edit_login"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_female"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:text="@string/female"
+                android:textColor="@color/black_hint"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_edit_login"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_rainbow"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:text="@string/rainbow"
+                android:textColor="@color/black_hint"
+                android:background="@drawable/bg_edit_login"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_weight="1"/>
 
 
 
@@ -113,62 +147,61 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/birth"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_edit_login"
+            >
 
             <TextView
+                android:id="@+id/tv_birth"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/birth"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-            <com.hkshopu.hk.widget.view.ETextWithDelete xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/editbirth"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/bg_edit_login"
-                android:inputType="number"
-                android:paddingLeft="4dp"
-                android:hint="YYYY-MM-DD"
+                android:layout_height="match_parent"
+                android:paddingStart="24dp"
+                android:hint="DD / MM / YYYY"
+                android:gravity="center"
+                android:textSize="18sp"
                 android:textColorHint="@color/material_grey_700"
-                app:delSrc="@mipmap/ic_edit_del_1" />
+                />
+            <ImageView
+                android:id="@+id/show_date_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:onClick="ShowDatePick"
+                android:padding="5dp"
 
-        </LinearLayout>
+                android:src="@mipmap/ic_date" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_mobile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_below="@id/layout_birth"
         android:layout_marginLeft="27dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="30dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
                 <EditText
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/editmobile"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
+                    android:layout_height="match_parent"
                     android:background="@drawable/bg_edit_login"
                     android:inputType="number"
                     android:paddingLeft="18dp"
@@ -176,53 +209,13 @@
                     android:textColorHint="@color/black_hint"
 
                     />
-            </LinearLayout>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_mobile"
-        android:layout_marginLeft="27dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
-
-            <com.hkshopu.hk.widget.view.ETextWithDelete
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/editaddress"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/bg_edit_login"
-                android:inputType="text"
-                android:paddingLeft="4dp"
-                app:delSrc="@mipmap/ic_edit_del_1" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_next"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/layout_address"
+        android:layout_below="@+id/layout_mobile"
         android:layout_marginLeft="27dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"

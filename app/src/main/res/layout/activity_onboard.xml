@@ -29,9 +29,20 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="11dp"
             android:letterSpacing="0.04"
-            android:text="What Is HKshopu?"
-            android:textSize="24sp"
+            android:text="開店好簡單 什麼都賣等你來"
+            android:textSize="18sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_banner"
+            android:background="@android:color/transparent"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.04"
+            android:text="不論你是買家、商家或是創業家，一鍵上手"
+            android:textSize="14sp"
+            />
 
         <LinearLayout
             android:id="@+id/indicator"

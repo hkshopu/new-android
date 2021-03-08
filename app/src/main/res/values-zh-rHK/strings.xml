@@ -13,7 +13,7 @@
     <string name="please_login">登入</string>
     <string name="email">電子郵件地址</string>
     <string name="password">密碼</string>
-    <string name="password_notify">格式必須包括大小階英文、數字及符號、至少8位</string>
+    <string name="password_notify">密碼格式必須包括大小階英文、數字及符號</string>
     <string name="hint_password">請輸入密碼</string>
     <string name="forgetpassword">忘記密碼?</string>
     <string name="please_register">註冊</string>
@@ -22,6 +22,8 @@
     <string name="please_buildacnt">建立帳戶</string>
     <string name="userinfo">用戶資料</string>
     <string name="build_byemail">或用電子郵件註冊</string>
+    <string name="emailverify">電子郵件驗證</string>
+    <string name="emailaddress">郵寄地址</string>
     <string name="facebook_app_id">742143353334628</string>
     <string name="fb_login_protocol_scheme">742143353334628</string>
     <string name="basic_info">基本資料</string>
@@ -31,9 +33,15 @@
     <string name="first_name">名字</string>
     <string name="last_name">姓氏</string>
     <string name="gender">性別</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="rainbow">其他</string>
     <string name="birth">出生日期</string>
     <string name="mobile">電話號碼</string>
     <string name="address">地址</string>
+    <string name="subaddress">其他地址</string>
+    <string name="floor">樓層</string>
+    <string name="room">室</string>
     <string name="please_confirm_password">請確認密碼是否正確</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_title">Android Studio</string>
@@ -57,4 +65,6 @@
     <string name="fee_fix">$HKD運費為</string>
     <string name="fee_follow">運費只根據商品設定</string>
     <string name="shippingfee">Shipping Fee Setting</string>
+    <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
+
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -20,13 +21,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.*
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.BoardingObjBean
 import com.hkshopu.hk.databinding.ActivityOnboardBinding
-import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
+import com.hkshopu.hk.ui.user.activity.EmailVerifyActivity
+import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,6 +37,7 @@ import kotlin.collections.ArrayList
 
 class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private lateinit var binding: ActivityOnboardBinding
+
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     val RC_SIGN_IN = 900;
     lateinit var callbackManager: CallbackManager
@@ -44,6 +48,10 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private fun setBoardingData() {
         var boardingObj = BoardingObjBean(R.mipmap.online_shopping, R.mipmap.online_shopping)
         list.add(boardingObj)
+        var boardingObj1 = BoardingObjBean(R.mipmap.online_shopping1, R.mipmap.online_shopping1)
+        list.add(boardingObj1)
+        var boardingObj2 = BoardingObjBean(R.mipmap.online_shopping2, R.mipmap.online_shopping2)
+        list.add(boardingObj2)
 
     }
 
@@ -62,8 +70,20 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         setBoardingData()
         initViewPager()
+
         initVM()
         initClick()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+    // start receiving location update when activity  visible/foreground
+    override fun onResume() {
+        super.onResume()
 
     }
 
@@ -87,7 +107,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         })
 
-        binding.pager.adapter = ImageAdapter(list)
+        binding.pager.adapter = ImageAdapter(list, binding.titleBanner, binding.tv2)
         binding.pager.addOnPageChangeListener(this)
         initPoints()
 
@@ -123,7 +143,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                         startActivity(intent)
                         finish()
 
-                    }else{
+                    } else {
                         val intent = Intent(this, BuildAccountActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -145,17 +165,18 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
-                        val request = GraphRequest.newMeRequest(loginResult.accessToken) { `object`, response ->
-                            Log.d("OnBoardActivity", response.toString())
-                            try {
-                                // Application code
-                                val id = response.jsonObject.getString("id")
-                                val email = response.jsonObject.getString("email")
-                                VM.sociallogin(this@OnBoardActivity, email, id, "", "")
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                        val request =
+                            GraphRequest.newMeRequest(loginResult.accessToken) { `object`, response ->
+                                Log.d("OnBoardActivity", response.toString())
+                                try {
+                                    // Application code
+                                    val id = response.jsonObject.getString("id")
+                                    val email = response.jsonObject.getString("email")
+                                    VM.sociallogin(this@OnBoardActivity, email, id, "", "")
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
-                        }
                         val parameters = Bundle()
                         parameters.putString("fields", "id,name,email,gender,birthday")
                         request.parameters = parameters
@@ -196,15 +217,19 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         binding.btnSkip.setOnClickListener {
             val intent = Intent(this, ShopmenuActivity::class.java)
             startActivity(intent)
+//            val intent = Intent(this, EmailVerifyActivity::class.java)
+//            startActivity(intent)
         }
 
     }
 
 
-    private class ImageAdapter internal constructor(arrayList: ArrayList<BoardingObjBean>) :
-        PagerAdapter() {
+    private class ImageAdapter internal constructor(
+        arrayList: ArrayList<BoardingObjBean>,
+        tv1: TextView,
+        tv2: TextView
+    ) : PagerAdapter() {
         private val arrayList: ArrayList<BoardingObjBean>
-
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val layoutInflater =
@@ -213,10 +238,13 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             val boardingObj: BoardingObjBean = arrayList[position]
             val imageView = view.findViewById<View>(R.id.image_view) as ImageView
             imageView.setImageResource(boardingObj.imageResId)
+
             if (position == 0) {
                 imageView.scaleType = ImageView.ScaleType.FIT_XY
+
             } else {
                 imageView.scaleType = ImageView.ScaleType.FIT_XY
+
             }
 
             container.addView(view)
@@ -234,6 +262,11 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         init {
             this.arrayList = arrayList
         }
+
+        override fun destroyItem(container: View, position: Int, `object`: Any) {
+            (container as ViewPager).removeView(`object` as View?)
+        }
+
     }
 
     private fun GoogleSignIn() {
@@ -264,9 +297,22 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
+
     }
 
     override fun onPageSelected(position: Int) {
+        if (position == 0) {
+            binding.titleBanner.text = "開店好簡單 什麼都賣等你來"
+            binding.tv2.text = "不論你是買家、商家或是創業家，一鍵上手"
+        } else if (position == 1) {
+
+            binding.titleBanner.text = "快捷支付 安全保障不NG"
+            binding.tv2.text = "提供多種支付選擇，不再受限地區與時差"
+        } else {
+
+            binding.titleBanner.text = "光速送件 告別蝸牛貨運"
+            binding.tv2.text = "除了基本物流方式，加入集運出貨，處處是商機"
+        }
         for (i in 0 until points.size) {
             val params = points[position].layoutParams
             params.width = 96
