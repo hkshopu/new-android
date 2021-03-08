@@ -73,12 +73,10 @@ class LoginActivity : BaseActivity(), TextWatcher {
         email = binding.editEmail.text.toString()
 //        val password = binding.password1.text.toString()
         if (email.isEmpty()) {
-            binding.btnNextStep.visibility = View.INVISIBLE
-            binding.btnNextStepIneable.visibility = View.VISIBLE
+            binding.btnNextStep.isEnabled = false
 
         } else {
-            binding.btnNextStep.visibility = View.VISIBLE
-            binding.btnNextStepIneable.visibility = View.INVISIBLE
+            binding.btnNextStep.isEnabled = true
         }
     }
 

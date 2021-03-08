@@ -101,6 +101,7 @@
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:textColorHint="#48484A"
                     app:delSrc="@mipmap/ic_edit_del_1" />
             </LinearLayout>
@@ -119,16 +120,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:scaleType="fitCenter"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:src="@mipmap/next_step" />
-            <ImageButton
-                android:id="@+id/btn_nextStep_ineable"
-                style="@style/buttonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/next_step_uneable" />
 
 
         </RelativeLayout>

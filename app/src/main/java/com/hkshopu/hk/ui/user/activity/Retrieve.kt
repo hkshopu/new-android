@@ -2,6 +2,11 @@ package com.hkshopu.hk.ui.user.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
@@ -17,8 +22,8 @@ class Retrieve : BaseActivity() {
     private lateinit var binding: ActivityRetrieveBinding
     private val VM = AuthVModel()
 
-    var getstring : String? = null
-    var authentication_code : String? = null
+    var getstring: String? = null
+    var authentication_code: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,8 +85,8 @@ class Retrieve : BaseActivity() {
         initEditText()
 
 
-
     }
+
     private fun initClick() {
         binding.titleBack.setOnClickListener {
             finish()
@@ -118,14 +123,32 @@ class Retrieve : BaseActivity() {
         }
 
 
-
-
     }
+
     private fun initEditText() {
-        authentication_code = binding.edtAuthenticate01.text.toString() + binding.edtAuthenticate02.text.toString() +  binding.edtAuthenticate03.text.toString() + binding.edtAuthenticate04.text.toString()
+        authentication_code =
+            binding.edtAuthenticate01.text.toString() + binding.edtAuthenticate02.text.toString() + binding.edtAuthenticate03.text.toString() + binding.edtAuthenticate04.text.toString()
+
+
+
+        setNextFocus(binding.edtAuthenticate01,binding.edtAuthenticate02)
+        setNextFocus(binding.edtAuthenticate02,binding.edtAuthenticate03)
+        setNextFocus(binding.edtAuthenticate03,binding.edtAuthenticate04)
 
     }
 
+    fun setNextFocus(nowEdit: EditText, nextEdit: EditText) {
+        nowEdit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (nowEdit.getText().toString().length == 1) {
+                    nextEdit.requestFocus()
+                }
+
+            }
+        })
+    }
 
 
 
