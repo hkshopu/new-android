@@ -26,6 +26,13 @@
     <color name="tomato">#ee3224</color>
     <color name="purpley_grey">#9b9b9b</color>
     <color name="material_grey_700">#616161</color>
+
     <color name="color_somegray">#8E8E93</color>
+
+    //added by vincent
+    <color name="transparent">#FFFFFFFF</color>
+    <color name="editbox_color">#E5E5EA</color>
+    <color name="hkshop_color">#1DBCCF</color>
+    <color name="gray_txt">#8E8E93</color>
 
 </resources>
