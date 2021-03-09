@@ -13,10 +13,10 @@
     <string name="skip">略過</string>
     <string name="member_already">已經是會員了嗎？</string>
     <string name="please_login">登入</string>
-    <string name="email">電郵地址</string>
+    <string name="email">電子郵件地址</string>
     <string name="password">密碼</string>
+    <string name="password_notify">密碼格式必須包括大小階英文、數字及符號</string>
     <string name="hint_password_second">再次確認密碼</string>
-    <string name="password_notify">格式必須包括大小階英文、數字及符號、至少8位</string>
     <string name="hint_email">電子郵件地址</string>
     <string name="hint_password">請輸入密碼</string>
     <string name="forgetpassword">忘記密碼?</string>
@@ -32,18 +32,31 @@
     <string name="notification_dontallow">DON\'T ALLOW</string>
     <string name="notification_allow">ALLOW</string>
     <string name="please_register">註冊</string>
-    <string name="facebook_app_id">957507501005342</string>
-    <string name="fb_login_protocol_scheme">957507501005342</string>
+    <string name="please_forward">下一步</string>
+    <string name="userareement">&lt;用戶協議條款&gt;</string>
+    <string name="please_buildacnt">建立帳戶</string>
+    <string name="userinfo">用戶資料</string>
+    <string name="build_byemail">或用電子郵件註冊</string>
+    <string name="emailverify">電子郵件驗證</string>
+    <string name="emailaddress">郵寄地址</string>
+    <string name="facebook_app_id">742143353334628</string>
+    <string name="fb_login_protocol_scheme">742143353334628</string>
     <string name="basic_info">基本資料</string>
     <string name="user_name">用戶名稱</string>
-    <string name="passwordconf">確認密碼</string>
+    <string name="passwordconf">再次確認密碼</string>
     <string name="optional">選擇填寫</string>
     <string name="first_name">名字</string>
     <string name="last_name">姓氏</string>
     <string name="gender">性別</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="rainbow">其他</string>
     <string name="birth">出生日期</string>
     <string name="mobile">電話號碼</string>
     <string name="address">地址</string>
+    <string name="subaddress">其他地址</string>
+    <string name="floor">樓層</string>
+    <string name="room">室</string>
     <string name="please_confirm_password">請確認密碼是否正確</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_title">Android Studio</string>
@@ -67,6 +80,9 @@
     <string name="fee_fix">$HKD運費為</string>
     <string name="fee_follow">運費只根據商品設定</string>
     <string name="shippingfee">Shipping Fee Setting</string>
+
+    <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
+
     <string name="terms_of_service">SpinnerDemo</string>
     <string-array name="array_terms">
         <item>服務條款</item>
@@ -299,5 +315,6 @@
         本服務指定之第三方服務（包含但不限於銀行或超商），所提供之服務品質及 內容由該第三方自行負責。故使用本服務時，可能由於第三方本身系統問題、相關作業網路連線品質問題或其他不可抗拒因素，造成驗證無法完成。若您所提供之基本資料有誤，造成本服務無法即時通知您異常狀況之緊急處理方式時，HKshopu 對此將不負任何損害賠償責任。\n
         HKshopu 必須提醒消費者：為保障消費者權益，請消費者於 HKshopu 上完成交易，如有任何疑問，歡迎來信 <font color="#1DBCCF"><b>service@HKshopu.com</b></font>。
     </string>
+
 
 </resources>

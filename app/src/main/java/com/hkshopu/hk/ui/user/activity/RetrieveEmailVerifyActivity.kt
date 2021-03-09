@@ -1,6 +1,8 @@
 package com.hkshopu.hk.ui.user.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,16 +16,23 @@ import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.databinding.ActivityRetrieveBinding
 import com.hkshopu.hk.ui.user.fragmentdialog.BottomSheeFragment
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import java.nio.file.Watchable
+import java.util.*
+import kotlin.concurrent.schedule
 
 
-
-class Retrieve : BaseActivity() {
+class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
 
     private lateinit var binding: ActivityRetrieveBinding
     private val VM = AuthVModel()
 
-    var getstring: String? = null
-    var authentication_code: String? = null
+    var number1: String = ""
+    var number2: String = ""
+    var number3: String = ""
+    var number4: String = ""
+    var validation: String = ""
+    var email: String = ""
+    private lateinit var settings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +40,10 @@ class Retrieve : BaseActivity() {
         setContentView(binding.root)
 
 
-        initIntent()
+        //local資料存取
+        settings = this.getSharedPreferences("DATA", 0)
+        email = settings.getString("email", "").toString()
+
         initView()
         initVM()
         initClick()
@@ -39,18 +51,18 @@ class Retrieve : BaseActivity() {
 
     }
 
-    private fun initIntent() {
-        //取得LoginPage傳來的email address
-        getstring = intent.getBundleExtra("bundle")?.getString("email")
-    }
 
     private fun initVM() {
 
-        VM.generateAndSendVerificationCodeData.observe(this, Observer {
+        VM.verifycodeLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    if (it.data.toString() == "已寄出驗證碼!") {
+                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    }
 
                 }
 //                Status.Start -> showLoading()
@@ -58,11 +70,18 @@ class Retrieve : BaseActivity() {
             }
         })
 
-        VM.authenticationCodeData.observe(this, Observer {
+        VM.emailverifyLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    if (it.data.toString() == "驗證成功!") {
+                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, NewPasswordActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else {
+                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    }
 
                 }
 //                Status.Start -> showLoading()
@@ -76,14 +95,13 @@ class Retrieve : BaseActivity() {
     private fun initView() {
 
         //email
-        binding.textViewEmail.setText(getstring!!)
+        binding.textViewEmail.setText(email!!)
 
         //notify
 //        NotificationDialogFragment().show(supportFragmentManager, "MyCustomFragment")
 
         initClick()
         initEditText()
-
 
     }
 
@@ -94,24 +112,26 @@ class Retrieve : BaseActivity() {
 
         binding.btnResend.setOnClickListener {
 
-
-            VM.generate_and_send_verification_code(this)
+            VM.verifycode(this, email!!)
 
         }
 
         binding.btnAuthenticate.setOnClickListener {
 
-            VM.authenticate_email(this, getstring!!, authentication_code!!)
+            number1 = binding.edtAuthenticate01.text.toString()
+            number2 = binding.edtAuthenticate02.text.toString()
+            number3 = binding.edtAuthenticate03.text.toString()
+            number4 = binding.edtAuthenticate04.text.toString()
 
+            validation = number1 + number2 +number3 + number4
 
-            //傳送email address給Retrieve Page
-            var bundle = Bundle()
-            bundle.putString("email", getstring)
+            binding.btnResend.setTextColor(Color.parseColor("#48484A"))
+            Timer().schedule(60000) {
+                binding.btnResend.setTextColor(Color.parseColor("#1DBCCF"))
+            }
 
-            val intent = Intent(this, NewPasswordActivity::class.java)
-            intent.putExtra("bundle", bundle)
+            VM.emailverify(this, email!!, validation!!)
 
-            startActivity(intent)
         }
 
 
@@ -121,15 +141,9 @@ class Retrieve : BaseActivity() {
             startActivity(intent)
 
         }
-
-
     }
 
     private fun initEditText() {
-        authentication_code =
-            binding.edtAuthenticate01.text.toString() + binding.edtAuthenticate02.text.toString() + binding.edtAuthenticate03.text.toString() + binding.edtAuthenticate04.text.toString()
-
-
 
         setNextFocus(binding.edtAuthenticate01,binding.edtAuthenticate02)
         setNextFocus(binding.edtAuthenticate02,binding.edtAuthenticate03)
@@ -150,6 +164,11 @@ class Retrieve : BaseActivity() {
         })
     }
 
+    override fun afterTextChanged(s: Editable?) {
 
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
 }

@@ -15,7 +15,7 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityShopmenuBinding
 import com.hkshopu.hk.ui.main.fragment.ShopManageFragment
 import com.hkshopu.hk.ui.user.activity.LoginActivity
-import com.hkshopu.hk.ui.user.activity.RegisterActivity
+import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 
 
 class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -65,7 +65,7 @@ class ShopmenuActivity: BaseActivity(), NavigationView.OnNavigationItemSelectedL
         val signUp = header.findViewById<Button>(R.id.btn_Signup_menu)
         signUp.setOnClickListener {
 
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, BuildAccountActivity::class.java)
             startActivity(intent)
 
         }

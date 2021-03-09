@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.activity.Retrieve"
+    tools:context=".ui.user.activity.RetrieveEmailVerifyActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -78,7 +78,7 @@
             <EditText
                 android:id="@+id/edt_authenticate01"
                 android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -91,7 +91,7 @@
             <EditText
                 android:id="@+id/edt_authenticate02"
                 android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -104,7 +104,7 @@
             <EditText
                 android:id="@+id/edt_authenticate03"
                 android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -117,7 +117,7 @@
             <EditText
                 android:id="@+id/edt_authenticate04"
                 android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"

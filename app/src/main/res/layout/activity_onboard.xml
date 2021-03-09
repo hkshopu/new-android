@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.activity.OnBoardActivity"
-    android:background="@color/tiffany_blue">
+    android:background="@color/apple_green"
+    tools:context=".ui.main.activity.OnBoardActivity">
+
     <RelativeLayout
         android:id="@+id/layout_banner"
         android:layout_width="match_parent"
@@ -13,124 +14,143 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="270dp"
-        android:layout_height="270dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="270dp"
+            android:layout_height="270dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/title_banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/pager"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="11dp"
-            android:text="What Is HKshopu?"
             android:letterSpacing="0.04"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:text="開店好簡單 什麼都賣等你來"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_banner"
+            android:background="@android:color/transparent"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.04"
+            android:text="不論你是買家、商家或是創業家，一鍵上手"
+            android:textSize="14sp"
+            />
 
         <LinearLayout
             android:id="@+id/indicator"
             android:layout_width="wrap_content"
             android:layout_height="8dp"
             android:layout_below="@id/title_banner"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:layout_marginTop="41dp"
             android:layout_alignParentBottom="true"
-            />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="41dp"
+            android:orientation="horizontal" />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/customborder_onboard"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/layout_banner"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
+        android:background="@drawable/customborder_onboard"
         android:orientation="vertical">
 
-    <Button
-        style="@style/buttonStyleOnboard"
-        android:id="@+id/btn_Signup"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/icon"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:background="@mipmap/ic_registeremail"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <Button
-        style="@style/buttonStyleOnboard"
-        android:id="@+id/btn_fb"
-        android:layout_width="320dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_Signup"
-        android:background="@mipmap/ic_login_fb"
-        android:layout_marginTop="15dp"
+                <Button
+                    android:id="@+id/btn_Signup"
+                    style="@style/buttonStyleOnboard"
+                    android:layout_width="320dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="53dp"
+                    android:background="@mipmap/ic_registeremail"
 
-        />
+                    />
 
-        <Button
-            style="@style/buttonStyleOnboard"
-            android:id="@+id/btn_google"
-            android:layout_width="320dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/btn_Signup"
-            android:layout_marginTop="15dp"
-            android:background="@mipmap/ic_login_google"
+                <Button
+                    android:id="@+id/btn_fb"
+                    style="@style/buttonStyleOnboard"
+                    android:layout_width="320dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/btn_Signup"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@mipmap/ic_login_fb"
 
-            />
+                    />
 
-    <LinearLayout
-        android:id="@+id/layout3"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/btn_google"
-        android:layout_marginTop="5dp"
-        android:weightSum="2"
-        android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_google"
+                    style="@style/buttonStyleOnboard"
+                    android:layout_width="320dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/btn_Signup"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@mipmap/ic_login_google"
 
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/member_already"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/tv_login"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="@string/login"/>
+                <LinearLayout
+                    android:id="@+id/layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/btn_google"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/member_already"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/login"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-    </LinearLayout>
+
     <Button
-        style="@style/buttonStyleWhite"
         android:id="@+id/btn_Skip"
+        style="@style/buttonStyleWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:layout_alignParentEnd="true"
-        android:textStyle="bold"
         android:text="@string/skip"
-        />
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

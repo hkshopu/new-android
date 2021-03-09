@@ -16,13 +16,13 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
-import com.hkshopu.hk.R
-import com.hkshopu.hk.databinding.ActivityLaunchBinding
 import com.hkshopu.hk.databinding.ActivityLoginBinding
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
@@ -36,14 +36,23 @@ class LoginActivity : BaseActivity(), TextWatcher {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     val RC_SIGN_IN = 900
+
     var email: String = ""
+    private lateinit var settings: SharedPreferences
 
     var to: Int = 0
     private val VM = AuthVModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //local資料存取
+        settings = getSharedPreferences("DATA",0)
+
+
+
 
         //google sign in
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -60,8 +69,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
         if (checkRememberMe == "true") {
             //transfer to next page
         }
-
-
 
         initView()
         initClick()
@@ -88,35 +95,16 @@ class LoginActivity : BaseActivity(), TextWatcher {
             when (it?.status) {
                 Status.Success -> {
 
-                   Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
+                    if (it.data.toString() == "密碼錯誤!") {
 
-                    var bundle = Bundle()
-                        bundle.putString("email", email)
+                        settings.edit()
+                            .putString("email", email)
 
                         val intent = Intent(this, LoginPasswordActivity::class.java)
-                        intent.putExtra("bundle", bundle)
-
                         startActivity(intent)
 
-                    if (it.data.toString() == "登入成功!") {
-
-                    }else if (it.data.toString() == "電子郵件或密碼未填寫!") {
-
-                    }else if (it.data.toString() == "電子郵件錯誤!") {
-
-                    }else if (it.data.toString() == "密碼錯誤!") {
-
-//                        var bundle = Bundle()
-//                        bundle.putString("email", email)
-//
-//                        val intent = Intent(this, LoginPasswordActivity::class.java)
-//                        intent.putExtra("bundle", bundle)
-//
-//                        startActivity(intent)
-
-
-                    }else {
-
+                    } else {
+                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
                     }
 
                 }
@@ -124,8 +112,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
 //                Status.Complete -> disLoading()
             }
         })
-
-
     }
 
     private fun initView() {
@@ -157,36 +143,30 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
         }
 
-        binding.checkBoxStayLogin.setOnClickListener {
-            if (binding.checkBoxStayLogin.isChecked()) {
-                val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
-                val editor : SharedPreferences.Editor = sharedPreferences.edit()
-                editor.apply {
-                    putString("rememberMe", "true")
-                }.apply()
+         binding.checkBoxStayLogin.setOnClickListener {
+        if (binding.checkBoxStayLogin.isChecked()) {
+            val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = sharedPreferences.edit()
+            editor.apply {
+                putString("rememberMe", "true")
+            }.apply()
 
-            }else{
-                val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
-                val editor : SharedPreferences.Editor = sharedPreferences.edit()
-                editor.apply {
-                    putString("rememberMe", "false")
-                }.apply()
-            }
+        }else{
+            val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = sharedPreferences.edit()
+            editor.apply {
+                putString("rememberMe", "false")
+            }.apply()
         }
-//        binding.goRegister.setOnClickListener {
-//            val intent = Intent(this, RegisterActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
+    }
 
-        binding.btnGoogleLogin.setOnClickListener {
-                GoogleSignIn()
-        }
 
+    binding.btnGoogleLogin.setOnClickListener {
+            GoogleSignIn()
+    }
 
 
     }
-
     private fun initEditText() {
         binding.editEmail.addTextChangedListener(this)
 //        binding.password1.addTextChangedListener(this)
@@ -196,5 +176,4 @@ class LoginActivity : BaseActivity(), TextWatcher {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
-
 }

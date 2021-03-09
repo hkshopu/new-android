@@ -20,8 +20,8 @@ import io.reactivex.Observable
 class AuthRepository : BaseRepository(){
     private val service = RetrofitClient.createService(AuthService::class.java)
 
-    fun sociallogin(lifecycleOwner: LifecycleOwner,facebook_account: String, google_account: String,apple_account: String) : Observable<Any>{
-        return service.sociallogin(facebook_account,google_account,apple_account)
+    fun sociallogin(lifecycleOwner: LifecycleOwner,email: String,facebook_account: String, google_account: String,apple_account: String) : Observable<Any>{
+        return service.sociallogin(email,facebook_account,google_account,apple_account)
                 .compose(SchedulersUtil.applySchedulers())
                 .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
                 .map {
@@ -56,27 +56,20 @@ class AuthRepository : BaseRepository(){
             .compose(handleBean())
     }
 
-    fun reset(lifecycleOwner: LifecycleOwner,phone : String,password_orig: String,password: String) : Observable<Any>{
-        return service.reset(phone,password_orig,password)
-                .compose(SchedulersUtil.applySchedulers())
-                .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
-                .compose(handleBean())
+    fun verifycode(lifecycleOwner: LifecycleOwner, email : String) : Observable<Any>{
+        return service.verifycode(email)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
     }
 
-    fun generate_and_send_verification_code(lifecycleOwner: LifecycleOwner) : Observable<Any>{
-        return service.generate_and_send_verification_code()
-                .compose(SchedulersUtil.applySchedulers())
-                .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
-                .compose(handleBean())
+    fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) : Observable<Any>{
+        return service.emailverify(email,validation_code)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
     }
 
-
-    fun authenticate_email(lifecycleOwner: LifecycleOwner,email : String, validation_code : String) : Observable<Any>{
-        return service.authenticate_email(email,validation_code)
-                .compose(SchedulersUtil.applySchedulers())
-                .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
-                .compose(handleBean())
-    }
 
     fun reset_password(lifecycleOwner: LifecycleOwner,email : String, password : String, confirm_password :String) : Observable<Any>{
         return service.reset_password(email,password,confirm_password)

@@ -14,7 +14,7 @@
     <string name="please_input_newPassword">輸入新密碼</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="password_notify">格式必須包括大小階英文、數字及符號、至少8位</string>
+    <string name="password_notify">密碼格式必須包括大小階英文、數字及符號</string>
     <string name="hint_email">電子郵件地址</string>
     <string name="hint_password">密碼</string>
     <string name="hint_password_second">再次確認密碼</string>
@@ -31,8 +31,15 @@
     <string name="notification_dontallow">DON\'T ALLOW</string>
     <string name="notification_allow">ALLOW</string>
     <string name="please_register">Sign-Up</string>
-    <string name="facebook_app_id">957507501005342</string>
-    <string name="fb_login_protocol_scheme">957507501005342</string>
+    <string name="please_forward">下一步</string>
+    <string name="userareement">&lt;用戶協議條款&gt;</string>
+    <string name="please_buildacnt">建立帳戶</string>
+    <string name="build_byemail">或用電子郵件註冊</string>
+    <string name="userinfo">用戶資料</string>
+    <string name="emailverify">電子郵件驗證</string>
+    <string name="emailaddress">郵寄地址</string>
+    <string name="facebook_app_id">742143353334628</string>
+    <string name="fb_login_protocol_scheme">742143353334628</string>
     <string name="basic_info">Basic Information</string>
     <string name="user_name">User Name</string>
     <string name="passwordconf">Confirm Password</string>
@@ -40,9 +47,15 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="gender">Gender</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="rainbow">其他</string>
     <string name="birth">Day of Birth</string>
     <string name="mobile">Mobile</string>
     <string name="address">Address</string>
+    <string name="subaddress">其他地址</string>
+    <string name="floor">樓層</string>
+    <string name="room">室</string>
     <string name="please_confirm_password">Please_Confirm_Your Password</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_title">Android Studio</string>
@@ -66,6 +79,9 @@
     <string name="fee_fix">$HKD運費為</string>
     <string name="fee_follow">運費只根據商品設定</string>
     <string name="shippingfee">Shipping Fee Setting</string>
+
+    <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
+
     <string name="terms_of_service">SpinnerDemo</string>
 
     <string-array name="array_terms">
