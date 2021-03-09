@@ -116,6 +116,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'com.github.tiper:MaterialSpinner:1.4.2'
+    implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
 
     //Facebook
     implementation 'com.facebook.android:facebook-login:5.15.3'

@@ -107,7 +107,7 @@ class MainActivity : BaseActivity() {
                 val account = task.getResult(ApiException::class.java)!!
                 val email = account.email.toString()
 
-                VM.sociallogin(this,"",email,"")
+                VM.sociallogin(this,"",email,"","")
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("MainActivity", "Google sign in failed", e)

@@ -84,13 +84,23 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
     private fun initVM() {
-        VM.registerLiveData.observe(this, Observer {
+        VM.emailcheckLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-//                    if (url.isNotEmpty()) {
-//                        toast("登录成功")
-//
-//                    }
+                    if (it.data!!.equals("該電子郵件沒有重複使用!")) {
+                        settings.edit()
+                            .putString("email", email)
+                            .putString("password", password)
+                            .putString("passwordconf", passwordconf)
+                            .apply()
+                        val intent = Intent(this, UserIofoActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
 
                     finish()
                 }
@@ -98,6 +108,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
 //                Status.Complete -> disLoading()
             }
         })
+
     }
 
     private fun initView() {
@@ -166,16 +177,17 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         settings = getSharedPreferences("DATA",0)
         binding.tvNext.setOnClickListener {
             if(email.isNotEmpty() && password.isNotEmpty()) {
-                settings.edit()
-                    .putString("email", email)
-                    .putString("password", password)
-                    .putString("passwordconf", passwordconf)
-                    .apply()
+                VM.emailCheck(this,email)
+
             }
-            val intent = Intent(this, UserIofoActivity::class.java)
-            startActivity(intent)
-            finish()
+
         }
+        binding.tvAgreeterm.setOnClickListener {
+            val intent = Intent(this, TermsOfServiceActivity::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     private fun initEditText() {

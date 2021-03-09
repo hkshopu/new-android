@@ -16,7 +16,7 @@ interface AuthService{
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}/user/registerProcess/")
-    fun register(@Field("account_name") account_name : String,@Field("email") email : String,@Field("password") password : String,@Field("confirm_password") confirm_password : String,@Field("first_name") first_name : String,@Field("last_name") last_name : String,@Field("gender") gender : String,@Field("birthday") birthday : String,@Field("phone") phone : String,@Field("address") address : String) : Observable<BaseResponse<Any>>
+    fun register(@Field("account_name") account_name : String,@Field("email") email : String,@Field("password") password : String,@Field("confirm_password") confirm_password : String,@Field("first_name") first_name : String,@Field("last_name") last_name : String,@Field("gender") gender : String,@Field("birthday") birthday : String,@Field("phone") phone : String,@Field("address") address : String,@Field("region") region : String,@Field("district") district : String,@Field("street_name") street_name : String,@Field("street_no") street_no : String,@Field("floor") floor : String,@Field("room") room : String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/loginProcess/")
@@ -29,6 +29,10 @@ interface AuthService{
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/reset/validateEmailProcess/")
     fun emailverify(@Field("email") email : String,@Field("validation_code") validation_code: String) : Observable<BaseResponse<Any>>
+
+    @FormUrlEncoded
+    @POST("${ApiConstants.API_PATH}/checkEmailExistsProcess/")
+    fun emailcheck(@Field("email") email : String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/reset/password/")

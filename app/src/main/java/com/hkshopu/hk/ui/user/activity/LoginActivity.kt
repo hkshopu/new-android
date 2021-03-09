@@ -38,7 +38,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
     val RC_SIGN_IN = 900
     var email: String = ""
 
-    var to: Int = 0
     private val VM = AuthVModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +61,7 @@ class LoginActivity : BaseActivity(), TextWatcher {
         }
 
 
-
+        initEditText()
         initView()
         initClick()
         initVM()
@@ -130,7 +129,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
     private fun initView() {
 
-        initEditText()
         initClick()
         if (email.isNotEmpty()) {
             binding.editEmail.setText(email)
@@ -156,11 +154,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
             VM.login(this, email, "checkfortheemail")
 
         }
-
-        binding.goRegister.setOnClickListener {
-            val intent = Intent(this, BuildAccountActivity::class.java)
-            startActivity(intent)
-            finish()
 
         binding.checkBoxStayLogin.setOnClickListener {
             if (binding.checkBoxStayLogin.isChecked()) {

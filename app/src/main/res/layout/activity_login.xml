@@ -93,7 +93,8 @@
                 android:layout_marginLeft="5dp"
                 android:orientation="vertical">
 
-                <com.hkshopu.hk.widget.view.ETextWithDelete xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.hkshopu.hk.widget.view.ETextWithDelete
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/editEmail"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -149,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_alignParentBottom="true"
-        app:srcCompat="@mipmap/botton_logo" />
+        app:srcCompat="@mipmap/page_bottom" />
 
 
 

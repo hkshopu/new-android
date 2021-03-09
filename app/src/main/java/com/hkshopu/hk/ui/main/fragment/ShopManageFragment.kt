@@ -58,8 +58,8 @@ class ShopManageFragment : Fragment(R.layout.fragment_shopmanage) {
     fun initClick() {
         binding!!.layoutAddShop.setOnClickListener {
 
-            val intent = Intent(context, AddShopActivity::class.java)
-            context?.startActivity(intent)
+//            val intent = Intent(context, AddShopActivity::class.java)
+//            context?.startActivity(intent)
 
         }
     }

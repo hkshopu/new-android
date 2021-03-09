@@ -50,7 +50,7 @@ class EmailVerifyActivity : BaseActivity(), TextWatcher {
         number2 = binding.edit2ndNumber.text.toString()
         number3 = binding.edit3rdNumber.text.toString()
         number4 = binding.edit4thNumber.text.toString()
-        
+
         validation = number1 + number2 +number3 + number4
     }
 

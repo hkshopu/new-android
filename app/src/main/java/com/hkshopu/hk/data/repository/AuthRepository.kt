@@ -35,8 +35,8 @@ class AuthRepository : BaseRepository(){
                 .compose(handleBean())
     }
 
-    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String,  address: String) : Observable<Any> {
-        return service.register(account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address)
+    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String,address: String,region: String,district: String,street_name: String,street_no: String,floor: String,room: String) : Observable<Any> {
+        return service.register(account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address,region, district, street_name, street_no, floor, room)
             .compose(SchedulersUtil.applySchedulers())
             .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
             .compose(handleBean())
@@ -65,6 +65,12 @@ class AuthRepository : BaseRepository(){
 
     fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) : Observable<Any>{
         return service.emailverify(email,validation_code)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+    fun emailcheck(lifecycleOwner: LifecycleOwner,email : String) : Observable<Any>{
+        return service.emailcheck(email)
             .compose(SchedulersUtil.applySchedulers())
             .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
             .compose(handleBean())

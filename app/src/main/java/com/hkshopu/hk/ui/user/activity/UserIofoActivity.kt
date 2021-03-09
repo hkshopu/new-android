@@ -145,7 +145,7 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
                 gender!!,
                 birth!!,
                 phone!!,
-                ""
+                "","","","","","",""
             )
         }
 

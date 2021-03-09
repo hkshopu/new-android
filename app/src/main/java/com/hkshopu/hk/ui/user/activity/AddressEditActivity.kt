@@ -24,6 +24,13 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
     private lateinit var binding: ActivityAddresseditBinding
     private val VM = AuthVModel()
     private lateinit var settings: SharedPreferences
+    var region:String =""
+    var district:String =""
+    var street_name:String =""
+    var street_no:String =""
+    var floor:String =""
+    var room:String =""
+    var address:String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +43,13 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
-
+        region = binding.editCountry.text.toString()
+        district = binding.editAdmin.text.toString()
+        street_name = binding.editthoroughfare.text.toString()
+        street_no = binding.editfeature.text.toString()
+        address = binding.editsubaddress.text.toString()
+        floor = binding.editfloor.text.toString()
+        room = binding.editroom.text.toString()
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -101,14 +114,7 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
             val email = settings.getString("email", "")
             val password = settings.getString("password", "")
             val passwordconf = settings.getString("passwordconf", "")
-            val country = binding.editCountry.text.toString()
-            val admin = binding.editAdmin.text.toString()
-            val street = binding.editthoroughfare.text.toString()
-            val door = binding.editfeature.text.toString()
-            val subaddress = binding.editsubaddress.text.toString()
-            val floor = binding.editfloor.text.toString()
-            val room = binding.editroom.text.toString()
-            var address = country+admin+street+door+subaddress+floor+room
+
             VM.register(
                 this,
                 "",
@@ -121,6 +127,7 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
                 "",
                 "",
                 address
+                ,region,district,street_name,street_no,floor, room
             )
         }
 
@@ -148,7 +155,7 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
                 "",
                 "",
                 "",
-                address
+                address,region,district,street_name,street_no,floor,room
             )
         }
 

@@ -17,6 +17,7 @@ class AuthVModel : BaseViewModel() {
     val loginLiveData = MediatorLiveData<UIDataBean<Any>>()
     val verifycodeLiveData = MediatorLiveData<UIDataBean<Any>>()
     val emailverifyLiveData = MediatorLiveData<UIDataBean<Any>>()
+    val emailcheckLiveData = MediatorLiveData<UIDataBean<Any>>()
     val resetLiveData = MediatorLiveData<UIDataBean<Any>>()
     val generateAndSendVerificationCodeData = MediatorLiveData<UIDataBean<Any>>()
     val authenticationCodeData = MediatorLiveData<UIDataBean<Any>>()
@@ -27,8 +28,8 @@ class AuthVModel : BaseViewModel() {
                 .subscribe(StatusResourceObserver(socialloginLiveData, silent = false))
     }
 
-    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String, address: String) {
-        repository.register(lifecycleOwner,account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address)
+    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String, address: String,region: String,district: String,street_name: String,street_no: String,floor: String,room: String) {
+        repository.register(lifecycleOwner,account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address,region, district, street_name, street_no, floor, room)
             .subscribe(StatusResourceObserver(registerLiveData))
     }
 
@@ -45,6 +46,10 @@ class AuthVModel : BaseViewModel() {
     fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) {
         repository.emailverify(lifecycleOwner,email,validation_code)
             .subscribe(StatusResourceObserver(emailverifyLiveData, silent = false))
+    }
+    fun emailCheck(lifecycleOwner: LifecycleOwner,email : String) {
+        repository.emailcheck(lifecycleOwner,email)
+            .subscribe(StatusResourceObserver(emailcheckLiveData, silent = false))
     }
 
     fun reset(lifecycleOwner: LifecycleOwner, phone: String, password_orig: String, password: String) {

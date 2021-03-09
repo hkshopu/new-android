@@ -9,10 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.Base.BaseFragment
-import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
-import com.hkshopu.hk.ui.main.fragment.ProductFragment
 import com.hkshopu.hk.ui.main.fragment.ShopInfoFragment
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 
@@ -59,9 +56,7 @@ class AddShopActivity : BaseActivity(), TextWatcher, ViewPager.OnPageChangeListe
         manager = supportFragmentManager
         if (fragments.isNotEmpty())return
         val ShopInfoFragment = ShopInfoFragment.newInstance()
-        val ProductFragment = ProductFragment.newInstance()
 
-        fragments.add(ProductFragment)
         fragments.add(ShopInfoFragment)
         binding.mviewPager.adapter = object : FragmentPagerAdapter(manager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
             override fun getItem(position: Int) =  fragments[position]
