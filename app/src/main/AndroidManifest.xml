@@ -62,7 +62,20 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< Updated upstream
             android:name=".ui.user.activity.RegisterActivity"
+=======
+            android:name=".ui.user.activity.BuildAccountActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.user.activity.UserIofoActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.user.activity.EmailVerifyActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.user.activity.MailAddressActivity"
+>>>>>>> Stashed changes
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.main.activity.OnBoardActivity"

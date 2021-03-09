@@ -41,19 +41,32 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/repository/AuthRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/repository/AuthRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/service/AuthService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/service/AuthService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/activity/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/activity/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/AddressEditActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/AddressEditActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/BuildAccountActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/BuildAccountActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/EmailVerifyActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/EmailVerifyActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginPasswordActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginPasswordActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/NewPasswordActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/NewPasswordActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/Retrieve.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/Retrieve.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/UserIofoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/UserIofoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/vm/AuthVModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/vm/AuthVModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_buildacnt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_buildacnt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_emailverify.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_emailverify.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login_password.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login_password.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_password.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_password.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_retrieve.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_retrieve.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_userinfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_userinfo.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[18bf6cee]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -271,9 +284,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="427" y="57" key="#com.intellij.ide.util.MemberChooser" timestamp="1615174853750">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="406" y="60" key="#com.intellij.ide.util.MemberChooser" timestamp="1615261030695">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state x="406" y="60" key="#com.intellij.ide.util.MemberChooser/0.0.1217.720@0.0.1217.720" timestamp="1615261030695" />
     <state x="427" y="57" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1615174853750" />
     <state x="371" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1614938974319">
       <screen x="0" y="0" width="1280" height="680" />
@@ -283,21 +297,29 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1614935681314" />
-    <state width="1238" height="429" key="GridCell.Tab.0.bottom" timestamp="1615012966615">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1174" height="127" key="GridCell.Tab.0.bottom" timestamp="1615263320327">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state width="1174" height="127" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1615263320327" />
+    <state width="1176" height="69" key="GridCell.Tab.0.bottom/0.0.1218.720@0.0.1218.720" timestamp="1615201071748" />
     <state width="1238" height="429" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1615012966615" />
-    <state width="1238" height="429" key="GridCell.Tab.0.center" timestamp="1615012966614">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1174" height="127" key="GridCell.Tab.0.center" timestamp="1615263320327">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state width="1174" height="127" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1615263320327" />
+    <state width="1176" height="69" key="GridCell.Tab.0.center/0.0.1218.720@0.0.1218.720" timestamp="1615201071748" />
     <state width="1238" height="429" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1615012966614" />
-    <state width="1238" height="429" key="GridCell.Tab.0.left" timestamp="1615012966614">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1174" height="127" key="GridCell.Tab.0.left" timestamp="1615263320326">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state width="1174" height="127" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1615263320326" />
+    <state width="1176" height="69" key="GridCell.Tab.0.left/0.0.1218.720@0.0.1218.720" timestamp="1615201071747" />
     <state width="1238" height="429" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1615012966614" />
-    <state width="1238" height="429" key="GridCell.Tab.0.right" timestamp="1615012966614">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1174" height="127" key="GridCell.Tab.0.right" timestamp="1615263320327">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state width="1174" height="127" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1615263320327" />
+    <state width="1176" height="69" key="GridCell.Tab.0.right/0.0.1218.720@0.0.1218.720" timestamp="1615201071748" />
     <state width="1238" height="429" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1615012966614" />
     <state x="252" y="127" key="MultipleFileMergeDialog" timestamp="1614944702216">
       <screen x="0" y="0" width="1280" height="680" />
@@ -315,9 +337,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="298" y="151" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1615016472160" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1615010271740">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="288" y="1" width="672" height="718" key="search.everywhere.popup" timestamp="1615255916753">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
+    <state x="288" y="1" width="672" height="718" key="search.everywhere.popup/0.0.1217.720@0.0.1217.720" timestamp="1615255916753" />
     <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1615010271740" />
   </component>
 </project>

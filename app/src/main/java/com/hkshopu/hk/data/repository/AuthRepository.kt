@@ -56,6 +56,7 @@ class AuthRepository : BaseRepository(){
             .compose(handleBean())
     }
 
+<<<<<<< Updated upstream
     fun reset(lifecycleOwner: LifecycleOwner,phone : String,password_orig: String,password: String) : Observable<Any>{
         return service.reset(phone,password_orig,password)
                 .compose(SchedulersUtil.applySchedulers())
@@ -77,6 +78,22 @@ class AuthRepository : BaseRepository(){
                 .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
                 .compose(handleBean())
     }
+=======
+    fun verifycode(lifecycleOwner: LifecycleOwner,email : String) : Observable<Any>{
+        return service.verifycode(email)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+
+    fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) : Observable<Any>{
+        return service.emailverify(email,validation_code)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+
+>>>>>>> Stashed changes
 
     fun reset_password(lifecycleOwner: LifecycleOwner,email : String, password : String, confirm_password :String) : Observable<Any>{
         return service.reset_password(email,password,confirm_password)

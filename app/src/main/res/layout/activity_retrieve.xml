@@ -77,8 +77,7 @@
 
             <EditText
                 android:id="@+id/edt_authenticate01"
-                android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -90,8 +89,7 @@
                 />
             <EditText
                 android:id="@+id/edt_authenticate02"
-                android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -103,8 +101,7 @@
                 />
             <EditText
                 android:id="@+id/edt_authenticate03"
-                android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"
@@ -116,8 +113,7 @@
                 />
             <EditText
                 android:id="@+id/edt_authenticate04"
-                android:digits="1234567890"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="1"
                 android:textSize="36sp"
                 android:layout_width="75dp"

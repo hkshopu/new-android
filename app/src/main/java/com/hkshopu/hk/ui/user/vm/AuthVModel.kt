@@ -15,9 +15,14 @@ class AuthVModel : BaseViewModel() {
     val registerLiveData = MediatorLiveData<UIDataBean<Any>>()
     val socialloginLiveData = MediatorLiveData<UIDataBean<Any>>()
     val loginLiveData = MediatorLiveData<UIDataBean<Any>>()
+<<<<<<< Updated upstream
     val resetLiveData = MediatorLiveData<UIDataBean<Any>>()
     val generateAndSendVerificationCodeData = MediatorLiveData<UIDataBean<Any>>()
     val authenticationCodeData = MediatorLiveData<UIDataBean<Any>>()
+=======
+    val verifycodeLiveData = MediatorLiveData<UIDataBean<Any>>()
+    val emailverifyLiveData = MediatorLiveData<UIDataBean<Any>>()
+>>>>>>> Stashed changes
     val resetPasswordLiveData = MediatorLiveData<UIDataBean<Any>>()
 
 
@@ -37,6 +42,7 @@ class AuthVModel : BaseViewModel() {
                 .subscribe(StatusResourceObserver(loginLiveData, silent = false))
     }
 
+<<<<<<< Updated upstream
     fun reset(lifecycleOwner: LifecycleOwner, email: String, password_orig: String, password: String) {
         repository.reset(lifecycleOwner, email, password_orig, password)
                 .subscribe(StatusResourceObserver(resetLiveData, silent = false))
@@ -50,6 +56,16 @@ class AuthVModel : BaseViewModel() {
     fun authenticate_email(lifecycleOwner: LifecycleOwner, email: String, validation_code: String) {
         repository.authenticate_email(lifecycleOwner, email, validation_code)
                 .subscribe(StatusResourceObserver(authenticationCodeData, silent = false))
+=======
+    fun verifycode(lifecycleOwner: LifecycleOwner, email : String) {
+        repository.verifycode(lifecycleOwner, email)
+            .subscribe(StatusResourceObserver(verifycodeLiveData, silent = false))
+    }
+
+    fun emailverify(lifecycleOwner: LifecycleOwner,email : String,validation_code: String) {
+        repository.emailverify(lifecycleOwner,email,validation_code)
+            .subscribe(StatusResourceObserver(emailverifyLiveData, silent = false))
+>>>>>>> Stashed changes
     }
 
     fun reset_password(lifecycleOwner: LifecycleOwner, email: String, password: String, confirm_password : String) {
