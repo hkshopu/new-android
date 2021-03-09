@@ -38,18 +38,12 @@ class LoginActivity : BaseActivity(), TextWatcher {
     val RC_SIGN_IN = 900
     var email: String = ""
 
-    private lateinit var settings: SharedPreferences
-
     var to: Int = 0
     private val VM = AuthVModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        settings = this.getSharedPreferences("DATA",0)
-
-
 
         //google sign in
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -76,13 +70,14 @@ class LoginActivity : BaseActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
-//        email = binding.editEmail.text.toString()
+        email = binding.editEmail.text.toString()
 //        val password = binding.password1.text.toString()
-//        if (email.isEmpty()) {
-//            binding.btnNextStep.isEnabled = false
-//        } else {
-//            binding.btnNextStep.isEnabled = true
-//        }
+        if (email.isEmpty()) {
+            binding.btnNextStep.isEnabled = false
+
+        } else {
+            binding.btnNextStep.isEnabled = true
+        }
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -93,21 +88,34 @@ class LoginActivity : BaseActivity(), TextWatcher {
             when (it?.status) {
                 Status.Success -> {
 
-                    if (it.data.toString() == "密碼錯誤!") {
+                   Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
 
-                        //存起email
-                        var bundle = Bundle()
-                            bundle.putString("email", email)
-                        settings.edit()
-                            .putString("email", email)
-                            .apply()
+                    var bundle = Bundle()
+                        bundle.putString("email", email)
 
-                            val intent = Intent(this, LoginPasswordActivity::class.java)
-                            intent.putExtra("bundle", bundle)
+                        val intent = Intent(this, LoginPasswordActivity::class.java)
+                        intent.putExtra("bundle", bundle)
 
-                            startActivity(intent)
+                        startActivity(intent)
+
+                    if (it.data.toString() == "登入成功!") {
+
+                    }else if (it.data.toString() == "電子郵件或密碼未填寫!") {
+
+                    }else if (it.data.toString() == "電子郵件錯誤!") {
+
+                    }else if (it.data.toString() == "密碼錯誤!") {
+
+//                        var bundle = Bundle()
+//                        bundle.putString("email", email)
+//
+//                        val intent = Intent(this, LoginPasswordActivity::class.java)
+//                        intent.putExtra("bundle", bundle)
+//
+//                        startActivity(intent)
+
+
                     }else {
-                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_LONG)
 
                     }
 
@@ -128,18 +136,15 @@ class LoginActivity : BaseActivity(), TextWatcher {
             binding.editEmail.setText(email)
 //            binding.password1.requestFocus()
 //            KeyboardUtil.showKeyboard(binding.password1)
+
         }
+
         //hide hidePassword eye and showPassword eye (default)
 //        binding.hidePassword.visibility = View.INVISIBLE
 
     }
 
     private fun initClick() {
-
-        binding.btnGoogleLogin.setOnClickListener {
-            GoogleSignIn()
-        }
-
         binding.titleBack.setOnClickListener {
 
             finish()
@@ -147,33 +152,27 @@ class LoginActivity : BaseActivity(), TextWatcher {
         binding.btnNextStep.setOnClickListener {
 
             email = binding.editEmail.text.toString()
-            if (binding.editEmail.text.toString().isNotEmpty()) {
-                VM.login(this, email, "checkfortheemail")
-            }else {
-                binding.btnNextStep.isEnabled == false
-            }
+//            val password = binding.password1.text.toString()
+            VM.login(this, email, "checkfortheemail")
 
         }
 
         binding.checkBoxStayLogin.setOnClickListener {
             if (binding.checkBoxStayLogin.isChecked()) {
-                val sharedPreferences: SharedPreferences =
-                    getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
+                val editor : SharedPreferences.Editor = sharedPreferences.edit()
                 editor.apply {
                     putString("rememberMe", "true")
                 }.apply()
 
-            } else {
-                val sharedPreferences: SharedPreferences =
-                    getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            }else{
+                val sharedPreferences : SharedPreferences = getSharedPreferences("rememberMe", Context.MODE_PRIVATE)
+                val editor : SharedPreferences.Editor = sharedPreferences.edit()
                 editor.apply {
                     putString("rememberMe", "false")
                 }.apply()
             }
         }
-<<<<<<< Updated upstream
 //        binding.goRegister.setOnClickListener {
 //            val intent = Intent(this, RegisterActivity::class.java)
 //            startActivity(intent)
@@ -186,17 +185,16 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
 
 
-=======
->>>>>>> Stashed changes
     }
 
-    fun initEditText() {
+    private fun initEditText() {
         binding.editEmail.addTextChangedListener(this)
 //        binding.password1.addTextChangedListener(this)
     }
 
-    fun GoogleSignIn() {
+    private fun GoogleSignIn() {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
 }

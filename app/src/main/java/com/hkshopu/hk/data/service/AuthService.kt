@@ -22,21 +22,15 @@ interface AuthService{
     fun login(@Field("email") email : String,@Field("password") password : String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded
-<<<<<<< Updated upstream
     @POST("${ApiConstants.API_PATH}user/reset/password")
     fun reset(@Field("phone") phone : String,@Field("passwordOrig") password_orig : String,@Field("password") password : String) : Observable<BaseResponse<Any>>
 
     @POST("${ApiConstants.API_PATH}user/[id]/generateAndSendValidationCodeProcess/")
     fun generate_and_send_verification_code() : Observable<BaseResponse<Any>>
-=======
-    @POST("${ApiConstants.API_PATH}user/generateAndSendValidationCodeProcess/")
-    fun verifycode(@Field("email") email : String) : Observable<BaseResponse<Any>>
->>>>>>> Stashed changes
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/validateEmailProcess/")
-    fun emailverify(@Field("email") email : String,@Field("validation_code") validation_code: String) : Observable<BaseResponse<Any>>
-
+    fun authenticate_email(@Field("email") email : String,@Field("validation_code") validation_code : String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}user/resetPasswordProcess/")
