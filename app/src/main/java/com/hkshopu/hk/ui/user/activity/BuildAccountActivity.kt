@@ -62,6 +62,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        settings = getSharedPreferences("DATA",0)
         initView()
         initVM()
         initClick()
@@ -174,7 +175,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         binding.showPassconfBtn.setOnClickListener {
             ShowHidePass(it)
         }
-        settings = getSharedPreferences("DATA",0)
+
         binding.tvNext.setOnClickListener {
             if(email.isNotEmpty() && password.isNotEmpty()) {
                 VM.emailCheck(this,email)

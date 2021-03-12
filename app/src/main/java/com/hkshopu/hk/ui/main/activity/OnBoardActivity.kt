@@ -107,7 +107,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         })
 
-        binding.pager.adapter = ImageAdapter(list, binding.titleBanner, binding.tv2)
+        binding.pager.adapter = ImageAdapter(list)
         binding.pager.addOnPageChangeListener(this)
         initPoints()
 
@@ -226,8 +226,6 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private class ImageAdapter internal constructor(
         arrayList: ArrayList<BoardingObjBean>,
-        tv1: TextView,
-        tv2: TextView
     ) : PagerAdapter() {
         private val arrayList: ArrayList<BoardingObjBean>
 
@@ -277,7 +275,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
+        callbackManager!!.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)

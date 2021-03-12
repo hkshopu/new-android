@@ -32,7 +32,7 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
         super.onCreate(savedInstanceState)
         binding = ActivityUserinfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        settings = getSharedPreferences("DATA",0)
         initView()
         initVM()
         initClick()
@@ -57,7 +57,7 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
                         val duration1 = Toast.LENGTH_SHORT //設定訊息停留長短
                         Toast.makeText(this, text1,duration1)
                     }
-
+                    finish()
                 }
 //                Status.Start -> showLoading()
 //                Status.Complete -> disLoading()
@@ -85,7 +85,30 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initView() {
-
+        if(settings.contains("firstname")) {
+            firstName = settings.getString("firstname", "").toString()
+            binding.editFirstName.setText(firstName)
+            lastName = settings.getString("lastname", "").toString()
+            binding.editlastName.setText(lastName)
+            gender = settings.getString("gender", "").toString()
+            if (gender.equals("男")) {
+                binding.tvMale.setBackgroundResource(R.drawable.bg_userinfo_gender)
+                binding.tvFemale.setBackgroundResource(R.drawable.bg_edit_login)
+                binding.tvRainbow.setBackgroundResource(R.drawable.bg_edit_login)
+            } else if (gender.equals("女")) {
+                binding.tvFemale.setBackgroundResource(R.drawable.bg_userinfo_gender)
+                binding.tvMale.setBackgroundResource(R.drawable.bg_edit_login)
+                binding.tvRainbow.setBackgroundResource(R.drawable.bg_edit_login)
+            } else {
+                binding.tvRainbow.setBackgroundResource(R.drawable.bg_userinfo_gender)
+                binding.tvFemale.setBackgroundResource(R.drawable.bg_edit_login)
+                binding.tvMale.setBackgroundResource(R.drawable.bg_edit_login)
+            }
+            birth = settings.getString("birth", "").toString()
+            binding.tvBirth.setText(birth)
+            phone = settings.getString("phone", "").toString()
+            binding.editmobile.setText(phone)
+        }
         initEditText()
         initClick()
 
@@ -96,7 +119,6 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
 
     private fun initClick() {
         binding.titleBack.setOnClickListener {
-
             finish()
         }
         binding.tvMale.setOnClickListener {
@@ -121,8 +143,16 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
             ShowDatePick(it)
         }
         binding.tvNext.setOnClickListener {
+            settings.edit()
+                .putString("firstname", firstName)
+                .putString("lastname", lastName)
+                .putString("gender", gender)
+                .putString("birth", birth)
+                .putString("phone", phone)
+                .apply()
             val intent = Intent(this, AddressEditActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         settings = this.getSharedPreferences("DATA", 0)
@@ -147,6 +177,7 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
                 phone!!,
                 "","","","","","",""
             )
+            finish()
         }
 
 

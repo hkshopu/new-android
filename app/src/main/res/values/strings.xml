@@ -71,6 +71,9 @@
     <string name="payment_method">Payment Method</string>
     <string name="shipfee_setting">Shipping Fee Setting</string>
     <string name="add_product">Add Product</string>
+    <string name="my_product">我的商品</string>
+    <string name="my_like">關注</string>
+    <string name="my_income">進帳/月</string>
     <string name="fee_unit">HKD</string>
     <string name="fee_more">全單滿</string>
     <string name="fee_no">$HKD免運費</string>
@@ -79,6 +82,8 @@
     <string name="fee_fix">$HKD運費為</string>
     <string name="fee_follow">運費只根據商品設定</string>
     <string name="shippingfee">Shipping Fee Setting</string>
+    <string name="tab1">功能服務</string>
+    <string name="tab2">我的賣場</string>
 
     <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
 
