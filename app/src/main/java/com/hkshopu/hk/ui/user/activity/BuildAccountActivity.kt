@@ -30,6 +30,7 @@ import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityBuildacntBinding
+import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.hkshopu.hk.widget.view.disable
@@ -107,6 +108,25 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
                 }
 //                Status.Start -> showLoading()
 //                Status.Complete -> disLoading()
+            }
+        })
+        VM.socialloginLiveData.observe(this, Observer {
+            when (it?.status) {
+                Status.Success -> {
+//                    Log.d("OnBoardActivity", "Sign-In Result" + it.data)
+                    if (it.data.toString().isNotEmpty()) {
+                        val intent = Intent(this, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        val intent = Intent(this, BuildAccountActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }
+
             }
         })
 
