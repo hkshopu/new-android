@@ -60,7 +60,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         binding = ActivityOnboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        callbackManager = CallbackManager.Factory.create()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestId()
             .requestEmail()
@@ -158,7 +158,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun initClick() {
         binding.btnFb.setOnClickListener {
-            callbackManager = CallbackManager.Factory.create()
+
             LoginManager.getInstance().logInWithReadPermissions(
                 this, Arrays.asList("public_profile", "email")
             )

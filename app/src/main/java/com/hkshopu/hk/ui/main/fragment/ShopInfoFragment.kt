@@ -23,6 +23,8 @@ import com.hkshopu.hk.component.EventShopDesUpdated
 import com.hkshopu.hk.component.EventShopNameUpdated
 import com.hkshopu.hk.data.bean.ItemData
 import com.hkshopu.hk.databinding.FragmentShopinfoBinding
+import com.hkshopu.hk.ui.main.activity.AddShopActivity
+import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
 
 import com.hkshopu.hk.utils.rxjava.RxBus
 
@@ -106,6 +108,12 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
     }
 
     fun initClick() {
+
+        binding!!.tvAddonlineshop.setOnClickListener {
+            val intent = Intent(activity, AddShopActivity::class.java)
+            startActivity(intent)
+
+        }
 
         binding!!.ivShopImg.setOnClickListener {
             val gallery =
