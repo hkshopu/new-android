@@ -54,7 +54,7 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <activity android:name=".ui.user.activity.RetrieveEmailVerifyActivity" />
+        <activity android:name=".ui.user.activity.Retrieve" />
 
         <activity android:name=".ui.LaunchActivity">
             <intent-filter>
@@ -80,10 +80,12 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="@string/fb_login_protocol_scheme"
+                    android:scheme="@string/facebook_app_id"
                     tools:ignore="ManifestResource" />
             </intent-filter>
         </activity>
@@ -99,13 +101,13 @@
         <activity
             android:name=".ui.user.activity.MailAddressActivity"
             android:launchMode="singleTask" />
+
         <activity
-            android:name=".ui.user.activity.AddressEditActivity"
-            android:launchMode="singleTask" />
-        <activity
+
             android:name=".ui.main.activity.OnBoardActivity"
             android:launchMode="singleTask" />
         <activity
+
             android:name=".ui.main.activity.ShopmenuActivity"
             android:launchMode="singleTask" />
         <activity
@@ -117,9 +119,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        <!--        <activity android:name=".ui.user.fragmentdialog.NotificationDialogFragment" />-->
-
     </application>
 
 </manifest>

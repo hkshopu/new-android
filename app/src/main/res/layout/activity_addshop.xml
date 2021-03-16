@@ -80,7 +80,7 @@
             android:layout_below="@id/tv_step1title"
             android:layout_marginStart="11dp"
             android:layout_marginTop="8dp"
-            android:text="點選上方店鋪頭貼並至手機相簿選擇喜歡的logo或照片。"
+            android:text="點選下方店鋪頭貼並至手機相簿選擇喜歡的logo或照片。"
             android:textSize="14sp"
             android:letterSpacing="0.07"
             android:textColor="@color/black_hint" />
@@ -217,13 +217,14 @@
             android:textColor="@color/black_hint" />
 
         <RelativeLayout
-
+            android:id="@+id/layout_storesort_pri"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="50dp"
             android:layout_marginStart="33dp"
             android:layout_marginTop="16dp"
             android:layout_below="@id/tv_step3function"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_storesort"
@@ -261,15 +262,64 @@
                 android:layout_toLeftOf="@id/iv_chevron_storesort"
                 android:text="更多" />
 
-            <TextView
-                android:id="@+id/tv_storesort"
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_storesort_act"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/tv_step3function"
+            android:background="@color/white"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/iv_storesort_act"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="15dp"
-                android:text="男性衣著 > 配件"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/ic_storesort" />
+
+            <TextView
+                android:id="@+id/tv_storesort_more_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/iv_storesort_act"
+                android:text="店舖分類" />
+
+            <TextView
+                android:id="@+id/tv_storesort1"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
+                android:layout_below="@id/iv_storesort_act"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_alignLeft="@id/iv_storesort_act"
+                android:background="@drawable/customborder_shopcategory"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
                 android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/tv_storesort2"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
+                android:layout_below="@id/iv_storesort_act"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_toRightOf="@+id/tv_storesort1"
+                android:background="@drawable/customborder_shopcategory"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="invisible"/>
+
 
         </RelativeLayout>
 
