@@ -215,7 +215,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         binding.btnSkip.setOnClickListener {
-            val intent = Intent(this, ShopmenuActivity::class.java)
+            val intent = Intent(this, ShippingFareActivity::class.java)
             startActivity(intent)
 //            val intent = Intent(this, EmailVerifyActivity::class.java)
 //            startActivity(intent)
