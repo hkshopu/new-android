@@ -108,6 +108,10 @@
             android:name=".ui.main.activity.AddShopActivity"
             android:launchMode="singleTask" />
         <activity
+            android:name=".ui.main.activity.ShopCategoryActivity"
+            android:launchMode="singleTask" />
+
+        <activity
             android:name=".ui.main.activity.ShippingFeeActivity"
             android:launchMode="singleTask" />
 
