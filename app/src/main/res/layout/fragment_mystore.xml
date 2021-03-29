@@ -44,7 +44,7 @@
         android:layout_below="@id/layout_store_addbrief"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/customborder_anddproduct"
+        android:background="@drawable/customborder_addproduct"
         android:elevation="4dp">
 
         <RelativeLayout

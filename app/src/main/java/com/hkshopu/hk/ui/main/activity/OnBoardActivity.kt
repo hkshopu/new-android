@@ -218,9 +218,13 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         binding.btnSkip.setOnClickListener {
+
             var mmkv = MMKV.mmkvWithID("http")
                 mmkv.clearAll()
             val intent = Intent(this, ShopmenuActivity::class.java)
+
+//            val intent = Intent(this, ShippingFareActivity::class.java)
+
             startActivity(intent)
             finish()
 //            val intent = Intent(this, AddShopActivity::class.java)
