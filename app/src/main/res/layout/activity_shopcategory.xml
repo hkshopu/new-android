@@ -42,8 +42,10 @@
             android:layout_marginEnd="35dp"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            <androidx.recyclerview.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -55,6 +57,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
+                android:id="@+id/tv_selected"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="60dp"

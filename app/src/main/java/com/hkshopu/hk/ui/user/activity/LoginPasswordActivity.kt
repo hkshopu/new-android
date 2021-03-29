@@ -1,7 +1,7 @@
 package com.hkshopu.hk.ui.user.activity
 
+
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,11 +13,21 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
-import com.hkshopu.hk.databinding.ActivityLoginBinding
 import com.hkshopu.hk.databinding.ActivityLoginPasswordBinding
+import com.hkshopu.hk.net.ApiConstants
+import com.hkshopu.hk.net.Web
+import com.hkshopu.hk.net.WebListener
+import com.hkshopu.hk.ui.main.activity.AddShopActivity
+import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.hkshopu.hk.widget.view.disable
 import com.hkshopu.hk.widget.view.enable
+import com.tencent.mmkv.MMKV
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 
 class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
@@ -45,20 +55,18 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
         VM.loginLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
+//                    Log.d("LoginPasswordActivity", "LoginReturn value"+it.ret_val)
+                    if (it.ret_val!!.equals("登入成功!")) {
+                        runOnUiThread {
+                            val intent = Intent(this, ShopmenuActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
-
-
-                    if (it.data.toString() == "登入成功!") {
-
-                    }else if (it.data.toString() == "電子郵件或密碼未填寫!") {
-
-                    }else if (it.data.toString() == "電子郵件錯誤!") {
-
-                    }else if (it.data.toString() == "密碼錯誤!") {
-
-
-                    }else {
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
 
                     }
 
@@ -74,7 +82,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
     private fun InitIntent() {
 
         //取得LoginPage傳來的email address
-        getstring = intent.getBundleExtra("bundle")?.getString("email")
+        getstring = intent.getStringExtra("email").toString()
 
     }
     private fun initView() {
@@ -87,6 +95,14 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initClick() {
+        binding.layoutPwd.setOnClickListener {
+            KeyboardUtil.hideKeyboard(binding.txtViewLoginEmail)
+        }
+
+        binding.titleBack.setOnClickListener {
+
+           finish()
+        }
 
         binding.goRetrieve.setOnClickListener {
 
@@ -118,9 +134,11 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
 
             password = binding.edtPassword.text.toString()
-//            val password = binding.password1.text.toString()
+            val url = ApiConstants.API_HOST+"/user/loginProcess/"
+//            VM.login(this, getstring!!, password!!)
 
-            VM.login(this, getstring!!, password!!)
+            doLogin(url, getstring!!, password!!)
+
 
         }
 
@@ -145,5 +163,44 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
         } else {
             binding.btnLogin.enable()
         }
+    }
+
+    private fun doLogin(url: String, email: String, password: String) {
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("LoginPasswordActivity", "返回資料 resStr：" + resStr)
+                    Log.d("LoginPasswordActivity", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    if (ret_val.equals("登入成功!")) {
+                        var user_id: Int = json.getInt("user_id")
+                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
+                        val intent = Intent(this@LoginPasswordActivity, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@LoginPasswordActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+//                        initRecyclerView()
+
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Do_Login(url, email, password)
     }
 }

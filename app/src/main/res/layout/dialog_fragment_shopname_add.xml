@@ -26,7 +26,7 @@
         android:src="@mipmap/ic_cancel_blue" />
 
     <EditText
-        android:id="@+id/et_shopname"
+        android:id="@+id/et_shopname_1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/tv_shopnameinput"
@@ -50,7 +50,7 @@
         android:textSize="18sp"
         android:gravity="center"
         android:background="@drawable/customborder_onboard_turquise"
-        android:layout_below="@id/et_shopname"
+        android:layout_below="@id/et_shopname_1"
         android:text="@string/alert_confirm" />
 
 </RelativeLayout>

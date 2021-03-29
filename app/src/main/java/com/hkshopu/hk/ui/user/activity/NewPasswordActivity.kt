@@ -45,7 +45,7 @@ class NewPasswordActivity : AppCompatActivity() {
             when (it?.status) {
                 Status.Success -> {
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
+                    Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
 
                 }
 //                Status.Start -> showLoading()

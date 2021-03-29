@@ -1,24 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp"
-              android:background="@drawable/customborder" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:background="@drawable/customborder">
 
     <ImageView
-            android:layout_width="82dp"
-            android:layout_height="84dp"
-            android:src="@mipmap/no_image"
-            android:id="@+id/ivIcon" />
+        android:id="@+id/iv_shopIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/ic_no_image" />
 
     <TextView
+        android:id="@+id/tv_shopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_shopIcon"
+        android:layout_gravity="center"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="17dp"
+        android:text="Shop Title"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_shopNameEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:text="編輯"
+        android:textSize="14sp"
+        android:textColor="@color/color_somegray"/>
+
+    <com.willy.ratingbar.ScaleRatingBar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/simpleRatingBar"
+        android:layout_width="130dp"
+        android:layout_height="28dp"
+        android:layout_below="@+id/tv_shopName"
+        android:layout_toEndOf="@id/iv_shopIcon"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:srb_numStars="5"
+        app:srb_minimumStars="1"
+        app:srb_rating="2"
+        app:srb_starWidth="30dp"
+        app:srb_starHeight="30dp"
+        app:srb_starPadding="15dp"
+        app:srb_stepSize="0.1"
+        app:srb_isIndicator="false"
+        app:srb_clickable="false"
+        app:srb_scrollable="true"
+        app:srb_clearRatingEnabled="true"
+        app:srb_drawableEmpty="@mipmap/ic_star"
+        app:srb_drawableFilled="@mipmap/ic_star_fill">
+    </com.willy.ratingbar.ScaleRatingBar>
+
+    <TextView
+        android:id="@+id/tv_shopScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="75dp"
+        android:layout_marginTop="50dp"
+        android:text="0.0"
+        android:textSize="18sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_shopIcon"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_shopMarchants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:text="Shop Title"
-            android:textSize="16sp"/>
-</LinearLayout>
+            android:text="我的商品："
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_MarchantNums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_shopLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:text="關注："
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_LikeNums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_shopIncomes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="進帳："
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_IncomeNums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</RelativeLayout>

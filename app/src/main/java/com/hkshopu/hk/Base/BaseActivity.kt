@@ -15,6 +15,7 @@ open class BaseActivity : AppCompatActivity(),LifecycleOwner {
 
     override fun onResume() {
         super.onResume()
+
         isForground = true
     }
 

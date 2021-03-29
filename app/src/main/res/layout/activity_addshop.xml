@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_shopbg"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -36,6 +35,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/layout_addshop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -97,13 +97,13 @@
                     android:textColor="@color/black_hint"
                     android:textSize="14sp" />
 
-                <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/iv_shopImg"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_below="@id/tv_step1function"
                     android:layout_alignParentEnd="true"
-                    android:scaleType="fitCenter"
                     android:src="@mipmap/ic_no_image"
                     app:riv_border_color="@color/white"
                     app:riv_border_width="1dp"
@@ -176,10 +176,13 @@
                     android:layout_below="@id/tv_step2function"
                     android:layout_marginStart="33dp"
                     android:layout_marginTop="16dp"
+                    android:singleLine="true"
+                    android:inputType="text"
                     android:background="@drawable/customborder_catelist"
                     android:paddingLeft="4dp"
                     android:textColor="@color/colorText"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    />
 
             </RelativeLayout>
 
@@ -289,7 +292,7 @@
                     android:layout_marginStart="33dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/white"
-                    android:visibility="invisible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_storesort_act"
@@ -320,7 +323,7 @@
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/white"
-                        android:visibility="invisible" />
+                        />
 
                     <TextView
                         android:id="@+id/tv_storesort2"
@@ -335,7 +338,7 @@
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/white"
-                        android:visibility="invisible" />
+                       />
 
                     <TextView
                         android:id="@+id/tv_storesort3"
@@ -350,20 +353,33 @@
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/white"
-                        android:visibility="invisible" />
+                       />
 
 
                 </RelativeLayout>
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_addnewshop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_addnewshop" />
+            <RelativeLayout
+                android:id="@+id/layout_addnewshop_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginTop="50dp">
+
+                <TextView
+                    android:id="@+id/tv_addnewshop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="＋ 新增店鋪"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/turquoise"
+                    android:background="@drawable/customborder_turquise"
+                    android:visibility="visible"/>
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

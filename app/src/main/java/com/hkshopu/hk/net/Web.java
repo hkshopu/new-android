@@ -2,6 +2,7 @@ package com.hkshopu.hk.net;
 
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
@@ -15,9 +16,12 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Web {
@@ -52,12 +56,81 @@ public class Web {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 listener.onResponse(response);
-                response.close();
-                call.cancel();
+//                response.close();
+//                call.cancel();
                 Log.d(TAG, "Return Content ＝ " + response.body().toString());
             }
         });
     }
+
+    public void Do_Login(String url,String phone , String password ) {
+
+        Log.d(TAG, "Do_Login URL＝ " + url);
+        RequestBody formBody = new FormBody.Builder()
+                .add("email", phone)
+                .add("password", password)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+                Log.d(TAG, "Return Content ＝ " + response.body().toString());
+            }
+        });
+    }
+
+    public void Do_shopAdd(String url, final String eventDate, String eventName, String eventType, File postImg, String raceMileage) {
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), postImg);
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("eventDate", eventDate)
+                .addFormDataPart("eventName", eventName)
+                .addFormDataPart("eventType", eventType)
+                .addFormDataPart("raceMileage", raceMileage)
+                .addFormDataPart("picture", "race_record", fileBody)
+                .build();
+//        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+
+                .url(url)
+                .post(requestBody)
+                .build();
+
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+
+            }
+        });
+    }
+
 
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {

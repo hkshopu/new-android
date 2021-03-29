@@ -9,6 +9,7 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.utils.extension.inflate
 import com.hkshopu.hk.utils.extension.loadNovelCover
+import com.willy.ratingbar.ScaleRatingBar
 
 
 import org.jetbrains.anko.find
@@ -45,13 +46,23 @@ class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolde
     }
 
     inner class ShopInfoLinearHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val image = itemView.find<ImageView>(R.id.ivIcon)
-        val title = itemView.find<TextView>(R.id.text)
+        val image = itemView.find<ImageView>(R.id.iv_shopIcon)
+        val title = itemView.find<TextView>(R.id.tv_shopName)
+        val ratingBar = itemView.find<ScaleRatingBar>(R.id.simpleRatingBar)
 
-        private val sdf = SimpleDateFormat("yyyy-MM-dd")
         fun bindShop(bean : ShopInfoBean){
             image.loadNovelCover(bean.shop_icon)
             title.text = bean.shop_title
+            ratingBar.setNumStars(5);
+            ratingBar.setMinimumStars(1F);
+            ratingBar.setRating(3F);
+            ratingBar.setStarPadding(10);
+            ratingBar.setStepSize(0.5f);
+            ratingBar.setIsIndicator(false);
+            ratingBar.setClickable(false);
+            ratingBar.setScrollable(true);
+            ratingBar.setEmptyDrawableRes(R.mipmap.ic_star);
+            ratingBar.setFilledDrawableRes(R.mipmap.ic_star_fill);
 
         }
     }

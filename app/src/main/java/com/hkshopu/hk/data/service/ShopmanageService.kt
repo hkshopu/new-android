@@ -17,10 +17,10 @@ interface ShopmanageService{
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}/shop/checkShopNameIsExistsProcess/")
-    fun shopnamecheck(@Field("shop_title") shop_title : String,) : Observable<BaseResponse<Any>>
+    fun shopnamecheck(@Field("shop_title") shop_title : String) : Observable<BaseResponse<Any>>
 
     @FormUrlEncoded
     @POST("${ApiConstants.API_PATH}/shop/save/")
-    fun adddnewshop(@Field("shop_title") shop_title : String,) : Observable<BaseResponse<Any>>
+    fun adddnewshop(@Field("shop_title") shop_title : String,@Field("user_id") user_id : String) : Observable<BaseResponse<Any>>
 
 }

@@ -8,13 +8,15 @@ import com.google.gson.reflect.TypeToken
 import com.hkshopu.hk.Base.BaseViewModel
 import com.hkshopu.hk.Base.response.StatusResourceObserver
 import com.hkshopu.hk.Base.response.UIDataBean
+import com.hkshopu.hk.data.bean.BaseResponse
 import com.hkshopu.hk.data.bean.ShopInfoBean
-import com.hkshopu.hk.data.repository.AuthRepository
 import com.hkshopu.hk.data.repository.ShopmanageRepository
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.GsonProvider
+import com.hkshopu.hk.net.GsonProvider.gson
 import okhttp3.*
 import java.io.IOException
+import java.nio.charset.Charset
 
 class ShopVModel : BaseViewModel() {
 
@@ -27,8 +29,8 @@ class ShopVModel : BaseViewModel() {
             .subscribe(StatusResourceObserver(shopnameLiveData, silent = false))
     }
 
-    fun adddnewshop(lifecycleOwner: LifecycleOwner, shop_title: String) {
-        repository.adddnewshop(lifecycleOwner, shop_title)
+    fun adddnewshop(lifecycleOwner: LifecycleOwner, shop_title: String,user_id:String) {
+        repository.adddnewshop(lifecycleOwner, shop_title,user_id)
             .subscribe(StatusResourceObserver(addnewshopLiveData, silent = false))
     }
 
@@ -56,7 +58,9 @@ class ShopVModel : BaseViewModel() {
                         val type = object : TypeToken<List<ShopInfoBean>>() {}.type
 
                         val shopList =
-                            GsonProvider.gson.fromJson<List<ShopInfoBean>>(response.body()!!.charStream(), type)
+                            GsonProvider.gson.fromJson<List<ShopInfoBean>>(
+                                response.body()!!.charStream(), type
+                            )
                         if (shopList.isEmpty()) {
                             failed.invoke()
                             return
@@ -74,12 +78,11 @@ class ShopVModel : BaseViewModel() {
                 }
             })
     }
-    fun getShopCategory(){
-        //测试环境 使用测试域名
-        if (true) {
-            ApiConstants.API_HOST = "https://hkshopu-20700.df.r.appspot.com/shop_category/index/"
 
-        }
+    fun getShopCategory() {
+
+        ApiConstants.API_HOST = "https://hkshopu-20700.df.r.appspot.com/shop_category/index/"
+
         //在正式环境下，先获取API域名
         val request = Request.Builder()
             .url(ApiConstants.API_HOST)
@@ -93,7 +96,12 @@ class ShopVModel : BaseViewModel() {
 
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
-                        Log.d("ShopVMmodel", "ShopCategory Response"+ response.body().toString())
+                        val type = object : TypeToken<List<String>>() {}.type
+
+                        val shopCateList =
+                            GsonProvider.gson.fromJson<List<String>>(
+                                response.body()!!.charStream(), type
+                            )
                     }
                 }
             })
@@ -102,7 +110,6 @@ class ShopVModel : BaseViewModel() {
 //        repository.login(lifecycleOwner, phone, password)
 //            .subscribe(StatusResourceObserver(loginLiveData, silent = false))
 //    }
-
 
 
 }

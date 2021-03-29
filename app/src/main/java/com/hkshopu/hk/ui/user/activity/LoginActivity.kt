@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.databinding.ActivityLoginBinding
+import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -87,24 +88,17 @@ class LoginActivity : BaseActivity(), TextWatcher {
             when (it?.status) {
                 Status.Success -> {
 
-                   Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
+                    if (it.ret_val.toString() == "登入成功!") {
 
-                    var bundle = Bundle()
-                        bundle.putString("email", email)
-
-                        val intent = Intent(this, LoginPasswordActivity::class.java)
-                        intent.putExtra("bundle", bundle)
-
+                        val intent = Intent(this, ShopmenuActivity::class.java)
                         startActivity(intent)
 
-                    if (it.data.toString() == "登入成功!") {
-
-                    }else if (it.data.toString() == "電子郵件或密碼未填寫!") {
-
-                    }else if (it.data.toString() == "電子郵件錯誤!") {
-
-                    }else if (it.data.toString() == "密碼錯誤!") {
-
+                    }else if (it.ret_val.toString() == "電子郵件或密碼未填寫!") {
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
+                    }else if (it.ret_val.toString() == "電子郵件錯誤!") {
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
+                    }else if (it.ret_val.toString() == "密碼錯誤!") {
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
 //                        var bundle = Bundle()
 //                        bundle.putString("email", email)
 //
@@ -143,6 +137,9 @@ class LoginActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initClick() {
+        binding.layoutLogin.setOnClickListener {
+            KeyboardUtil.hideKeyboard(binding.editEmail)
+        }
         binding.titleBack.setOnClickListener {
 
             finish()
@@ -150,8 +147,12 @@ class LoginActivity : BaseActivity(), TextWatcher {
         binding.btnNextStep.setOnClickListener {
 
             email = binding.editEmail.text.toString()
+            val intent = Intent(this@LoginActivity,LoginPasswordActivity::class.java);
+            intent.putExtra("email", email)
+            startActivity(intent)
+
 //            val password = binding.password1.text.toString()
-            VM.login(this, email, "checkfortheemail")
+
 
         }
 

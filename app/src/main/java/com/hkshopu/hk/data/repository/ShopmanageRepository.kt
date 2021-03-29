@@ -33,8 +33,8 @@ class ShopmanageRepository : BaseRepository(){
             .compose(handleBean())
     }
 
-    fun adddnewshop(lifecycleOwner: LifecycleOwner,shop_title : String) : Observable<Any>{
-        return service.adddnewshop(shop_title)
+    fun adddnewshop(lifecycleOwner: LifecycleOwner,shop_title : String,user_id:String) : Observable<Any>{
+        return service.adddnewshop(shop_title,user_id)
             .compose(SchedulersUtil.applySchedulers())
             .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
             .map {

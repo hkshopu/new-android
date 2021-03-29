@@ -334,7 +334,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="13dp"
             android:layout_toRightOf="@id/iv_ad"
-            android:text="行銷活動" />
+            android:text="廣告與行銷活動" />
 
         <ImageView
             android:id="@+id/iv_chevron_ad"
@@ -364,7 +364,8 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="52dp">
+        android:layout_height="52dp"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_storeadd"
@@ -406,7 +407,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colordivideline" />
+        android:background="@color/colordivideline"
+        android:visibility="visible"/>
 
     <RelativeLayout
 

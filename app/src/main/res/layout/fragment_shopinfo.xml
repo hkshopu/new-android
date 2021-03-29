@@ -47,7 +47,7 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/layout_shopTitle"
         android:scrollbars="none">
 
@@ -57,12 +57,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/container_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -283,55 +277,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/container_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="新增店鋪"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="35dp"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="決定要接下創業的挑戰並新增店鋪嗎？"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="25dp"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bg_addonlineshop"/>
-
-                <TextView
-                    android:id="@+id/tv_addonlineshop"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="+ 新增店鋪"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    android:background="@drawable/customborder_onboard_turquise"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginEnd="35dp"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

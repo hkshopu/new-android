@@ -49,11 +49,11 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
         VM.registerLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-                    if (it.data.toString().equals("註冊成功!")) {
+                    if (it.ret_val.toString().equals("註冊成功!")) {
                         VM.verifycode(this)
 
                     } else {
-                        val text1: String = it.data.toString() //設定顯示的訊息
+                        val text1: String = it.ret_val.toString() //設定顯示的訊息
                         val duration1 = Toast.LENGTH_SHORT //設定訊息停留長短
                         Toast.makeText(this, text1,duration1)
                     }
@@ -66,13 +66,13 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
         VM.verifycodeLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-                    if (it.data.toString().equals("已寄出驗證碼")) {
+                    if (it.ret_val.toString().equals("已寄出驗證碼")) {
                         val intent = Intent(this, EmailVerifyActivity::class.java)
                         startActivity(intent)
                         finish()
 
                     } else {
-                        val text1: String = it.data.toString() //設定顯示的訊息
+                        val text1: String = it.ret_val.toString() //設定顯示的訊息
                         val duration1 = Toast.LENGTH_SHORT //設定訊息停留長短
                         Toast.makeText(this, text1,duration1)
                     }

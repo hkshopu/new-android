@@ -41,7 +41,7 @@ class Retrieve : BaseActivity() {
 
     private fun initIntent() {
         //取得LoginPage傳來的email address
-        getstring = intent.getBundleExtra("bundle")?.getString("email")
+        getstring = intent.getStringExtra("email").toString()
     }
 
     private fun initVM() {
@@ -50,7 +50,7 @@ class Retrieve : BaseActivity() {
             when (it?.status) {
                 Status.Success -> {
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
 
                 }
 //                Status.Start -> showLoading()
@@ -62,7 +62,7 @@ class Retrieve : BaseActivity() {
             when (it?.status) {
                 Status.Success -> {
 
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
 
                 }
 //                Status.Start -> showLoading()

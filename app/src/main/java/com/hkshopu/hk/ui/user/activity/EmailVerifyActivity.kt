@@ -61,13 +61,13 @@ class EmailVerifyActivity : BaseActivity(), TextWatcher {
         VM.emailverifyLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-                    if (it.data.toString().equals("驗證成功!")) {
+                    if (it.ret_val.toString().equals("驗證成功!")) {
                         val intent = Intent(this, ShopmenuActivity::class.java)
                         startActivity(intent)
                         finish()
 
                     } else {
-                        val text1: String = it.data.toString() //設定顯示的訊息
+                        val text1: String = it.ret_val.toString() //設定顯示的訊息
                         val duration1 = Toast.LENGTH_SHORT //設定訊息停留長短
                         Toast.makeText(this, text1,duration1)
                     }

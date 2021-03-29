@@ -90,7 +90,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         VM.emailcheckLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-                    if (it.data!!.equals("該電子郵件沒有重複使用!")) {
+                    if (it.ret_val!!.equals("該電子郵件沒有重複使用!")) {
                         settings.edit()
                             .putString("email", email)
                             .putString("password", password)
@@ -115,7 +115,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
             when (it?.status) {
                 Status.Success -> {
 //                    Log.d("OnBoardActivity", "Sign-In Result" + it.data)
-                    if (it.data.toString().isNotEmpty()) {
+                    if (it.ret_val.toString().isNotEmpty()) {
                         val intent = Intent(this, ShopmenuActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -134,7 +134,9 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
     }
 
     private fun initView() {
-
+        binding.layoutBuildacnt.setOnClickListener {
+            KeyboardUtil.hideKeyboard(it)
+        }
         initEditText()
         initClick()
 
