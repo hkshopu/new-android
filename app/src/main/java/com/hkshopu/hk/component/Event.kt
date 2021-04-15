@@ -19,9 +19,9 @@ class EventAddShopSuccess()
 
 class EventGetShopListSuccess(val shopNums: Int = 0)
 
-class EventRechargeSuccess
+class EventPhoneShow(val show:Boolean,val phone: String? = null)
 
-class EventRefreshHome
+class EventEmailShow(val show:Boolean,val email: String? = null)
 
 class EventReadHistoryUpdated(val bookId: Int? = null)
 

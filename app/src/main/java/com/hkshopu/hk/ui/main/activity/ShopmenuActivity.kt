@@ -25,10 +25,7 @@ import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityMainBinding
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.fragment.FirstFragment
-import com.hkshopu.hk.ui.main.fragment.SecondFragment
-import com.hkshopu.hk.ui.main.fragment.ShopInfoFragment
-import com.hkshopu.hk.ui.main.fragment.ShopListFragment
+import com.hkshopu.hk.ui.main.fragment.*
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
@@ -43,8 +40,6 @@ class ShopmenuActivity: BaseActivity(), ViewPager.OnPageChangeListener {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var manager: FragmentManager
-    val userId = MMKV.mmkvWithID("http").getInt("UserId", 0);
-    private var url = "https://hkshopu-20700.df.r.appspot.com/user/"+userId+"/shop/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -59,6 +54,7 @@ class ShopmenuActivity: BaseActivity(), ViewPager.OnPageChangeListener {
         manager = supportFragmentManager
         if (fragments.isNotEmpty())return
         val FirstFragment = FirstFragment.newInstance()
+//        val FirstFragment = ShopInfoFragment.newInstance()
         val SecondFragment = SecondFragment.newInstance()
         val ShopListFragment = ShopListFragment.newInstance()
         fragments.add(FirstFragment)
@@ -76,31 +72,8 @@ class ShopmenuActivity: BaseActivity(), ViewPager.OnPageChangeListener {
     fun initView() {
         binding.bottomNavigationViewLinear.setNavigationChangeListener { view, position ->
 //            Log.d("ShopMenuActivity", "BottomView position：" + position)
-            if(position == 2){
-                if(userId == 0){
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("提醒")
-                    builder.setMessage("請先登入")
-                    builder.setPositiveButton("OK"){dialog, which ->
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                    builder.setNegativeButton("Cancel"){dialog, which ->
-                        binding.bottomNavigationViewLinear.setCurrentActiveItem(0)
-                    }
-                    val dialog: AlertDialog = builder.create()
+            binding.viewPager.setCurrentItem(position, true);
 
-                    // Display the alert dialog on app interface
-                    dialog.show()
-                }else{
-
-                    getShopInfo(url)
-                    binding.viewPager.setCurrentItem(position, true);
-                }
-            }else {
-                binding.viewPager.setCurrentItem(position, true);
-            }
         }
 
     }
@@ -108,51 +81,6 @@ class ShopmenuActivity: BaseActivity(), ViewPager.OnPageChangeListener {
     fun initClick(){
 
 
-    }
-
-    private fun getShopInfo(url: String) {
-        Log.d("ShopmenuActivity", "ShopInfo Url：" + url)
-        val list = ArrayList<ShopCategoryBean>()
-        val web = Web(object : WebListener {
-            override fun onResponse(response: Response) {
-                var resStr: String? = ""
-                try {
-                    resStr = response.body()!!.string()
-                    val json = JSONObject(resStr)
-                    Log.d("ShopmenuActivity", "返回資料 resStr：" + resStr)
-                    Log.d("ShopmenuActivity", "返回資料 ret_val：" + json.get("ret_val"))
-                    val ret_val = json.get("ret_val")
-                    if (ret_val.equals("已取得您的商店清單!")) {
-
-                        val translations: JSONArray = json.getJSONArray("shop_list")
-                        Log.d("ShopmenuActivity", "返回資料 List：" + translations.toString())
-
-                        for (i in 0 until translations.length()) {
-                            val jsonObject: JSONObject = translations.getJSONObject(i)
-                            val shopCategoryBean: ShopCategoryBean =
-                                Gson().fromJson(jsonObject.toString(), ShopCategoryBean::class.java)
-                            list.add(shopCategoryBean)
-                        }
-
-                    }else{
-
-                    }
-                    RxBus.getInstance().post(EventGetShopListSuccess(list.size))
-//                        initRecyclerView()
-
-
-                } catch (e: JSONException) {
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onErrorResponse(ErrorResponse: IOException?) {
-
-            }
-        })
-        web.Get_Data(url)
     }
 
     override fun onBackPressed() {

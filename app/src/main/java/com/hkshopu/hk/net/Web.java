@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.Buffer;
 
 public class Web {
     public static final String TAG = Web.class.getSimpleName();
@@ -40,8 +41,6 @@ public class Web {
 
     public void Get_Data(String url) {
 
-        Log.d(TAG, "Get_Data URL＝ " + url);
-
         Request request = new Request.Builder().url(url).build();
 
 
@@ -56,16 +55,45 @@ public class Web {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
+
+    public void Do_SocialLogin(String url,String email , String facebook_account, String google_account,String apple_account) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("email", email)
+                .add("facebook_account", facebook_account)
+                .add("google_account", google_account)
+                .add("apple_account", apple_account)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
 //                response.close();
-//                call.cancel();
-                Log.d(TAG, "Return Content ＝ " + response.body().toString());
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
             }
         });
     }
 
     public void Do_Login(String url,String phone , String password ) {
 
-        Log.d(TAG, "Do_Login URL＝ " + url);
         RequestBody formBody = new FormBody.Builder()
                 .add("email", phone)
                 .add("password", password)
@@ -88,37 +116,41 @@ public class Web {
             public void onResponse(Call call, Response response) throws IOException {
                 listener.onResponse(response);
 //                response.close();
-                Log.d(TAG, "Return Content ＝ " + response.body().toString());
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
             }
         });
     }
 
-    public void Do_shopAdd(String url, final String eventDate, String eventName, String eventType, File postImg, String raceMileage) {
-
-        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), postImg);
+    public void Do_ShopAdd(String url, final String shop_title, String user_id, int shop_category_id1, int shop_category_id2, int shop_category_id3, File postImg) {
+        Log.d(TAG, "Do_ShopAdd Url ＝ " + url);
+//        ArrayList<String> shop_category_id = new ArrayList<>();
+//        shop_category_id.add(shop_category_id1);
+//        shop_category_id.add(shop_category_id2);
+//        shop_category_id.add(shop_category_id3);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), postImg);
         MultipartBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("eventDate", eventDate)
-                .addFormDataPart("eventName", eventName)
-                .addFormDataPart("eventType", eventType)
-                .addFormDataPart("raceMileage", raceMileage)
-                .addFormDataPart("picture", "race_record", fileBody)
+                .addFormDataPart("shop_title", shop_title)
+                .addFormDataPart("user_id", user_id)
+                .addFormDataPart("shop_category_id", String.valueOf(shop_category_id1))
+                .addFormDataPart("shop_category_id", String.valueOf(shop_category_id2))
+                .addFormDataPart("shop_category_id", String.valueOf(shop_category_id3))
+                .addFormDataPart("shop_icon", postImg.getName(), fileBody)
                 .build();
 //        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);
         Request request = new Request.Builder()
-
                 .url(url)
                 .post(requestBody)
                 .build();
-
-
+//        Log.d(TAG, "Request ＝ " + requestBody);
+//        Log.d(TAG, "Content ＝ " + bodyToString(request));
 
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 listener.onErrorResponse(e);
-
+                Log.d(TAG, "Return error ＝ " + e);
             }
 
             @Override
@@ -126,11 +158,20 @@ public class Web {
                 listener.onResponse(response);
                 response.close();
                 call.cancel();
-
             }
         });
     }
+    private static String bodyToString(final Request request){
 
+        try {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "did not work";
+        }
+    }
 
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {

@@ -16,7 +16,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 //        Properties properties = new Properties()
 //        if (rootProject.file("local.properties").exists()) {
@@ -53,7 +52,10 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"){
+        exclude group:"org.jetbrains.kotlin", module: "kotlin-stdlib-jdk7"
+    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Anko
     implementation "org.jetbrains.anko:anko:$ANKO_VERSION"
@@ -129,6 +131,9 @@ dependencies {
     implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
     implementation 'com.tencent:mmkv:1.0.15'
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+    implementation 'com.github.zilchzz:EasySwitcher:0.1.7'
+    implementation 'com.github.KaelLi1989:NiceRatingBar:1.0.0'
+
     //Facebook
     implementation 'com.facebook.android:facebook-login:5.15.3'
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
@@ -139,8 +144,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    //ios switch button
-    implementation 'com.github.luongvo:iOS-SwitchView:1.0.0'
 
 }

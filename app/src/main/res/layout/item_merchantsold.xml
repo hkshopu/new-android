@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:background="@drawable/customborder_onboard_8dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/iv_productimage"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/customborder_merchant"/>
+
+    <ImageView
+        android:id="@+id/ic_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/ic_dots"/>
+
+    <TextView
+        android:id="@+id/tv_merchant_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_productimage"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="20dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="乾燥花 永生花 禮物 生日 夜燈 婚禮..."
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_merchant_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_productimage"
+        android:layout_below="@id/tv_merchant_intro"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="15dp"
+        android:text="HKD$"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/tv_merchant_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tv_merchant_currency"
+        android:layout_below="@id/tv_merchant_intro"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:text="300 - 400"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <ImageButton
+        android:id="@+id/btn_merchantedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_productimage"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:src="@mipmap/btn_replenish"
+        android:background="@color/white"/>
+
+    <ImageButton
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_productimage"
+        android:layout_toRightOf="@id/btn_merchantedit"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:src="@mipmap/btn_remove"
+        android:background="@color/white"/>
+
+</RelativeLayout>

@@ -3,14 +3,12 @@ package com.hkshopu.hk.ui.main.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.ImageDecoder
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +16,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
@@ -27,16 +26,24 @@ import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
+import com.hkshopu.hk.net.ApiConstants
+import com.hkshopu.hk.net.Web
+import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
-
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.*
-
+import okhttp3.Response
+import org.jetbrains.anko.backgroundResource
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
+import kotlin.math.min
 
 
 class AddShopActivity : BaseActivity(), TextWatcher {
@@ -44,7 +51,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     private lateinit var binding: ActivityAddshopBinding
     val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         // 发生异常时的捕获
-        Log.d("AddShopActivity","errorHandler"+throwable)
+        Log.d("AddShopActivity", "errorHandler" + throwable)
     }
     private val VM = ShopVModel()
     private val pickImage = 100
@@ -52,8 +59,12 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     private var isSelectImage = false
     val userId = MMKV.mmkvWithID("http").getInt("UserId", 0);
     var shopName: String = ""
+    private var shop_category_id1: Int = 0
+    private var shop_category_id2: Int = 0
+    private var shop_category_id3: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityAddshopBinding.inflate(layoutInflater)
         setContentView(binding.root)
         GlobalScope.launch(errorHandler) {
@@ -69,20 +80,13 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         initEvent()
         initVM()
 
-
     }
+
+
     private suspend fun doOnUiCode() {
         withContext(Dispatchers.Main) {
             // 更新你的UI
-            binding.etShopname.setOnEditorActionListener() { v, actionId, event ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE -> {
 
-                        VM.shopnamecheck(this@AddShopActivity, shopName); true
-                    }
-                    else -> false
-                }
-            }
         }
     }
 
@@ -101,8 +105,8 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                 Status.Success -> {
                     if (it.ret_val.toString().equals("商店名稱未重複!")) {
 
-                            binding.ivStep2.setImageResource(R.mipmap.ic_step2_check)
-                            binding.ivStep2Check.visibility = View.VISIBLE
+                        binding.ivStep2.setImageResource(R.mipmap.ic_step2_check)
+                        binding.ivStep2Check.visibility = View.VISIBLE
 
                     } else {
                         KeyboardUtil.showKeyboard(binding.etShopname)
@@ -123,9 +127,12 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                         finish()
 
                     } else {
-                        val text1: String = it.ret_val.toString() //設定顯示的訊息
-                        val duration1 = Toast.LENGTH_SHORT //設定訊息停留長短
-                        Toast.makeText(this, text1, duration1)
+
+                        Toast.makeText(
+                            this@AddShopActivity,
+                            it.ret_val.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
 
@@ -152,76 +159,82 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                     is EventShopCatSelected -> {
                         list = it.list
 
-                            if (list.size == 1) {
+                        if (list.size == 1) {
+                            shop_category_id1 = list[0].id
+                            var storesort1 = list[0].c_shop_category
+                            var storesort1_color = "#" + list[0].shop_category_background_color
+                            binding.tvStoresort1.text = storesort1
+                            binding.tvStoresort1.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort1_color
+                                )
+                            )
 
-                                var storesort1 = list[0].c_shop_category
-                                var storesort1_color = list[0].shop_category_background_color
-                                binding.tvStoresort1.text = storesort1
-                                binding.tvStoresort1.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort1_color
-                                    )
-                                )
-                                binding.tvStoresort1.visibility = View.VISIBLE
+                            binding.tvStoresort1.visibility = View.VISIBLE
 
-                            } else if (list.size == 2) {
-                                var storesort1 = list[0].c_shop_category
-                                var storesort2 = list[1].c_shop_category
-                                var storesort1_color = list[0].shop_category_background_color
-                                var storesort2_color = list[1].shop_category_background_color
-                                binding.tvStoresort1.text = storesort1
-                                binding.tvStoresort1.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort1_color
-                                    )
+                        } else if (list.size == 2) {
+                            shop_category_id1 = list[0].id
+                            shop_category_id2 = list[1].id
+                            var storesort1 = list[0].c_shop_category
+                            var storesort2 = list[1].c_shop_category
+                            var storesort1_color = "#" + list[0].shop_category_background_color
+                            var storesort2_color = "#" + list[1].shop_category_background_color
+                            binding.tvStoresort1.text = storesort1
+                            binding.tvStoresort1.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort1_color
                                 )
-                                binding.tvStoresort1.visibility = View.VISIBLE
-                                binding.tvStoresort2.text = storesort2
-                                binding.tvStoresort2.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort2_color
-                                    )
+                            )
+                            binding.tvStoresort1.visibility = View.VISIBLE
+                            binding.tvStoresort2.text = storesort2
+                            binding.tvStoresort2.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort2_color
                                 )
-                                binding.tvStoresort2.visibility = View.VISIBLE
-                            } else {
-                                var storesort1 = list[0].c_shop_category
-                                var storesort2 = list[1].c_shop_category
-                                var storesort3 = list[2].c_shop_category
-                                var storesort1_color = list[0].shop_category_background_color
-                                var storesort2_color = list[1].shop_category_background_color
-                                var storesort3_color = list[2].shop_category_background_color
-                                binding.tvStoresort1.text = storesort1
-                                binding.tvStoresort1.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort1_color
-                                    )
+                            )
+                            binding.tvStoresort2.visibility = View.VISIBLE
+                        } else {
+                            shop_category_id1 = list[0].id
+                            shop_category_id2 = list[1].id
+                            shop_category_id3 = list[2].id
+                            var storesort1 = list[0].c_shop_category
+                            var storesort2 = list[1].c_shop_category
+                            var storesort3 = list[2].c_shop_category
+                            var storesort1_color = "#" + list[0].shop_category_background_color
+                            var storesort2_color = "#" + list[1].shop_category_background_color
+                            var storesort3_color = "#" + list[2].shop_category_background_color
+                            binding.tvStoresort1.text = storesort1
+                            binding.tvStoresort1.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort1_color
                                 )
-                                binding.tvStoresort1.visibility = View.VISIBLE
-                                binding.tvStoresort2.text = storesort2
-                                binding.tvStoresort2.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort2_color
-                                    )
+                            )
+                            binding.tvStoresort1.visibility = View.VISIBLE
+                            binding.tvStoresort2.text = storesort2
+                            binding.tvStoresort2.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort2_color
                                 )
-                                binding.tvStoresort2.visibility = View.VISIBLE
-                                binding.tvStoresort3.text = storesort3
-                                binding.tvStoresort3.setBackgroundColor(
-                                    Color.parseColor(
-                                        storesort3_color
-                                    )
+                            )
+                            binding.tvStoresort2.visibility = View.VISIBLE
+                            binding.tvStoresort3.text = storesort3
+                            binding.tvStoresort3.setBackgroundColor(
+                                Color.parseColor(
+                                    storesort3_color
                                 )
-                                binding.tvStoresort3.visibility = View.VISIBLE
-                            }
-                            binding.layoutStoresortPri.visibility = View.GONE
-                            binding.layoutStoresortAct.visibility = View.VISIBLE
-                            binding.ivStep3.setImageResource(R.mipmap.ic_step3_on)
-                            binding.ivStep3Check.visibility = View.VISIBLE
-                            if (binding.ivStep3Check.visibility == View.VISIBLE && binding.ivStep2Check.visibility == View.VISIBLE && binding.ivStep1Check.visibility == View.VISIBLE) {
-                                binding.tvAddnewshop.setBackgroundResource(R.drawable.customborder_onboard_turquise_40p)
-                                binding.tvAddnewshop.setTextColor(getColor(R.color.white))
-                                binding.tvAddnewshop.isClickable = true
-                            }
+                            )
+                            binding.tvStoresort3.visibility = View.VISIBLE
                         }
+                        binding.layoutStoresortPri.visibility = View.GONE
+                        binding.layoutStoresortAct.visibility = View.VISIBLE
+                        binding.ivStep3.setImageResource(R.mipmap.ic_step3_on)
+                        binding.ivStep3Check.visibility = View.VISIBLE
+                        if (binding.ivStep3Check.visibility == View.VISIBLE && binding.ivStep2Check.visibility == View.VISIBLE && binding.ivStep1Check.visibility == View.VISIBLE) {
+                            binding.tvAddnewshop.setBackgroundResource(R.drawable.customborder_onboard_turquise_40p)
+                            binding.tvAddnewshop.setTextColor(getColor(R.color.white))
+                            binding.tvAddnewshop.isClickable = true
+                        }
+                    }
 
 
                 }
@@ -248,12 +261,12 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 //                KeyboardUtil.showKeyboard(it)
 //            }
 //        }
-
+        var file: File? = null
         binding.tvAddnewshop.setOnClickListener {
             if(isSelectImage){
-
+                file = processImage()
             }
-            VM.adddnewshop(this, shopName, userId.toString())
+            doAddShop(shopName,userId.toString(),shop_category_id1,shop_category_id2,shop_category_id3,file!!)
         }
         binding.tvMoreStoresort.setOnClickListener {
             val intent = Intent(this, ShopCategoryActivity::class.java)
@@ -265,10 +278,35 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
     private fun initEditText() {
         binding.etShopname.addTextChangedListener(this)
+        binding.etShopname.setOnEditorActionListener{ v, actionId, event ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
 
-
-
+                    VM.shopnamecheck(this@AddShopActivity, shopName); true
+                }
+                else -> false
+            }
+        }
 //        password1.addTextChangedListener(this)
+    }
+    private fun processImage(): File? {
+        val drawable = binding.ivShopImg.drawable as BitmapDrawable
+        val bmp = drawable.bitmap
+        val bmpCompress = getResizedBitmap(bmp, 200)
+        val file: File
+        val path = getExternalFilesDir(null).toString()
+        file = File(path, "image" + ".jpg")
+        try {
+            var stream: OutputStream? = null
+            stream = FileOutputStream(file)
+            bmpCompress!!.compress(Bitmap.CompressFormat.JPEG, 85, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) // Catch the exception
+        {
+            e.printStackTrace()
+        }
+        return file
     }
 
     fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap? {
@@ -280,10 +318,71 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
+    private fun doAddShop(
+        shop_title: String,
+        user_id: String,
+        shop_category_id1: Int,
+        shop_category_id2: Int,
+        shop_category_id3: Int,
+        postImg: File
+    ) {
+        val url = ApiConstants.API_HOST+"/shop/save/"
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("AddShopActivity", "返回資料 resStr：" + resStr)
+                    Log.d("AddShopActivity", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    if (ret_val.equals("商店與選擇商店分類新增成功!")) {
+                        var user_id: Int = json.getInt("user_id")
+                        var shop_id:Int = json.getInt("shop_id")
+                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
+                        MMKV.mmkvWithID("http").putInt("ShopId", shop_id)
+                        val intent = Intent(this@AddShopActivity, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@AddShopActivity,
+                                ret_val.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+//                        initRecyclerView()
+
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Do_ShopAdd(
+            url,
+            shop_title,
+            user_id,
+            shop_category_id1,
+            shop_category_id2,
+            shop_category_id3,
+            postImg
+        )
+    }
+
     override fun onStart() {
         super.onStart()
 
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

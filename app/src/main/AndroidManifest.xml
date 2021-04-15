@@ -2,15 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hkshopu.hk">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 網路相關 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 網路相關 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 文件讀寫 -->
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -27,13 +31,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="n">
-        <activity android:name=".ui.main.activity.BuyerAddAddressMainActivity"></activity>
-        <activity android:name=".ui.main.activity.MerchandiseActivity" />
-        <activity android:name=".ui.main.activity.ShippingFareActivity" />
-        <activity android:name=".ui.main.activity.InventoryAndPriceActivity" />
-        <activity android:name=".ui.main.activity.AddProductSpecificationMainActivity" />
-        <activity android:name=".ui.main.activity.AddNewProductActivity" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,14 +48,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ui.user.activity.TermsOfServiceActivity" />
+
+        <activity android:name=".ui.user.activity.TermsOfServiceActivity"/>
+
         <activity android:name=".ui.user.activity.NewPasswordActivity" />
+
         <activity android:name=".ui.user.activity.LoginPasswordActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
         <activity android:name=".ui.user.activity.Retrieve" />
+
         <activity android:name=".ui.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,23 +105,67 @@
         <activity
             android:name=".ui.user.activity.MailAddressActivity"
             android:launchMode="singleTask" />
+
         <activity
+
             android:name=".ui.main.activity.OnBoardActivity"
             android:launchMode="singleTask" />
         <activity
+
             android:name=".ui.main.activity.ShopmenuActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.main.activity.AddShopActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:importantForAutofill="noExcludeDescendants"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.AddShopBriefActivity"
+            android:launchMode="singleTask"
+            android:importantForAutofill="noExcludeDescendants"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.activity.ShopCategoryActivity"
             android:launchMode="singleTask" />
 
         <activity
-            android:name=".ui.main.activity.ShippingFeeActivity"
+            android:name=".ui.main.activity.ShopInfoModifyActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.ShopNameEditActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.PhoneEditActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.EmailAdd1Activity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.EmailAdd2Activity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.main.activity.SocialAccountSetActivity"
             android:launchMode="singleTask" />
-
+        <activity
+            android:name=".ui.main.activity.MyMerchantsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.main.activity.ShopEvaluationActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.main.activity.ShopAttentionActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.main.activity.ShopIncomeActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.main.activity.AccountSetupActivity"
+            android:launchMode="singleTask" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

@@ -161,7 +161,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="15dp"
-                android:background="@mipmap/btn_authenticate"
+                android:background="@drawable/bg_verify"
                 android:gravity="center"
                 android:text="驗證"
                 android:textColor="@color/white"

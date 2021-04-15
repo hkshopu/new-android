@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp"
-    android:background="@drawable/customborder">
+    android:background="@drawable/customborder_onboard_8dp">
 
-    <ImageView
+    <androidx.cardview.widget.CardView
         android:id="@+id/iv_shopIcon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
-        android:src="@mipmap/ic_no_image" />
+        app:cardBackgroundColor="@color/colordivideline"
+        app:cardCornerRadius="50dp">
+
+        <ImageView
+            android:id="@+id/iv_Icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_no_image"/>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tv_shopName"
@@ -37,37 +48,32 @@
         android:textSize="14sp"
         android:textColor="@color/color_somegray"/>
 
-    <com.willy.ratingbar.ScaleRatingBar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/simpleRatingBar"
-        android:layout_width="130dp"
-        android:layout_height="28dp"
-        android:layout_below="@+id/tv_shopName"
+    <com.kaelli.niceratingbar.NiceRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_shopName"
         android:layout_toEndOf="@id/iv_shopIcon"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        app:srb_numStars="5"
-        app:srb_minimumStars="1"
-        app:srb_rating="2"
-        app:srb_starWidth="30dp"
-        app:srb_starHeight="30dp"
-        app:srb_starPadding="15dp"
-        app:srb_stepSize="0.1"
-        app:srb_isIndicator="false"
-        app:srb_clickable="false"
-        app:srb_scrollable="true"
-        app:srb_clearRatingEnabled="true"
-        app:srb_drawableEmpty="@mipmap/ic_star"
-        app:srb_drawableFilled="@mipmap/ic_star_fill">
-    </com.willy.ratingbar.ScaleRatingBar>
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        app:nrb_starImageWidth="24dp"
+        app:nrb_starImageHeight="24dp"
+        app:nrb_starTotal="5"
+        app:nrb_starFullResource="@mipmap/ic_star_fill"
+        app:nrb_starEmptyResource="@mipmap/ic_star"
+        app:nrb_starHalfResource="@mipmap/ic_star_half"
+        app:nrb_rating="0"
+        app:nrb_starImagePadding="4dp"
+        app:nrb_ratingStatus="Disable"/>
+
 
     <TextView
         android:id="@+id/tv_shopScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/ratingBar"
         android:layout_gravity="center"
-        android:layout_marginEnd="75dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
         android:text="0.0"
         android:textSize="18sp" />

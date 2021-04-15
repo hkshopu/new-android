@@ -4,24 +4,22 @@ package com.hkshopu.hk.ui.main.fragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.hkshopu.hk.R
-import com.hkshopu.hk.application.App
 import com.hkshopu.hk.component.EventAddShopSuccess
-import com.hkshopu.hk.component.EventGetShopListSuccess
-import com.hkshopu.hk.data.bean.ShopCategoryBean
+import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.databinding.FragmentShoplistBinding
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
 import com.hkshopu.hk.ui.main.adapter.ShopInfoAdapter
+import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
@@ -57,19 +55,32 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
         initView()
         initVM()
         initEvent()
-        initFragment()
         initClick()
 
     }
 
     fun initView() {
-        binding!!.container2.visibility = View.VISIBLE
+        Log.d("ShopInfoFragment", "UserId：" + userId)
+        if(userId == 0){
+            binding!!.container0.visibility = View.VISIBLE
+        } else {
+            getShopList(url)
+        }
     }
-    private fun initFragment() {
-
+    private fun initRecyclerView() {
+        val layoutManager = LinearLayoutManager(activity!!)
+        binding!!.recyclerview.layoutManager = layoutManager
+        binding!!.recyclerview.adapter = adapter
+        adapter.itemClick = {
+            val ft: FragmentTransaction = fragmentManager!!.beginTransaction()
+            val newFragment: ShopInfoFragment = ShopInfoFragment.newInstance()
+            val args = Bundle()
+            args.putInt("shop_id", it)
+            newFragment.arguments = args
+            ft.replace(R.id.layout_shopInfo, newFragment, "ShopInfoFragment")
+            ft.commit()
+        }
     }
-
-
     fun initVM() {
 
     }
@@ -80,21 +91,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
             .subscribe({
                 when (it) {
                     is EventAddShopSuccess -> {
-                        getShopInfo(url)
-                    }
-                    is EventGetShopListSuccess -> {
-                        Log.d("ShopInfoFragment", "RxBus List Size：" + it.shopNums)
-                        if (it.shopNums > 0) {
-
-                            binding!!.container1.visibility = View.VISIBLE
-
-
-                        } else {
-
-                            binding!!.container2.visibility = View.VISIBLE
-
-
-                        }
+                        getShopList(url)
                     }
 
                 }
@@ -110,47 +107,52 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
                 activity!!.startActivity(intent)
 
             }
+            binding!!.tvAddonlineshopLogin.setOnClickListener {
+                val intent = Intent(activity, LoginActivity::class.java)
+                activity!!.startActivity(intent)
+                activity!!.finish()
+            }
 
     }
-    private fun getShopInfo(url: String) {
-        Log.d("ShopInfoFragment", "ShopInfo Url：" + url)
+    private fun getShopList(url: String) {
+
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
+                val list = ArrayList<ShopInfoBean>()
                 try {
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
-                    Log.d("ShopInfoFragment", "返回資料 resStr：" + resStr)
-                    Log.d("ShopInfoFragment", "返回資料 ret_val：" + json.get("ret_val"))
+                    Log.d("ShopListFragment", "返回資料 resStr：" + resStr)
+                    Log.d("ShopListFragment", "返回資料 ret_val：" + json.get("ret_val"))
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("已取得您的商店清單!")) {
 
                         val translations: JSONArray = json.getJSONArray("shop_list")
-                        Log.d("ShopInfoFragment", "返回資料 List：" + translations.toString())
-                        val list = ArrayList<ShopCategoryBean>()
+
+
                         for (i in 0 until translations.length()) {
                             val jsonObject: JSONObject = translations.getJSONObject(i)
-                            val shopCategoryBean: ShopCategoryBean =
-                                Gson().fromJson(jsonObject.toString(), ShopCategoryBean::class.java)
-                            list.add(shopCategoryBean)
+                            Log.d("ShopListFragment", "返回資料 Object：" + jsonObject.toString())
+                            val shopInfoBean: ShopInfoBean =
+                                Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
+                            list.add(shopInfoBean)
                         }
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            //處理少量資訊或UI
-                            binding!!.container1.visibility = View.VISIBLE
+                        adapter.setData(list)
 
-                        }, 200)
-//                        adapter.setData(list)
-                    } else {
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            //處理少量資訊或UI
+                        activity!!.runOnUiThread {
+                            initRecyclerView()
                             binding!!.container2.visibility = View.VISIBLE
+                        }
 
-                        }, 200)
 
+                    } else {
+                        activity!!.runOnUiThread {
+                            binding!!.container1.visibility = View.VISIBLE
+                        }
 
                     }
 //                        initRecyclerView()
-
 
                 } catch (e: JSONException) {
 

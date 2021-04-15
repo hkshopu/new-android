@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
+import com.hkshopu.hk.component.EventAddShopSuccess
+import com.hkshopu.hk.component.EventLoginSuccess
 import com.hkshopu.hk.databinding.ActivityLoginPasswordBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
@@ -20,6 +22,7 @@ import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
 import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.hkshopu.hk.widget.view.disable
 import com.hkshopu.hk.widget.view.enable
@@ -43,8 +46,6 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
         binding = ActivityLoginPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         InitIntent()
         initView()
         initVM()
@@ -57,11 +58,10 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
                 Status.Success -> {
 //                    Log.d("LoginPasswordActivity", "LoginReturn value"+it.ret_val)
                     if (it.ret_val!!.equals("登入成功!")) {
-                        runOnUiThread {
+
                             val intent = Intent(this, ShopmenuActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }
 
                     } else {
                         runOnUiThread {
@@ -179,6 +179,8 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
                     if (ret_val.equals("登入成功!")) {
                         var user_id: Int = json.getInt("user_id")
                         MMKV.mmkvWithID("http").putInt("UserId", user_id)
+                            .putString("Email",email)
+                            .putString("Password",password)
                         val intent = Intent(this@LoginPasswordActivity, ShopmenuActivity::class.java)
                         startActivity(intent)
                         finish()
