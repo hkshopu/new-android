@@ -84,7 +84,7 @@
                 android:layout_toRightOf="@id/iv_fb"
                 android:layout_marginStart="10dp"
                 android:text="@string/setup_fb"
-                android:textColor="@color/black_hint"
+                android:textColor="@color/dark_gray"
                 android:textSize="14sp" />
 
             <com.zilchzz.library.widgets.EasySwitcher
@@ -125,7 +125,7 @@
                 android:layout_toRightOf="@id/iv_ig"
                 android:layout_marginStart="10dp"
                 android:text="@string/setup_ig"
-                android:textColor="@color/black_hint"
+                android:textColor="@color/dark_gray"
                 android:textSize="14sp" />
 
             <com.zilchzz.library.widgets.EasySwitcher

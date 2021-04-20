@@ -22,9 +22,7 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.ResourceIncome
 import com.hkshopu.hk.data.bean.ResourceMerchant
 import com.hkshopu.hk.data.bean.ResourceStore
-import com.hkshopu.hk.databinding.ActivityEmailadd1Binding
-import com.hkshopu.hk.databinding.ActivityMymechantsBinding
-import com.hkshopu.hk.databinding.ActivityShopevaluationBinding
+
 import com.hkshopu.hk.databinding.ActivityShopincomeBinding
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.activity.RegisterActivity

@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_list"
             android:text="更多" />
     </RelativeLayout>
@@ -55,11 +55,30 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="57dp"
+                android:src="@mipmap/ic_wallet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="8dp"
+                android:text="待付款"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -80,8 +99,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -101,8 +119,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -159,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="36dp"
+                android:layout_marginEnd="35dp"
                 android:src="@mipmap/ic_chevron" />
 
             <TextView
@@ -168,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="52dp"
+                android:layout_marginEnd="50dp"
                 android:layout_toLeftOf="@id/iv_chevron_payway"
                 android:text="更多" />
         </RelativeLayout>
@@ -231,7 +248,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -240,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_delivery"
             android:text="更多" />
     </RelativeLayout>
@@ -278,7 +295,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -287,7 +304,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_storesort"
             android:text="更多" />
     </RelativeLayout>
@@ -317,7 +334,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="13dp"
             android:layout_toRightOf="@id/iv_ad"
-            android:text="廣告與行銷活動" />
+            android:text="行銷活動" />
 
         <ImageView
             android:id="@+id/iv_chevron_ad"
@@ -325,7 +342,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -334,7 +351,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_ad"
             android:text="更多" />
     </RelativeLayout>
@@ -347,8 +364,7 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:visibility="visible">
+        android:layout_height="52dp">
 
         <ImageView
             android:id="@+id/iv_storeadd"
@@ -373,7 +389,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -382,7 +398,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_storeadd"
             android:text="更多" />
     </RelativeLayout>
@@ -390,8 +406,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colordivideline"
-        android:visibility="visible"/>
+        android:background="@color/colordivideline" />
 
     <RelativeLayout
 
@@ -421,7 +436,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -430,7 +445,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_acntset"
             android:text="更多" />
     </RelativeLayout>
@@ -468,7 +483,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="35dp"
             android:src="@mipmap/ic_chevron" />
 
         <TextView
@@ -477,54 +492,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
+            android:layout_marginEnd="50dp"
             android:layout_toLeftOf="@id/iv_chevron_help"
-            android:text="更多" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colordivideline" />
-
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="52dp">
-
-        <ImageView
-            android:id="@+id/iv_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="38dp"
-            android:src="@mipmap/ic_store" />
-
-        <TextView
-            android:id="@+id/tv_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:layout_toRightOf="@id/iv_preview"
-            android:text="預覽我的店鋪" />
-
-        <ImageView
-            android:id="@+id/iv_chevron_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="35dp"
-            android:src="@mipmap/ic_chevron" />
-
-        <TextView
-            android:id="@+id/tv_more_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="52dp"
-            android:layout_toLeftOf="@id/iv_chevron_preview"
             android:text="更多" />
     </RelativeLayout>
 </LinearLayout>

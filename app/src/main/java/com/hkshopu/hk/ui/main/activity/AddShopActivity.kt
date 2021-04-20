@@ -15,6 +15,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -36,6 +37,7 @@ import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.*
 import okhttp3.Response
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.singleLine
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -82,6 +84,12 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
     }
 
+    //settings of textWatcher
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+    override fun afterTextChanged(s: Editable?) {
+
+    }
 
     private suspend fun doOnUiCode() {
         withContext(Dispatchers.Main) {
@@ -90,26 +98,19 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         }
     }
 
-    override fun afterTextChanged(s: Editable?) {
-
-        shopName = binding.etShopname.text.toString()
-
-    }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
     private fun initVM() {
         VM.shopnameLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
                     if (it.ret_val.toString().equals("商店名稱未重複!")) {
-
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
                         binding.ivStep2.setImageResource(R.mipmap.ic_step2_check)
                         binding.ivStep2Check.visibility = View.VISIBLE
 
                     } else {
-                        KeyboardUtil.showKeyboard(binding.etShopname)
+
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+
                     }
 
                 }
@@ -126,13 +127,12 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                         RxBus.getInstance().post(EventAddShopSuccess())
                         finish()
 
+                        Toast.makeText(this@AddShopActivity, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+
                     } else {
 
-                        Toast.makeText(
-                            this@AddShopActivity,
-                            it.ret_val.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@AddShopActivity, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+
                     }
 
 
@@ -282,13 +282,20 @@ class AddShopActivity : BaseActivity(), TextWatcher {
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
 
-                    VM.shopnamecheck(this@AddShopActivity, shopName); true
+                    VM.shopnamecheck(this@AddShopActivity, shopName)
+
+                    binding.etShopname.clearFocus()
+                    KeyboardUtil.showKeyboard(binding.etShopname)
+
+                    true
                 }
                 else -> false
             }
         }
 //        password1.addTextChangedListener(this)
     }
+
+
     private fun processImage(): File? {
         val drawable = binding.ivShopImg.drawable as BitmapDrawable
         val bmp = drawable.bitmap
@@ -435,4 +442,9 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
         }
     }
+
+
+
+
+
 }

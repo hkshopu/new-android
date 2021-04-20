@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="分類總覽"
-            android:textColor="@color/black_hint"
+            android:textColor="@color/dark_gray"
             android:textSize="18sp" />
 
     </RelativeLayout>

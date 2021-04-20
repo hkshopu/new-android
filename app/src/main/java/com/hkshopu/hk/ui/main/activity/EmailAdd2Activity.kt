@@ -1,25 +1,14 @@
 package com.hkshopu.hk.ui.main.activity
 
-import android.content.Intent
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 
 import com.hkshopu.hk.Base.BaseActivity
 
-import com.hkshopu.hk.R
-import com.hkshopu.hk.component.EventEmailShow
-import com.hkshopu.hk.component.EventPhoneShow
 import com.hkshopu.hk.databinding.*
-import com.hkshopu.hk.ui.user.activity.Retrieve
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
-import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher

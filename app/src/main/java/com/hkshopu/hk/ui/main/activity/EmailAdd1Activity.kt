@@ -1,11 +1,7 @@
 package com.hkshopu.hk.ui.main.activity
 
 import android.content.Intent
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
@@ -15,9 +11,8 @@ import android.view.View
 
 import com.hkshopu.hk.Base.BaseActivity
 
-import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.*
-import com.hkshopu.hk.ui.user.activity.Retrieve
+import com.hkshopu.hk.ui.user.activity.RetrieveEmailVerifyActivity
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -116,7 +111,7 @@ class EmailAdd1Activity : BaseActivity(), TextWatcher {
             var bundle = Bundle()
             bundle.putString("email", email)
 
-            val intent = Intent(this, Retrieve::class.java)
+            val intent = Intent(this, RetrieveEmailVerifyActivity::class.java)
             intent.putExtra("bundle", bundle)
             startActivity(intent)
             finish()

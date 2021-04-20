@@ -102,16 +102,16 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
 
     fun initClick() {
 
-            binding!!.tvAddonlineshop.setOnClickListener {
-                val intent = Intent(activity, AddShopActivity::class.java)
-                activity!!.startActivity(intent)
+        binding!!.tvAddonlineshop.setOnClickListener {
+            val intent = Intent(activity, AddShopActivity::class.java)
+            activity!!.startActivity(intent)
 
-            }
-            binding!!.tvAddonlineshopLogin.setOnClickListener {
-                val intent = Intent(activity, LoginActivity::class.java)
-                activity!!.startActivity(intent)
-                activity!!.finish()
-            }
+        }
+        binding!!.tvAddonlineshopLogin.setOnClickListener {
+            val intent = Intent(activity, LoginActivity::class.java)
+            activity!!.startActivity(intent)
+            activity!!.finish()
+        }
 
     }
     private fun getShopList(url: String) {

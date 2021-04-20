@@ -24,7 +24,7 @@ import com.hkshopu.hk.data.bean.ResourceStore
 import com.hkshopu.hk.databinding.ActivityEmailadd1Binding
 import com.hkshopu.hk.databinding.ActivityMymechantsBinding
 import com.hkshopu.hk.databinding.ActivityShopattentionBinding
-import com.hkshopu.hk.databinding.ActivityShopevaluationBinding
+
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.activity.RegisterActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel

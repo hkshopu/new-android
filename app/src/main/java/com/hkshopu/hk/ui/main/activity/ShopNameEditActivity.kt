@@ -14,7 +14,7 @@ import com.hkshopu.hk.Base.BaseActivity
 
 import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityShippingfeeBinding
-import com.hkshopu.hk.databinding.ActivityShopinfomodifyBinding
+
 import com.hkshopu.hk.databinding.ActivityShopnameeditBinding
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel

@@ -84,7 +84,7 @@ class ShopmenuActivity: BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     override fun onBackPressed() {
-            super.onBackPressed()
+        super.onBackPressed()
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

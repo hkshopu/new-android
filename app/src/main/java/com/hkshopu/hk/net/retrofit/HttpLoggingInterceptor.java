@@ -60,7 +60,6 @@ public final class HttpLoggingInterceptor implements Interceptor {
 
         BaseResponse<String> responseObj = null;
         String data = "";
-        int id = 0;
         try {
             responseObj = GsonProvider.INSTANCE.getGson().fromJson(responseS, BaseResponse.class);
             data = responseObj.getRet_val();
@@ -111,7 +110,6 @@ public final class HttpLoggingInterceptor implements Interceptor {
             builder.append("decodeData:\t");
             builder.append(data);
             builder.append("\n");
-
         }
         Log.d("HttpLoggingInterceptor", "HttpRequest:" + builder.toString());
         return response;
