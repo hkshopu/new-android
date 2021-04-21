@@ -7,18 +7,31 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import com.hkshopu.hk.R
 import com.hkshopu.hk.application.App
 import com.hkshopu.hk.component.EventShopDesUpdated
 import com.hkshopu.hk.component.EventShopNameUpdated
+import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.databinding.FragmentShopinfoBinding
+import com.hkshopu.hk.net.Web
+import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
+import com.hkshopu.hk.ui.main.activity.ShopInfoModifyActivity
+import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
+import com.tencent.mmkv.MMKV
+import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 
 
 class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
@@ -38,9 +51,12 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
     private var imageUri: Uri? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val shopId = arguments!!.getInt("shop_id",0)
+        var url = "https://hkshopu-20700.df.r.appspot.com/shop/"+shopId+"/show/"
         binding = FragmentShopinfoBinding.bind(view)
         fragmentShopInfoBinding = binding
         initView()
+        getShopInfo(url)
     }
 
     fun initView() {
@@ -102,12 +118,6 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
 
     fun initClick() {
 
-        binding!!.tvAddonlineshop.setOnClickListener {
-            val intent = Intent(activity, AddShopActivity::class.java)
-            startActivity(intent)
-
-        }
-
         binding!!.ivShopImg.setOnClickListener {
             val gallery =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -116,30 +126,61 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
 
 
         binding!!.layoutShoptitle.setOnClickListener {
-            // DialogFragment.show() will take care of adding the fragment
-            // in a transaction.  We also want to remove any currently showing
-            // dialog, so make our own transaction and take care of that here.
-            val ft = fragmentManager!!.beginTransaction()
-            val prev = fragmentManager!!.findFragmentByTag("dialog")
-            if (prev != null) {
-                ft.remove(prev)
-            }
-            ft.addToBackStack(null)
-
-            // Create and show the dialog.
-            val addNameDialogFragment = AddNameDialogFragment.newInstance()
-            addNameDialogFragment.setCancelable(false)
-            addNameDialogFragment.show(ft, "ShowEditName")
+            val intent = Intent(activity, ShopInfoModifyActivity::class.java)
+            startActivity(intent)
         }
 
 
     }
-
     override fun onDestroyView() {
         // Consider not storing the binding instance in a field, if not needed.
         fragmentShopInfoBinding = null
         super.onDestroyView()
     }
+
+    private fun getShopInfo(url: String) {
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                val list = ArrayList<ShopInfoBean>()
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("ShopInfoFragment", "返回資料 resStr：" + resStr)
+                    Log.d("ShopInfoFragment", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    if (ret_val.equals("已找到商店資料!")) {
+
+                            val jsonObject: JSONObject = json.getJSONObject("shop")
+                            Log.d("ShopInfoFragment", "返回資料 Object：" + jsonObject.toString())
+                            val shopInfoBean: ShopInfoBean =
+                                Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
+                            list.add(shopInfoBean)
+
+                        activity!!.runOnUiThread {
+                            binding!!.tvShoptitle.text = list[0].shop_title
+                            binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
+                        }
+
+
+                    }
+//                        initRecyclerView()
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Get_Data(url)
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

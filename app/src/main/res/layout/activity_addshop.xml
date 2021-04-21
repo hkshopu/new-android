@@ -358,7 +358,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/layout_addnewshop_btn"
+            android:id="@+id/layout_forward"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
@@ -366,10 +366,10 @@
             android:layout_marginTop="50dp">
 
             <TextView
-                android:id="@+id/tv_addnewshop"
+                android:id="@+id/tv_forward"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/addshopconfirm"
+                android:text="@string/please_forward"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/turquoise"

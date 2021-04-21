@@ -266,7 +266,7 @@ class LoginActivity : BaseActivity(), TextWatcher {
     private fun initEditText() {
         binding.editEmail.addTextChangedListener(this)
 //        binding.password1.addTextChangedListener(this)
-
+        binding.editEmail.setTransformationMethod(PasswordTransformationMethod.getInstance())
         binding.editEmail.singleLine = true
         binding.editEmail.setOnEditorActionListener() { v, actionId, event ->
             when (actionId) {

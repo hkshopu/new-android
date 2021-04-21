@@ -112,7 +112,7 @@ class NewPasswordActivity : AppCompatActivity() {
     }
 
     fun ShowHidePass(view: View) {
-        if (view.getId() === R.id.show_pass_btn) {
+        if (view.getId() == R.id.show_pass_btn) {
             if (binding.edtViewPasswordFirstInput.getTransformationMethod()
                     .equals(PasswordTransformationMethod.getInstance())
             ) {
@@ -125,7 +125,7 @@ class NewPasswordActivity : AppCompatActivity() {
                 binding.edtViewPasswordFirstInput.setTransformationMethod(PasswordTransformationMethod.getInstance())
             }
         }
-        if (view.getId() === R.id.show_passconf_btn) {
+        if (view.getId() == R.id.show_passconf_btn) {
             if (binding.edtViewPasswordSecondInput.getTransformationMethod()
                     .equals(PasswordTransformationMethod.getInstance())
             ) {

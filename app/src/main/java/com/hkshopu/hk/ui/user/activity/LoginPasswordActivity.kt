@@ -188,7 +188,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
     private fun initEditText() {
 
         binding.edtPassword.addTextChangedListener(this)
-
+        binding.edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance())
         binding.edtPassword.singleLine = true
         binding.edtPassword.setOnEditorActionListener() { v, actionId, event ->
             when (actionId) {
@@ -211,7 +211,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
 
     fun ShowHidePass(view: View) {
-        if (view.getId() === R.id.show_pass_btn) {
+        if (view.getId() == R.id.show_pass_btn) {
             if (binding.edtPassword.getTransformationMethod()
                     .equals(PasswordTransformationMethod.getInstance())
             ) {

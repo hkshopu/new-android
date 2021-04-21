@@ -3,6 +3,7 @@ package com.hkshopu.hk.ui.main.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -59,14 +60,14 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     private val pickImage = 100
     private var imageUri: Uri? = null
     private var isSelectImage = false
-    val userId = MMKV.mmkvWithID("http").getInt("UserId", 0);
     var shopName: String = ""
     private var shop_category_id1: Int = 0
     private var shop_category_id2: Int = 0
     private var shop_category_id3: Int = 0
+    private lateinit var settings: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        settings = this.getSharedPreferences("shopdata", 0)
         binding = ActivityAddshopBinding.inflate(layoutInflater)
         setContentView(binding.root)
         GlobalScope.launch(errorHandler) {
@@ -147,7 +148,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         binding.layoutAddshop.setOnClickListener {
             KeyboardUtil.hideKeyboard(binding.etShopname)
         }
-        binding.tvAddnewshop.isClickable = false
+        binding.tvForward.isClickable = false
     }
 
     @SuppressLint("CheckResult")
@@ -230,9 +231,9 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                         binding.ivStep3.setImageResource(R.mipmap.ic_step3_on)
                         binding.ivStep3Check.visibility = View.VISIBLE
                         if (binding.ivStep3Check.visibility == View.VISIBLE && binding.ivStep2Check.visibility == View.VISIBLE && binding.ivStep1Check.visibility == View.VISIBLE) {
-                            binding.tvAddnewshop.setBackgroundResource(R.drawable.customborder_onboard_turquise_40p)
-                            binding.tvAddnewshop.setTextColor(getColor(R.color.white))
-                            binding.tvAddnewshop.isClickable = true
+                            binding.tvForward.setBackgroundResource(R.drawable.customborder_onboard_turquise_40p)
+                            binding.tvForward.setTextColor(getColor(R.color.white))
+                            binding.tvForward.isClickable = true
                         }
                     }
 
@@ -262,11 +263,21 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 //            }
 //        }
         var file: File? = null
-        binding.tvAddnewshop.setOnClickListener {
+        val editor = settings.edit()
+        binding.tvForward.setOnClickListener {
             if(isSelectImage){
                 file = processImage()
             }
-            doAddShop(shopName,userId.toString(),shop_category_id1,shop_category_id2,shop_category_id3,file!!)
+            var uri = Uri.fromFile(file);
+            editor.putString("image",uri.toString())
+            editor.putString("shopname",shopName)
+            editor.putInt("shop_category_id1",shop_category_id1)
+            editor.putInt("shop_category_id2",shop_category_id2)
+            editor.putInt("shop_category_id3",shop_category_id3)
+            editor.apply()
+
+            val intent = Intent(this, AddBankAccountActivity::class.java)
+            startActivity(intent)
         }
         binding.tvMoreStoresort.setOnClickListener {
             val intent = Intent(this, ShopCategoryActivity::class.java)
@@ -325,65 +336,6 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
-    private fun doAddShop(
-        shop_title: String,
-        user_id: String,
-        shop_category_id1: Int,
-        shop_category_id2: Int,
-        shop_category_id3: Int,
-        postImg: File
-    ) {
-        val url = ApiConstants.API_HOST+"/shop/save/"
-        val web = Web(object : WebListener {
-            override fun onResponse(response: Response) {
-                var resStr: String? = ""
-                try {
-                    resStr = response.body()!!.string()
-                    val json = JSONObject(resStr)
-                    Log.d("AddShopActivity", "返回資料 resStr：" + resStr)
-                    Log.d("AddShopActivity", "返回資料 ret_val：" + json.get("ret_val"))
-                    val ret_val = json.get("ret_val")
-                    if (ret_val.equals("商店與選擇商店分類新增成功!")) {
-                        var user_id: Int = json.getInt("user_id")
-                        var shop_id:Int = json.getInt("shop_id")
-                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
-                        MMKV.mmkvWithID("http").putInt("ShopId", shop_id)
-                        val intent = Intent(this@AddShopActivity, ShopmenuActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        runOnUiThread {
-                            Toast.makeText(
-                                this@AddShopActivity,
-                                ret_val.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-//                        initRecyclerView()
-
-
-                } catch (e: JSONException) {
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onErrorResponse(ErrorResponse: IOException?) {
-
-            }
-        })
-        web.Do_ShopAdd(
-            url,
-            shop_title,
-            user_id,
-            shop_category_id1,
-            shop_category_id2,
-            shop_category_id3,
-            postImg
-        )
-    }
 
     override fun onStart() {
         super.onStart()

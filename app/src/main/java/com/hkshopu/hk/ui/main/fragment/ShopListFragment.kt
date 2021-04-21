@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.hkshopu.hk.R
 import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.data.bean.ShopInfoBean
+import com.hkshopu.hk.data.bean.ShopListBean
 import com.hkshopu.hk.databinding.FragmentShoplistBinding
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
@@ -60,7 +61,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
     }
 
     fun initView() {
-        Log.d("ShopInfoFragment", "UserId：" + userId)
+        Log.d("ShopListFragment", "UserId：" + userId)
         if(userId == 0){
             binding!!.container0.visibility = View.VISIBLE
         } else {
@@ -107,6 +108,13 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
             activity!!.startActivity(intent)
 
         }
+
+        binding!!.tvAddonlineshop2.setOnClickListener {
+            val intent = Intent(activity, AddShopActivity::class.java)
+            activity!!.startActivity(intent)
+
+        }
+
         binding!!.tvAddonlineshopLogin.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             activity!!.startActivity(intent)
@@ -119,7 +127,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
-                val list = ArrayList<ShopInfoBean>()
+                val list = ArrayList<ShopListBean>()
                 try {
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
@@ -128,21 +136,22 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("已取得您的商店清單!")) {
 
-                        val translations: JSONArray = json.getJSONArray("shop_list")
-
+                        val translations: JSONArray = json.getJSONArray("data")
 
                         for (i in 0 until translations.length()) {
                             val jsonObject: JSONObject = translations.getJSONObject(i)
                             Log.d("ShopListFragment", "返回資料 Object：" + jsonObject.toString())
-                            val shopInfoBean: ShopInfoBean =
-                                Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
-                            list.add(shopInfoBean)
+                            val shopListBean: ShopListBean =
+                                Gson().fromJson(jsonObject.toString(), ShopListBean::class.java)
+                            list.add(shopListBean)
                         }
                         adapter.setData(list)
 
                         activity!!.runOnUiThread {
                             initRecyclerView()
                             binding!!.container2.visibility = View.VISIBLE
+                            binding!!.tvAddonlineshop2.visibility = View.VISIBLE
+
                         }
 
 

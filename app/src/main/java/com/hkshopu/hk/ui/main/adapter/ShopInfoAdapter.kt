@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.ShopInfoBean
+import com.hkshopu.hk.data.bean.ShopListBean
 import com.hkshopu.hk.utils.extension.inflate
 import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.widget.view.click
@@ -21,10 +22,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolder>(){
-    private var mData: ArrayList<ShopInfoBean> = ArrayList()
+    private var mData: ArrayList<ShopListBean> = ArrayList()
     var itemClick : ((id: Int) -> Unit)? = null
 
-    fun setData(list : ArrayList<ShopInfoBean>){
+    fun setData(list : ArrayList<ShopListBean>){
         list?:return
         this.mData = list
 //        notifyDataSetChanged()
@@ -55,7 +56,7 @@ class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolde
         val title = itemView.find<TextView>(R.id.tv_shopName)
         val ratingBar = itemView.find<NiceRatingBar>(R.id.ratingBar)
 
-        fun bindShop(bean : ShopInfoBean){
+        fun bindShop(bean : ShopListBean){
             container.click {
                 itemClick?.invoke(bean.id)
             }
