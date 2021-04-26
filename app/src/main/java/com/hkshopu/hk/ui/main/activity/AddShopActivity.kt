@@ -357,6 +357,20 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
     }
 
+    override fun onBackPressed() {
+        AlertDialog.Builder(this@AddShopActivity)
+            .setTitle("")
+            .setMessage("您尚未儲存變更，確定要離開 ？")
+            .setPositiveButton("捨棄"){
+                // 此為 Lambda 寫法
+                    dialog, which ->finish()
+            }
+            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+
+            }
+            .show()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
