@@ -197,18 +197,29 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@id/layout_birth"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_Shopphone_country"
+                android:layout_width="116dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_edit_login"
+                android:text="@string/hk"
+                android:gravity="center"
+                android:textColor="@color/dark_gray"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editmobile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_edit_login"
+                android:layout_marginStart="8dp"
                 android:inputType="number"
                 android:paddingLeft="18dp"
-                android:hint="@string/mobile"
+                android:hint="@string/shopphone_input"
                 android:textColorHint="@color/dark_gray"
 
                 />

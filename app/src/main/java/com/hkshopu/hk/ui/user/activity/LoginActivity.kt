@@ -197,7 +197,14 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
             email = binding.editEmail.text.toString()
 //            val password = binding.password1.text.toString()
-            VM.login(this, email, "checkfortheemail")
+//            VM.login(this, email, "checkfortheemail")
+            settings.edit().apply {
+                putString("email", email)
+            }.apply()
+
+            val intent = Intent(this, LoginPasswordActivity::class.java)
+            startActivity(intent)
+
 
         }
 

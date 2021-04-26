@@ -114,15 +114,15 @@
         <activity
             android:name=".ui.main.activity.AddShopActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.activity.AddBankAccountActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.activity.AddShopAddressActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.activity.ShopCategoryActivity"
             android:launchMode="singleTask" />
@@ -132,7 +132,7 @@
         <activity
             android:name=".ui.main.activity.AddShopBriefActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.activity.ShippingFeeActivity"
             android:launchMode="singleTask" />

@@ -1,5 +1,8 @@
 package com.hkshopu.hk.net
 
+import com.hkshopu.hk.data.bean.ShopCategoryBean
+import java.util.*
+
 
 /**
  * @Author: YangYang
@@ -14,10 +17,12 @@ class ApiConstants private constructor() {
         //  var API_HOST = BuildConfig.API_HOST
         //  var API_HOST = "http://47.75.63.143/"
         //  var API_HOST = "http://47.52.26.64:8080/"
-        var API_HOST = "https://hkshopu-20700.df.r.appspot.com/"
-        var IMG_HOST = "https://hkshopu-20700.df.r.appspot.com"
+        var API_HOST = "https://hkshopu.df.r.appspot.com/"
+//        var API_HOST = "https://hkshopu-20700.df.r.appspot.com/"
+        var IMG_HOST = "https://hkshopu.df.r.appspot.com"
 //        var API_HOST = ""
-
+        val list = ArrayList<ShopCategoryBean>()
+        var ShopCategory = TreeMap<String,ShopCategoryBean>()
         var fdsfsdfsdf = "0123456789abcdef"
         const val API_VERSION = "2/"
         const val API_PAY_VERSION = "3/"
@@ -34,7 +39,7 @@ class ApiConstants private constructor() {
         var APP_ID : String? = null
         var HOTFIX : Int = 0
 
-        const val API_PATH = "https://hkshopu-20700.df.r.appspot.com/"
+        const val API_PATH = "https://hkshopu.df.r.appspot.com/"
 
     }
 }

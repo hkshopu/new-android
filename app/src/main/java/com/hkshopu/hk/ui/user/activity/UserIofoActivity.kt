@@ -29,7 +29,8 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
     var gender: String = "其他"
     var birth: String = ""
     var phone: String = ""
-
+    var phone_country: String = ""
+    var phone_number: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserinfoBinding.inflate(layoutInflater)
@@ -48,7 +49,9 @@ class UserIofoActivity : BaseActivity(), TextWatcher {
         firstName = binding.editFirstName.text.toString()
         lastName = binding.editlastName.text.toString()
         birth = binding.edtViewBirth.text.toString()
-        phone = binding.editmobile.text.toString()
+        phone_country = binding.tvShopphoneCountry.text.toString()
+        phone_number = binding.editmobile.text.toString()
+        phone = phone_country+phone_number
 
         if (firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty()||birth.isEmpty()) {
             binding.btnNextStep.isEnabled = false

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -16,10 +17,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.hkshopu.hk.R
 import com.hkshopu.hk.application.App
+import com.hkshopu.hk.component.EventGetShopCatSuccess
+import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.component.EventShopDesUpdated
 import com.hkshopu.hk.component.EventShopNameUpdated
+import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.databinding.FragmentShopinfoBinding
+import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
@@ -52,11 +57,30 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val shopId = arguments!!.getInt("shop_id",0)
-        var url = "https://hkshopu-20700.df.r.appspot.com/shop/"+shopId+"/show/"
+        var url = ApiConstants.API_HOST+"/shop/"+shopId+"/show/"
         binding = FragmentShopinfoBinding.bind(view)
         fragmentShopInfoBinding = binding
         initView()
         getShopInfo(url)
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Log.d("ShopInfoFragment", "Fragment back pressed invoked")
+                    // Do custom work here
+
+                    // if you want onBackPressed() to be called as normal afterwards
+                    if (isEnabled) {
+
+                        getActivity()!!.supportFragmentManager.beginTransaction().remove(this@ShopInfoFragment).commit();
+                    }else{
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+
+                }
+            }
+            )
     }
 
     fun initView() {
@@ -91,28 +115,6 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
 
     @SuppressLint("CheckResult")
     fun initEvent() {
-        RxBus.getInstance().toMainThreadObservable(App.instance, Lifecycle.Event.ON_DESTROY)
-            .subscribe({
-                when (it) {
-                    is EventShopNameUpdated -> {
-                        binding!!.tvShoptitle.text = it.shopName
-                    }
-
-                }
-            }, {
-                it.printStackTrace()
-            })
-        RxBus.getInstance().toMainThreadObservable(App.instance, Lifecycle.Event.ON_DESTROY)
-            .subscribe({
-                when (it) {
-                    is EventShopDesUpdated -> {
-
-                    }
-
-                }
-            }, {
-                it.printStackTrace()
-            })
 
     }
 
@@ -144,6 +146,7 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
                 val list = ArrayList<ShopInfoBean>()
+                val shop_category_id_list = ArrayList<String>()
                 try {
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
@@ -152,15 +155,31 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("已找到商店資料!")) {
 
-                            val jsonObject: JSONObject = json.getJSONObject("shop")
+                            val jsonObject: JSONObject = json.getJSONObject("data")
                             Log.d("ShopInfoFragment", "返回資料 Object：" + jsonObject.toString())
                             val shopInfoBean: ShopInfoBean =
                                 Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
                             list.add(shopInfoBean)
+                        val translations: JSONArray = jsonObject.getJSONArray("shop_category_id")
 
+                        for (i in 0 until translations.length()) {
+                            val shop_category_id = translations.get(i)
+                            if(!shop_category_id.toString().equals("0")) {
+                                shop_category_id_list.add(shop_category_id.toString())
+                                Log.d(
+                                    "ShopInfoFragment",
+                                    "返回資料 shop_category_id：" + shop_category_id.toString()
+                                )
+                            }
+                        }
+                        RxBus.getInstance().post(EventGetShopCatSuccess(shop_category_id_list))
                         activity!!.runOnUiThread {
                             binding!!.tvShoptitle.text = list[0].shop_title
+                            binding!!.tvRating.text = list[0].rating
+                            binding!!.myLikes.text = list[0].follower
+                            binding!!.myIncome.text = list[0].income
                             binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
+
                         }
 
 

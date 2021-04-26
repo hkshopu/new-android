@@ -6,12 +6,6 @@ class ShopListBean {
     @SerializedName("id")
     var id: Int = 0;
 
-    @SerializedName("user_id")
-    var user_id: Int = 0;
-
-    @SerializedName("shop_category_id")
-    var shop_category_id: String = ""
-
     @SerializedName("shop_title")
     var shop_title: String= ""
 
@@ -21,8 +15,17 @@ class ShopListBean {
     @SerializedName("shop_pic")
     var shop_pic: String= ""
 
-    @SerializedName("shop_description")
-    var shop_description: String= ""
+    @SerializedName("product_count")
+    var product_count: String= ""
+
+    @SerializedName("rating")
+    var rating: String= ""
+
+    @SerializedName("follower")
+    var follower: String= ""
+
+    @SerializedName("income")
+    var income: String= ""
 
 
 }

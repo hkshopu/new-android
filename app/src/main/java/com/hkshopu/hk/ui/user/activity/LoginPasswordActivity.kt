@@ -147,7 +147,6 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
             finish()
         }
 
-        initEditText()
         initClick()
 
     }

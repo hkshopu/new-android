@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.hkshopu.hk.R
 import com.hkshopu.hk.component.EventAddShopSuccess
-import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.data.bean.ShopListBean
 import com.hkshopu.hk.databinding.FragmentShoplistBinding
+import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
@@ -28,7 +28,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -47,7 +46,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
     private var fragmentShopListBinding: FragmentShoplistBinding? = null
     private val adapter = ShopInfoAdapter()
     val userId = MMKV.mmkvWithID("http").getInt("UserId", 0);
-    private var url = "https://hkshopu-20700.df.r.appspot.com/user/"+userId+"/shop/"
+    private var url = ApiConstants.API_HOST+"/user/"+userId+"/shop/"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,6 +70,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
     private fun initRecyclerView() {
         val layoutManager = LinearLayoutManager(activity!!)
         binding!!.recyclerview.layoutManager = layoutManager
+        val space = 8
         binding!!.recyclerview.adapter = adapter
         adapter.itemClick = {
             val ft: FragmentTransaction = fragmentManager!!.beginTransaction()

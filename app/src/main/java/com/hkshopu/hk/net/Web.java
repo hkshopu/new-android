@@ -121,7 +121,7 @@ public class Web {
         });
     }
 
-    public void Do_ShopAdd(String url, final String shop_title, String user_id, int shop_category_id1, int shop_category_id2, int shop_category_id3, File postImg) {
+    public void Do_ShopAdd(String url, final String shop_title, String user_id, int shop_category_id1, int shop_category_id2, int shop_category_id3,final String bank_code, String bank_name,final String bank_account_name, String bank_account,final String address_name, String address_country_code,final String address_phone, String address_is_phone_show,final String address_area, String address_district,final String address_road, String address_number,final String address_other, String address_floor , String address_room,File postImg) {
         Log.d(TAG, "Do_ShopAdd Url ＝ " + url);
 //        ArrayList<String> shop_category_id = new ArrayList<>();
 //        shop_category_id.add(shop_category_id1);
@@ -135,6 +135,21 @@ public class Web {
                 .addFormDataPart("shop_category_id", String.valueOf(shop_category_id1))
                 .addFormDataPart("shop_category_id", String.valueOf(shop_category_id2))
                 .addFormDataPart("shop_category_id", String.valueOf(shop_category_id3))
+                .addFormDataPart("bank_code", bank_code)
+                .addFormDataPart("bank_name", bank_name)
+                .addFormDataPart("bank_account_name", bank_account_name)
+                .addFormDataPart("bank_account", bank_account)
+                .addFormDataPart("address_name", address_name)
+                .addFormDataPart("address_country_code", address_country_code)
+                .addFormDataPart("address_phone", address_phone)
+                .addFormDataPart("address_is_phone_show", address_is_phone_show)
+                .addFormDataPart("address_area", address_area)
+                .addFormDataPart("address_district", address_district)
+                .addFormDataPart("address_road", address_road)
+                .addFormDataPart("address_number", address_number)
+                .addFormDataPart("address_other", address_other)
+                .addFormDataPart("address_floor", address_floor)
+                .addFormDataPart("address_room", address_room)
                 .addFormDataPart("shop_icon", postImg.getName(), fileBody)
                 .build();
 //        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);

@@ -158,7 +158,7 @@
                             android:src="@mipmap/ic_star" />
 
                         <TextView
-                            android:id="@+id/value"
+                            android:id="@+id/tv_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

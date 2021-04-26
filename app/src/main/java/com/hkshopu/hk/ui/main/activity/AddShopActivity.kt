@@ -9,16 +9,15 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
@@ -28,25 +27,12 @@ import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
-import com.hkshopu.hk.net.ApiConstants
-import com.hkshopu.hk.net.Web
-import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
-import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.*
-import okhttp3.Response
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.singleLine
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.util.*
-import kotlin.math.min
 
 
 class AddShopActivity : BaseActivity(), TextWatcher {
@@ -67,7 +53,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     private lateinit var settings: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        settings = this.getSharedPreferences("shopdata", 0)
+        settings = getSharedPreferences("shopdata", 0)
         binding = ActivityAddshopBinding.inflate(layoutInflater)
         setContentView(binding.root)
         GlobalScope.launch(errorHandler) {
@@ -89,7 +75,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
     override fun afterTextChanged(s: Editable?) {
-
+        shopName = binding.etShopname.text.toString()
     }
 
     private suspend fun doOnUiCode() {
@@ -128,11 +114,19 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                         RxBus.getInstance().post(EventAddShopSuccess())
                         finish()
 
-                        Toast.makeText(this@AddShopActivity, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AddShopActivity,
+                            it.ret_val.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     } else {
 
-                        Toast.makeText(this@AddShopActivity, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AddShopActivity,
+                            it.ret_val.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
 
@@ -245,10 +239,21 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initClick() {
         binding.titleBackAddshop.setOnClickListener {
+            AlertDialog.Builder(this@AddShopActivity)
+                .setTitle("")
+                .setMessage("您尚未儲存變更，確定要離開 ？")
+                .setPositiveButton("捨棄"){
+                    // 此為 Lambda 寫法
+                        dialog, which ->finish()
+                }
+                .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
 
-            finish()
+                }
+                .show()
+
         }
         binding!!.ivShopImg.setOnClickListener {
             val gallery =
@@ -268,16 +273,17 @@ class AddShopActivity : BaseActivity(), TextWatcher {
             if(isSelectImage){
                 file = processImage()
             }
-            var uri = Uri.fromFile(file);
-            editor.putString("image",uri.toString())
-            editor.putString("shopname",shopName)
-            editor.putInt("shop_category_id1",shop_category_id1)
-            editor.putInt("shop_category_id2",shop_category_id2)
-            editor.putInt("shop_category_id3",shop_category_id3)
+//            var uri = Uri.fromFile(file);
+            editor.putString("image", encodeBitmapTobase64())
+            editor.putString("shopname", shopName)
+            editor.putInt("shop_category_id1", shop_category_id1)
+            editor.putInt("shop_category_id2", shop_category_id2)
+            editor.putInt("shop_category_id3", shop_category_id3)
             editor.apply()
 
             val intent = Intent(this, AddBankAccountActivity::class.java)
             startActivity(intent)
+            finish()
         }
         binding.tvMoreStoresort.setOnClickListener {
             val intent = Intent(this, ShopCategoryActivity::class.java)
@@ -305,7 +311,16 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         }
 //        password1.addTextChangedListener(this)
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun encodeBitmapTobase64(): String? {
+        val drawable = binding.ivShopImg.drawable as BitmapDrawable
+        val bmp = drawable.bitmap
+        val bmpCompress = getResizedBitmap(bmp, 200)
+        val os = ByteArrayOutputStream()
+        bmpCompress!!.compress(Bitmap.CompressFormat.JPEG, 85, os)
+        val byteArray: ByteArray = os.toByteArray()
+        return Base64.getEncoder().encodeToString(byteArray)
+    }
 
     private fun processImage(): File? {
         val drawable = binding.ivShopImg.drawable as BitmapDrawable

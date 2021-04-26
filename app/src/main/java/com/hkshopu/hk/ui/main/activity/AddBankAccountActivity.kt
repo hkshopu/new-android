@@ -2,28 +2,17 @@ package com.hkshopu.hk.ui.main.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-
+import androidx.appcompat.app.AlertDialog
 import com.hkshopu.hk.Base.BaseActivity
-
 import com.hkshopu.hk.R
-import com.hkshopu.hk.component.EventPhoneShow
-import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.databinding.*
-
 import com.hkshopu.hk.ui.user.vm.AuthVModel
-import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
-import com.tencent.mmkv.MMKV
-import com.zilchzz.library.widgets.EasySwitcher
+import java.io.File
 
 
 class AddBankAccountActivity : BaseActivity(), TextWatcher {
@@ -36,12 +25,12 @@ class AddBankAccountActivity : BaseActivity(), TextWatcher {
     var accountName: String = ""
     var accountNumber: String = ""
     private lateinit var settings: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityAddbankaccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        settings = this.getSharedPreferences("shopdata", 0)
+        settings = getSharedPreferences("shopdata", 0)
         initView()
         initVM()
         initClick()
@@ -87,7 +76,7 @@ class AddBankAccountActivity : BaseActivity(), TextWatcher {
 //            }
 //        })
     }
-    val editor = settings.edit()
+
     private fun initClick() {
         binding.ivBack.setOnClickListener {
 
@@ -95,17 +84,60 @@ class AddBankAccountActivity : BaseActivity(), TextWatcher {
         }
 
         binding.tvToaddshopaddress.setOnClickListener {
-            editor.putString("bankcode",bankCode)
-            editor.putString("bankname",bankName)
-            editor.putString("accountname",accountName)
-            editor.putString("accountnumber",accountNumber)
-            editor.apply()
-            val intent = Intent(this, AddShopAddressActivity::class.java)
-            startActivity(intent)
-            finish()
+            checkFieldAndNext()
         }
 
     }
+    private fun checkFieldAndNext() {
 
+        var sErrorMsg = ""
+
+        if (bankCode.isEmpty()) {
+            sErrorMsg = """
+            $sErrorMsg${getString(R.string.bankcode_input)}
+            
+            """.trimIndent()
+        }
+        if (bankName.isEmpty()) {
+            sErrorMsg = """
+            $sErrorMsg${getString(R.string.bankname_input)}
+            
+            """.trimIndent()
+        }
+        if (accountName.isEmpty()) {
+            sErrorMsg = """
+            $sErrorMsg${getString(R.string.bankaccoountname_input)}
+            
+            """.trimIndent()
+        }
+        if (accountNumber.isEmpty()) {
+            sErrorMsg = """
+            $sErrorMsg${getString(R.string.bankaccount_input)}
+            
+            """.trimIndent()
+        }
+        if (sErrorMsg.isEmpty()) {
+            binding.ivAddbankaccountCheck.visibility = View.VISIBLE
+            settings.edit()
+                    .putString("bankcode", bankCode)
+                    .putString("bankname", bankName)
+                    .putString("accountname", accountName)
+                    .putString("accountnumber", accountNumber)
+                    .apply()
+            val intent = Intent(this, AddShopAddressActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            AlertDialog.Builder(this@AddBankAccountActivity)
+                .setTitle("")
+                .setMessage(sErrorMsg)
+                .setPositiveButton("確定"){
+                    // 此為 Lambda 寫法
+                        dialog, which ->dialog.cancel()
+                }
+                .show()
+
+        }
+    }
 
 }
