@@ -197,14 +197,7 @@ class LoginActivity : BaseActivity(), TextWatcher {
 
             email = binding.editEmail.text.toString()
 //            val password = binding.password1.text.toString()
-//            VM.login(this, email, "checkfortheemail")
-            settings.edit().apply {
-                putString("email", email)
-            }.apply()
-
-            val intent = Intent(this, LoginPasswordActivity::class.java)
-            startActivity(intent)
-
+            VM.login(this, email, "checkfortheemail")
 
         }
 
@@ -273,10 +266,11 @@ class LoginActivity : BaseActivity(), TextWatcher {
     private fun initEditText() {
         binding.editEmail.addTextChangedListener(this)
 //        binding.password1.addTextChangedListener(this)
-        binding.editEmail.setTransformationMethod(PasswordTransformationMethod.getInstance())
+
         binding.editEmail.singleLine = true
         binding.editEmail.setOnEditorActionListener() { v, actionId, event ->
             when (actionId) {
+
                 EditorInfo.IME_ACTION_DONE -> {
 
                     email = binding.editEmail.text.toString()

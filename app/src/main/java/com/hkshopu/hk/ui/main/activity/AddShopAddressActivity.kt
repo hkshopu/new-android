@@ -159,7 +159,7 @@ class AddShopAddressActivity : BaseActivity(), TextWatcher {
         val decodedString: ByteArray = Base64.decode(mImageUri, Base64.DEFAULT)
         val bitmap:Bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
         val bos = ByteArrayOutputStream()
-            bitmap.compress(CompressFormat.JPEG, 100 /*ignored for PNG*/, bos)
+        bitmap.compress(CompressFormat.JPEG, 100 /*ignored for PNG*/, bos)
         val bitmapdata: ByteArray = bos.toByteArray()
         val fos = FileOutputStream(file)
         fos.write(bitmapdata)

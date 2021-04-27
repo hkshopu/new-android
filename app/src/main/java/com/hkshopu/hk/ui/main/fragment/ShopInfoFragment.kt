@@ -11,23 +11,16 @@ import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.hkshopu.hk.R
-import com.hkshopu.hk.application.App
 import com.hkshopu.hk.component.EventGetShopCatSuccess
-import com.hkshopu.hk.component.EventShopCatSelected
-import com.hkshopu.hk.component.EventShopDesUpdated
-import com.hkshopu.hk.component.EventShopNameUpdated
-import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.databinding.FragmentShopinfoBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.activity.AddShopActivity
 import com.hkshopu.hk.ui.main.activity.ShopInfoModifyActivity
 import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
@@ -57,6 +50,12 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val shopId = arguments!!.getInt("shop_id",0)
+        MMKV.mmkvWithID("http").putInt(
+            "ShopId",
+            shopId
+        )
+
+
         var url = ApiConstants.API_HOST+"/shop/"+shopId+"/show/"
         binding = FragmentShopinfoBinding.bind(view)
         fragmentShopInfoBinding = binding
@@ -71,8 +70,8 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
 
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
+                        getActivity()!!.supportFragmentManager.beginTransaction().remove(this@ShopInfoFragment).commit()
 
-                        getActivity()!!.supportFragmentManager.beginTransaction().remove(this@ShopInfoFragment).commit();
                     }else{
                         isEnabled = false
                         requireActivity().onBackPressed()
@@ -155,11 +154,11 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("已找到商店資料!")) {
 
-                            val jsonObject: JSONObject = json.getJSONObject("data")
-                            Log.d("ShopInfoFragment", "返回資料 Object：" + jsonObject.toString())
-                            val shopInfoBean: ShopInfoBean =
-                                Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
-                            list.add(shopInfoBean)
+                        val jsonObject: JSONObject = json.getJSONObject("data")
+                        Log.d("ShopInfoFragment", "返回資料 Object：" + jsonObject.toString())
+                        val shopInfoBean: ShopInfoBean =
+                            Gson().fromJson(jsonObject.toString(), ShopInfoBean::class.java)
+                        list.add(shopInfoBean)
                         val translations: JSONArray = jsonObject.getJSONArray("shop_category_id")
 
                         for (i in 0 until translations.length()) {

@@ -27,6 +27,7 @@ import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
+import com.hkshopu.hk.ui.main.fragment.StoreOrNotDialogFragment
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -242,19 +243,22 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initClick() {
         binding.titleBackAddshop.setOnClickListener {
-            AlertDialog.Builder(this@AddShopActivity)
-                .setTitle("")
-                .setMessage("您尚未儲存變更，確定要離開 ？")
-                .setPositiveButton("捨棄"){
-                    // 此為 Lambda 寫法
-                        dialog, which ->finish()
-                }
-                .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+//            AlertDialog.Builder(this@AddShopActivity)
+//                .setTitle("")
+//                .setMessage("您尚未儲存變更，確定要離開 ？")
+//                .setPositiveButton("捨棄"){
+//                    // 此為 Lambda 寫法
+//                        dialog, which ->finish()
+//                }
+//                .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+//
+//                }
+//                .show()
 
-                }
-                .show()
+            StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
 
         }
+
         binding!!.ivShopImg.setOnClickListener {
             val gallery =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -302,7 +306,8 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                     VM.shopnamecheck(this@AddShopActivity, shopName)
 
                     binding.etShopname.clearFocus()
-                    KeyboardUtil.showKeyboard(binding.etShopname)
+
+                    KeyboardUtil.hideKeyboard(binding.etShopname)
 
                     true
                 }
@@ -358,17 +363,20 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     }
 
     override fun onBackPressed() {
-        AlertDialog.Builder(this@AddShopActivity)
-            .setTitle("")
-            .setMessage("您尚未儲存變更，確定要離開 ？")
-            .setPositiveButton("捨棄"){
-                // 此為 Lambda 寫法
-                    dialog, which ->finish()
-            }
-            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+//        AlertDialog.Builder(this@AddShopActivity)
+//            .setTitle("")
+//            .setMessage("您尚未儲存變更，確定要離開 ？")
+//            .setPositiveButton("捨棄"){
+//                // 此為 Lambda 寫法
+//                    dialog, which ->finish()
+//            }
+//            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+//
+//            }
+//            .show()
 
-            }
-            .show()
+        StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+
     }
 
 

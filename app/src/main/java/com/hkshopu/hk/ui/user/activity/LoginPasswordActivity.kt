@@ -147,6 +147,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
             finish()
         }
 
+        initEditText()
         initClick()
 
     }
@@ -187,7 +188,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
     private fun initEditText() {
 
         binding.edtPassword.addTextChangedListener(this)
-        binding.edtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance())
+
         binding.edtPassword.singleLine = true
         binding.edtPassword.setOnEditorActionListener() { v, actionId, event ->
             when (actionId) {
@@ -210,7 +211,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
 
     fun ShowHidePass(view: View) {
-        if (view.getId() == R.id.show_pass_btn) {
+        if (view.getId() === R.id.show_pass_btn) {
             if (binding.edtPassword.getTransformationMethod()
                     .equals(PasswordTransformationMethod.getInstance())
             ) {
@@ -238,9 +239,12 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("登入成功!")) {
                         var user_id: Int = json.getInt("user_id")
+
                         MMKV.mmkvWithID("http").putInt("UserId", user_id)
                             .putString("Email",email)
                             .putString("Password",password)
+
+
                         val intent = Intent(this@LoginPasswordActivity, ShopmenuActivity::class.java)
                         startActivity(intent)
                         finish()

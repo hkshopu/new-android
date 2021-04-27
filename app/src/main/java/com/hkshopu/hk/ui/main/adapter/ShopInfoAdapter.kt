@@ -8,7 +8,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.R
-import com.hkshopu.hk.data.bean.ShopInfoBean
+
 import com.hkshopu.hk.data.bean.ShopListBean
 import com.hkshopu.hk.utils.extension.inflate
 import com.hkshopu.hk.utils.extension.loadNovelCover

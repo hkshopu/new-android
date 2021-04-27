@@ -12,6 +12,7 @@ import com.hkshopu.hk.R
 import com.hkshopu.hk.ui.main.activity.AddNewProductActivity
 import com.hkshopu.hk.ui.main.activity.AddShopActivity
 import com.hkshopu.hk.ui.main.activity.AddShopBriefActivity
+import com.tencent.mmkv.MMKV
 import org.jetbrains.anko.find
 
 class MyStoreFragment : Fragment() {
@@ -31,6 +32,7 @@ class MyStoreFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_mystore, container, false)
+
 
         val btn_addShopBrief = v.find<ImageButton>(R.id.iv_addshopbrief)
         btn_addShopBrief.setOnClickListener {
