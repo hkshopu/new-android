@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +48,7 @@ class MyStoreFragment : Fragment() {
     }
     lateinit var newProduct_null :RelativeLayout
     lateinit var newProduct :RecyclerView
+    lateinit var btn_addNewMerchant:ImageView
     private val adapter = ShopProductAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +68,11 @@ class MyStoreFragment : Fragment() {
         }
         val btn_addNewProduct = v.find<RelativeLayout>(R.id.layout_add_product)
         btn_addNewProduct.setOnClickListener {
+            val intent = Intent(activity, AddNewProductActivity::class.java)
+            activity!!.startActivity(intent)
+        }
+        btn_addNewMerchant = v.find<ImageView>(R.id.iv_addmerchant)
+        btn_addNewMerchant.setOnClickListener {
             val intent = Intent(activity, AddNewProductActivity::class.java)
             activity!!.startActivity(intent)
         }
@@ -107,6 +114,7 @@ class MyStoreFragment : Fragment() {
                         adapter.setData(list)
                         activity!!.runOnUiThread {
                             initRecyclerView()
+                            btn_addNewMerchant.visibility = View.VISIBLE
                             newProduct_null.visibility = View.GONE
 
                         }
