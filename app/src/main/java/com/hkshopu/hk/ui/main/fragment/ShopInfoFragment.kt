@@ -174,9 +174,10 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
                         RxBus.getInstance().post(EventGetShopCatSuccess(shop_category_id_list))
                         activity!!.runOnUiThread {
                             binding!!.tvShoptitle.text = list[0].shop_title
-                            binding!!.tvRating.text = list[0].rating
-                            binding!!.myLikes.text = list[0].follower
-                            binding!!.myIncome.text = list[0].income
+                            binding!!.myProduct.text = list[0].product_count.toString()
+                            binding!!.tvRating.text = list[0].rating.toString()
+                            binding!!.myLikes.text = list[0].follower.toString()
+                            binding!!.myIncome.text = list[0].income.toString()
                             binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
 
                         }

@@ -57,8 +57,6 @@ class MyStoreFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_mystore, container, false)
         val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
-
-
         var url = ApiConstants.API_HOST+"/product/"+shopId+"/shop_product/"
         getShopProduct(url)
         val btn_addShopBrief = v.find<ImageButton>(R.id.iv_addshopbrief)

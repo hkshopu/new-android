@@ -11,8 +11,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.hkshopu.hk.Base.BaseActivity
+import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.*
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
@@ -44,6 +47,7 @@ class AddShopAddressActivity : BaseActivity(), TextWatcher {
     var subaddress: String = ""
     var floor: String = ""
     var room: String = ""
+
     val userId = MMKV.mmkvWithID("http").getInt("UserId", 0);
     private lateinit var settings: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
