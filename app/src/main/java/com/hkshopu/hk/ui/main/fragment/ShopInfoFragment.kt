@@ -127,8 +127,8 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo){
 
 
         binding!!.layoutShoptitle.setOnClickListener {
-            val intent = Intent(activity, ShopInfoModifyActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(activity, ShopInfoModifyActivity::class.java)
+//            startActivity(intent)
         }
 
 

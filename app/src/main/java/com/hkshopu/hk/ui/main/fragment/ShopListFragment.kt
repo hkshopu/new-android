@@ -70,7 +70,6 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
     private fun initRecyclerView() {
         val layoutManager = LinearLayoutManager(activity!!)
         binding!!.recyclerview.layoutManager = layoutManager
-        val space = 8
         binding!!.recyclerview.adapter = adapter
         adapter.itemClick = {
             val ft: FragmentTransaction = fragmentManager!!.beginTransaction()
