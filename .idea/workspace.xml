@@ -6,7 +6,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="MMKV_shop_id" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="BranchesTreeState">
@@ -28,7 +29,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="abbb47f9-ec47-439e-b651-8674269caed4" name="Default Changelist" comment="" />
+    <list default="true" id="abbb47f9-ec47-439e-b651-8674269caed4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_new_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_new_product.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +124,7 @@
     <property name="android-custom-viewC:/Users/User/AppData/Local/Android/Sdk/sources/android-30/android/view/ViewGroup.java_SELECTED" value="ViewGroup" />
     <property name="android-custom-viewC:/Users/User/AppData/Local/Android/Sdk/sources/android-30/android/widget/TextView.java_SELECTED" value="TextView" />
     <property name="android-custom-viewC:/new-android/app/src/main/java/com/hkshopu/hk/widget/view/CustomViewPager.java_SELECTED" value="CustomViewPager" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TestHKShopPu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="multi-representation-previewC:/TestHKShopPu/app/src/main/java/com/hkshopu/hk/ui/main/activity/CustomNavigationTabBar.kt_selected" value="" />
     <property name="multi-representation-previewC:/Users/User/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_selected" value="Custom views" />
     <property name="multi-representation-previewC:/Users/User/.gradle/caches/modules-2/files-2.1/androidx.viewpager/viewpager/1.0.0/db045f92188b9d247d5f556866f8861ab68528f0/viewpager-1.0.0-sources.jar!/androidx/viewpager/widget/ViewPager.java_selected" value="Custom views" />
@@ -494,7 +498,7 @@
     <state x="657" y="174" key="FileChooserDialogImpl/63.0.1857.1080@63.0.1857.1080" timestamp="1618801289581" />
     <state x="472" y="116" key="FileChooserDialogImpl/93.0.1187.720@93.0.1187.720" timestamp="1619669566652" />
     <state x="677" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1619707258912" />
-    <state width="1783" height="266" key="GridCell.Tab.0.bottom" timestamp="1619706387872">
+    <state width="1783" height="-32" key="GridCell.Tab.0.bottom" timestamp="1619713511486">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1174" height="55" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1615561474419" />
@@ -502,9 +506,9 @@
     <state width="1173" height="86" key="GridCell.Tab.0.bottom/63.0.1217.720@63.0.1217.720" timestamp="1618570202600" />
     <state width="1813" height="184" key="GridCell.Tab.0.bottom/63.0.1857.1080@63.0.1857.1080" timestamp="1618856877794" />
     <state width="1143" height="47" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1619683213394" />
-    <state width="1783" height="266" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1619706387872" />
+    <state width="1783" height="-32" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1619713511486" />
     <state width="888" height="348" key="GridCell.Tab.0.bottom/93.0.931.819@93.0.931.819" timestamp="1619405664309" />
-    <state width="1783" height="266" key="GridCell.Tab.0.center" timestamp="1619706387872">
+    <state width="1783" height="-32" key="GridCell.Tab.0.center" timestamp="1619713511486">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1174" height="55" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1615561474419" />
@@ -512,9 +516,9 @@
     <state width="1173" height="86" key="GridCell.Tab.0.center/63.0.1217.720@63.0.1217.720" timestamp="1618570202600" />
     <state width="1813" height="184" key="GridCell.Tab.0.center/63.0.1857.1080@63.0.1857.1080" timestamp="1618856877794" />
     <state width="1143" height="47" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1619683213394" />
-    <state width="1783" height="266" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1619706387872" />
+    <state width="1783" height="-32" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1619713511486" />
     <state width="888" height="348" key="GridCell.Tab.0.center/93.0.931.819@93.0.931.819" timestamp="1619405664309" />
-    <state width="1783" height="266" key="GridCell.Tab.0.left" timestamp="1619706387872">
+    <state width="1783" height="-32" key="GridCell.Tab.0.left" timestamp="1619713511485">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1174" height="55" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1615561474419" />
@@ -522,9 +526,9 @@
     <state width="1173" height="86" key="GridCell.Tab.0.left/63.0.1217.720@63.0.1217.720" timestamp="1618570202600" />
     <state width="1813" height="184" key="GridCell.Tab.0.left/63.0.1857.1080@63.0.1857.1080" timestamp="1618856877794" />
     <state width="1143" height="47" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1619683213393" />
-    <state width="1783" height="266" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1619706387872" />
+    <state width="1783" height="-32" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1619713511485" />
     <state width="888" height="348" key="GridCell.Tab.0.left/93.0.931.819@93.0.931.819" timestamp="1619405664308" />
-    <state width="1783" height="266" key="GridCell.Tab.0.right" timestamp="1619706387872">
+    <state width="1783" height="-32" key="GridCell.Tab.0.right" timestamp="1619713511486">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1174" height="55" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1615561474419" />
@@ -532,7 +536,7 @@
     <state width="1173" height="86" key="GridCell.Tab.0.right/63.0.1217.720@63.0.1217.720" timestamp="1618570202600" />
     <state width="1813" height="184" key="GridCell.Tab.0.right/63.0.1857.1080@63.0.1857.1080" timestamp="1618856877794" />
     <state width="1143" height="47" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1619683213394" />
-    <state width="1783" height="266" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1619706387872" />
+    <state width="1783" height="-32" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1619713511486" />
     <state width="888" height="348" key="GridCell.Tab.0.right/93.0.931.819@93.0.931.819" timestamp="1619405664309" />
     <state x="-77" y="-903" key="IDE.errors.dialog" timestamp="1619571400192">
       <screen x="-375" y="-1055" width="1920" height="1055" />
@@ -553,11 +557,12 @@
     <state x="110" y="5" key="SettingsEditor/0.0.1217.720@0.0.1217.720" timestamp="1615547579739" />
     <state x="-201" y="-1048" key="SettingsEditor/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1619572338917" />
     <state x="173" y="5" key="SettingsEditor/63.0.1217.720@63.0.1217.720" timestamp="1616051405021" />
-    <state x="491" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1619516845088">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="706" y="411" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1619715337673">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="471" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/63.0.1217.720@63.0.1217.720" timestamp="1618458431614" />
     <state x="491" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/93.0.1187.720@93.0.1187.720" timestamp="1619516845088" />
+    <state x="706" y="411" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/93.0.1827.1080@93.0.1827.1080" timestamp="1619715337673" />
     <state x="513" y="131" key="refactoring.ChangeSignatureDialog" timestamp="1618106946170">
       <screen x="63" y="0" width="1217" height="720" />
     </state>
