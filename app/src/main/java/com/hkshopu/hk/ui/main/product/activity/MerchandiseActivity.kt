@@ -1,4 +1,4 @@
-package com.hkshopu.hk.ui.main.store.activity
+package com.hkshopu.hk.ui.main.product.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater

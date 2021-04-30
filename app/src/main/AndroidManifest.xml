@@ -130,13 +130,16 @@
             android:name="com.hkshopu.hk.ui.main.store.activity.EmailAdd1Activity"
             android:launchMode="singleTask" />
         <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.ShopNameEditActivity"
+            android:launchMode="singleTask" />
+        <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.SocialAccountSetActivity"
             android:launchMode="singleTask" />
 <!-- Product -->
         <activity android:name=".ui.main.product.activity.MerchanCategoryActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.hkshopu.hk.ui.main.store.activity.MerchandiseActivity" />
+        <activity android:name="com.hkshopu.hk.ui.main.product.activity.MerchandiseActivity" />
 
         <activity android:name=".ui.main.product.activity.InventoryAndPriceActivity"
             android:windowSoftInputMode="adjustPan"/>
