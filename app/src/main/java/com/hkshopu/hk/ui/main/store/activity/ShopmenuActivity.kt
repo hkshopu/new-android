@@ -13,6 +13,7 @@ import com.google.gson.Gson
 
 
 import com.hkshopu.hk.Base.BaseActivity
+import com.hkshopu.hk.component.CommonVariable
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityMainBinding
 import com.hkshopu.hk.net.ApiConstants
@@ -78,8 +79,8 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun getShopCategory(url: String) {
-        ApiConstants.list.clear()
-        ApiConstants.ShopCategory.clear()
+        CommonVariable.list.clear()
+        CommonVariable.ShopCategory.clear()
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
@@ -98,8 +99,8 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                             val shopCategoryBean: ShopCategoryBean =
                                 Gson().fromJson(jsonObject.toString(), ShopCategoryBean::class.java)
 
-                            ApiConstants.list.add(shopCategoryBean)
-                            ApiConstants.ShopCategory.put(shopCategoryBean.id.toString(), shopCategoryBean)
+                            CommonVariable.list.add(shopCategoryBean)
+                            CommonVariable.ShopCategory.put(shopCategoryBean.id.toString(), shopCategoryBean)
 
                         }
 
