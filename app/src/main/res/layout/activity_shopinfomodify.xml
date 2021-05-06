@@ -144,8 +144,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_shop_name"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
@@ -157,9 +157,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="35dp"
-                        android:layout_toLeftOf="@id/iv_chevron_shop_name"
-                        android:text="" />
+                        android:layout_marginEnd="42dp"
+                        android:layout_toStartOf="@id/iv_chevron_shop_name"
+                        android:text=""
+                        android:textColor="@color/turquoise"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -203,8 +204,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_shop_brief"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
@@ -212,13 +213,13 @@
 
                     <TextView
                         android:id="@+id/tv_shop_brief"
-                        android:layout_width="wrap_content"
+                        android:layout_width="226dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:singleLine="true"
                         android:ellipsize="end"
-                        android:layout_marginEnd="35dp"
+                        android:layout_marginEnd="42dp"
                         android:layout_toLeftOf="@id/iv_chevron_shop_brief"
                         android:text="" />
                 </RelativeLayout>
@@ -239,8 +240,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_shop_phone"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
@@ -252,7 +253,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="35dp"
+                        android:layout_marginEnd="42dp"
                         android:layout_toLeftOf="@id/iv_chevron_shop_phone"
                         android:text="" />
                 </RelativeLayout>
@@ -273,8 +274,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_user_email"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
@@ -286,8 +287,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="35dp"
-                        android:layout_toLeftOf="@id/iv_chevron_user_email"
+                        android:layout_marginEnd="42dp"
+                        android:layout_toStartOf="@id/iv_chevron_user_email"
                         android:text="" />
                 </RelativeLayout>
 
@@ -307,8 +308,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_user_socialaccount"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"
@@ -333,8 +334,8 @@
 
                     <ImageView
                         android:id="@+id/iv_chevron_pwchange"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="20dp"

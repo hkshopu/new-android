@@ -119,6 +119,8 @@
     <string name="addbankaccount2">+ 新增銀行帳號</string>
     <string name="edit">編輯</string>
     <string name="bankaccount_alert">為確保交易安全性，本操作會進行加密處理，店匯不會顯示你的完整卡號資訊。</string>
+    <string name="note">通知</string>
+    <string name="shopmore">了解更多</string>
     <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
 
     <string name="terms_of_service">SpinnerDemo</string>

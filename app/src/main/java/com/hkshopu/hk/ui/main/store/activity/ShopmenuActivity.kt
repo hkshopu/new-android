@@ -3,6 +3,7 @@ package com.hkshopu.hk.ui.main.store.activity
 
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 
 import androidx.fragment.app.Fragment
 
@@ -124,6 +125,17 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        AlertDialog.Builder(this@ShopmenuActivity)
+            .setTitle("")
+            .setMessage("您確定要離開 ？")
+            .setPositiveButton("確定"){
+                // 此為 Lambda 寫法
+                    dialog, which ->finishAffinity()
+            }
+            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+
+            }
+            .show()
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

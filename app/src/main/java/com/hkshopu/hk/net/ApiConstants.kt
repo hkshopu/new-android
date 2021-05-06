@@ -21,15 +21,15 @@ class ApiConstants private constructor() {
         //        var API_HOST = "https://hkshopu-20700.df.r.appspot.com/"
         var IMG_HOST = "https://hkshopu.df.r.appspot.com"
         //        var API_HOST = ""
-
+//        var API_HOST ="https://peppy-booth-311912.df.r.appspot.com"
 
         const val OSS_PATH = "https://cartoon202007d.oss-cn-hongkong.aliyuncs.com/api.json.txt"
 //          const val OSS_PATH2 = "https://cartoon202007d.oss-cn-hongkong.aliyuncs.com/api.json.txt"
 //        const val OSS_PATH3 = "https://cartoon202008d.oss-cn-hongkong.aliyuncs.com/api.json.txt"
 
         const val PAY_CALLBACK = "?redirect="
-
         const val API_PATH = "https://hkshopu.df.r.appspot.com/"
+//        const val API_PATH = "https://peppy-booth-311912.df.r.appspot.com"
 
     }
 }

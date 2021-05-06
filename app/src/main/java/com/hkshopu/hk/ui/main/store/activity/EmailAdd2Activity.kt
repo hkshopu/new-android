@@ -3,23 +3,36 @@ package com.hkshopu.hk.ui.main.store.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 
 import com.hkshopu.hk.Base.BaseActivity
+import com.hkshopu.hk.component.EventChangeShopPhoneSuccess
 
 import com.hkshopu.hk.databinding.*
+import com.hkshopu.hk.net.ApiConstants
+import com.hkshopu.hk.net.Web
+import com.hkshopu.hk.net.WebListener
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 
 
-class EmailAdd2Activity : BaseActivity(), TextWatcher {
+class EmailAdd2Activity : BaseActivity(){
     private lateinit var binding: ActivityEmailadd2Binding
 
     private val VM = AuthVModel()
     var getstring : String? = null
     var email: String = ""
+    var isEmailShow: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailadd2Binding.inflate(layoutInflater)
@@ -30,13 +43,13 @@ class EmailAdd2Activity : BaseActivity(), TextWatcher {
         initClick()
 
     }
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
-    override fun afterTextChanged(p0: Editable?) {
-        email = binding.etAddEmail.text.toString()
-    }
+
+
     private fun initView() {
+        binding.etAddEmail.doAfterTextChanged {
+            email = binding.etAddEmail.text.toString()
+        }
         binding.layoutAddEmail.setOnClickListener {
             KeyboardUtil.hideKeyboard(it)
         }
@@ -69,7 +82,7 @@ class EmailAdd2Activity : BaseActivity(), TextWatcher {
         }
 
         binding.tvSave.setOnClickListener {
-
+            Do_ShopEmailUpdate(email,isEmailShow)
         }
 
         binding.switchview.setOnStateChangedListener(object :
@@ -77,12 +90,57 @@ class EmailAdd2Activity : BaseActivity(), TextWatcher {
             override fun onStateChanged(isOpen: Boolean) {
                 MMKV.mmkvWithID("http").putBoolean("EmailShow", isOpen)
                     .putString("email",email)
+                if(isOpen){
+                    isEmailShow = "Y"
+                }else{
+                    isEmailShow = "N"
+                }
+
             }
         })
 
 
     }
 
+    private fun Do_ShopEmailUpdate(email: String,is_email_show:String) {
+        val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
+        var url = ApiConstants.API_PATH+"shop/"+shopId+"/update/"
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("EmailAdd2Activity", "返回資料 resStr：" + resStr)
+                    Log.d("EmailAdd2Activity", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    val status = json.get("status")
+                    if (status == 0) {
+                        if(is_email_show.equals("Y")) {
+                            RxBus.getInstance().post(EventChangeShopPhoneSuccess(email))
+                        }
+                        finish()
+                    } else {
+                        runOnUiThread {
+
+                            Toast.makeText(this@EmailAdd2Activity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Do_ShopEmailUpdate(url,email,is_email_show)
+    }
 
 
 }
