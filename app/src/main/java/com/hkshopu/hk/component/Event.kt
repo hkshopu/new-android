@@ -38,7 +38,6 @@ class EventProductSearch(val keyword: String = "")
 
 class EventPhoneShow(val show:Boolean,val phone: String? = null)
 
-class EventEmailShow(val show:Boolean,val email: String? = null)
 
 class EventLaunchConfigsSuccess
 
@@ -55,8 +54,6 @@ class EventHideBottomBar
 class EventShowBottomBar
 
 class EventReturnComic
-
-
 
 class EventEmailShow(val show:Boolean,val email: String? = null)
 
