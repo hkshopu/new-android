@@ -80,6 +80,7 @@
                 android:id="@+id/iv_addshopbrief_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_no_image" />
 
             </androidx.cardview.widget.CardView>
@@ -122,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/iv_addshopbrief_save"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="96dp"
                 android:text="@string/contact"
@@ -134,7 +135,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_above="@id/iv_addshopbrief_email"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginBottom="10dp"
                 android:src="@mipmap/ic_phone"
                 android:visibility="invisible" />
@@ -145,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/iv_addshopbrief_save"
                 android:layout_alignBottom="@id/iv_addshopbrief_contact1"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/iv_addshopbrief_contact1"
                 android:text=""
@@ -156,7 +157,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_above="@id/iv_addshopbrief_address"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginBottom="12dp"
                 android:src="@mipmap/ic_mail"
                 android:visibility="invisible" />
@@ -167,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/iv_addshopbrief_save"
                 android:layout_alignBottom="@id/iv_addshopbrief_email"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/iv_addshopbrief_email"
                 android:text=""
@@ -178,7 +179,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_above="@id/iv_addshopbrief_save"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginBottom="20dp"
                 android:src="@mipmap/ic_location"
                 android:visibility="invisible" />
@@ -189,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/iv_addshopbrief_save"
                 android:layout_alignBottom="@id/iv_addshopbrief_address"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/iv_addshopbrief_address"
                 android:text=""

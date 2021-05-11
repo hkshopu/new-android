@@ -20,10 +20,7 @@ import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.component.CommonVariable
 import com.hkshopu.hk.component.EventAddShopBriefSuccess
 import com.hkshopu.hk.component.EventGetShopCatSuccess
-import com.hkshopu.hk.data.bean.ShopAddressBean
-import com.hkshopu.hk.data.bean.ShopBriefBean
-import com.hkshopu.hk.data.bean.ShopInfoBean
-import com.hkshopu.hk.data.bean.ShopProductBean
+import com.hkshopu.hk.data.bean.*
 
 import com.hkshopu.hk.databinding.ActivityAddshopbriefBinding
 import com.hkshopu.hk.net.ApiConstants
@@ -33,6 +30,7 @@ import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.utils.extension.load
 import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -59,12 +57,12 @@ class AddShopBriefActivity : BaseActivity() {
     private lateinit var description:String
     val shopId = mmkvWithID("http").getInt("ShopId",0)
     val shoptitle = mmkvWithID("http").getString("shoptitle","")
-    var url = ApiConstants.API_HOST+"/shop/"+shopId+"/get_simple_info_of_specific_shop/"
+    var url = ApiConstants.API_HOST+"shop/"+shopId+"/get_simple_info_of_specific_shop/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddshopbriefBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        address_id =  CommonVariable.addresslist[0].id
+        address_id = CommonVariable.addresslist[0].id
 //        shop_Icon = intent.getBundleExtra("bundle")!!.getString("shop_icon","")
 //        shop_Pic = intent.getBundleExtra("bundle")!!.getString("shop_pic","")
 //        shop_Des = intent.getBundleExtra("bundle")!!.getString("shop_des","")
@@ -124,12 +122,12 @@ class AddShopBriefActivity : BaseActivity() {
 
     }
     private fun getShopBrief(url: String) {
-
+        Log.d("AddShopBriefActivity", "返回資料 Url：" + url)
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
                 try {
-                    val list = ArrayList<ShopAddressBean>()
+                    val list = ArrayList<ShopAddressBriefBean>()
                     list.clear()
                     val infolist = ArrayList<ShopBriefBean>()
                     infolist.clear()
@@ -141,39 +139,50 @@ class AddShopBriefActivity : BaseActivity() {
                     val status =  json.get("status")
                     if (status==0) {
                         val jsonObject: JSONObject = json.getJSONObject("data")
-                                val shop_Icon = jsonObject.get("shop_icon")
-                                val shop_Pic = jsonObject.get("background_pic")
-                                val shop_Des = jsonObject.get("long_description")
-                        val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
+                        val shopBriefBean: ShopBriefBean =
+                            Gson().fromJson(jsonObject.toString(), ShopBriefBean::class.java)
+                            infolist.add(shopBriefBean)
+
                             runOnUiThread {
-                                if(shop_Icon.toString().length > 0){
-                                    binding.ivAddshopbriefPic.loadNovelCover(shop_Icon.toString())
+
+                                    binding.ivAddshopbriefPic.load(infolist[0].shop_icon)
+                                    binding.ivShopimage.load(infolist[0].background_pic)
+
+                                    binding.etAddshopbrief.setText(infolist[0].long_description)
+
+                                if(infolist[0].shop_email.length > 0) {
+                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                    binding.ivAddshopbriefEmail.visibility = View.VISIBLE
+                                    binding.tvAddshopbriefEmail.text = infolist[0].shop_email
                                 }
-                                if(shop_Pic.toString().length > 0){
-                                    binding.ivShopimage.loadNovelCover(shop_Pic.toString())
-                                }
-                                if(shop_Des.toString().length > 0){
-                                    binding.etAddshopbrief.setText(shop_Des.toString())
-                                }
+
+                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
+
+
+                                val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
                                 if (shopaddress.length() > 0) {
                                     for (i in 0 until shopaddress.length()) {
                                         val address = shopaddress.get(i)
-                                        val shopBriefBean: ShopBriefBean =
-                                            Gson().fromJson(address.toString(), ShopBriefBean::class.java)
-                                        infolist.add(shopBriefBean)
-                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
-                                        binding.ivAddshopbriefContact1.visibility = View.VISIBLE
-//                                        binding.tvAddshopbriefPhone.text = phone
+                                        if(address.toString().length > 0) {
+                                            val shopAddressBriefBean: ShopAddressBriefBean =
+                                                Gson().fromJson(address.toString(), ShopAddressBriefBean::class.java)
+                                            list.add(shopAddressBriefBean)
+                                            if(list[i].area.length > 0) {
+                                                val address_brief =
+                                                    list[i].area + list[i].district + list[i].road + list[i].number + list[i].other + list[i].floor + list[i].room
+                                                binding.ivAddshopbriefAddress.visibility = View.VISIBLE
+                                                binding.tvAddshopbriefAddress.visibility = View.VISIBLE
+                                                binding.tvAddshopbriefAddress.text = address_brief
 
-                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
-                                        binding.ivAddshopbriefEmail.visibility = View.VISIBLE
-//                                        binding.tvAddshopbriefEmail.text = email
+                                                if(infolist[0].phone.length > 0) {
+                                                    val phone_brief = list[i].country_code +"-"+infolist[0].phone
+                                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                                    binding.ivAddshopbriefContact1.visibility = View.VISIBLE
+                                                    binding.tvAddshopbriefPhone.text = phone_brief
+                                                }
+                                            }
+                                        }
 
-
-                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
-                                        binding.ivAddshopbriefAddress.visibility = View.VISIBLE
-//                                        binding.tvAddshopbriefAddress.text = address[0].name
-                                        Log.d("AddShopBriefActivity", "返回資料 Object：" + address.toString())
                                     }
                                 }
 

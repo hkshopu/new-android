@@ -29,6 +29,7 @@ import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.utils.extension.load
 import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
@@ -230,8 +231,8 @@ class ShopInfoModifyActivity : BaseActivity() {
                             }
                             binding.tvUserEmail.text = list[0].shop_email
                             binding.tvShopBrief.text = list[0].shop_description
-                            binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
-                            binding!!.ivShoppicB.loadNovelCover(list[0].shop_pic)
+                            binding!!.ivShopImg.load(list[0].shop_icon)
+                            binding!!.ivShoppicB.load(list[0].shop_pic)
 
                         }
 
