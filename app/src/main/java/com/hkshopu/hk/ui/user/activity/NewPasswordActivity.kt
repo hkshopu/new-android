@@ -6,16 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
-import com.hkshopu.hk.databinding.ActivityLoginPasswordBinding
 import com.hkshopu.hk.databinding.ActivityNewPasswordBinding
-import com.hkshopu.hk.ui.main.activity.ShopmenuActivity
+import com.hkshopu.hk.ui.main.store.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 
 class NewPasswordActivity : AppCompatActivity() {
@@ -49,14 +47,14 @@ class NewPasswordActivity : AppCompatActivity() {
             when (it?.status) {
                 Status.Success -> {
 
-                    if (it.data.toString() == "")  {
+                    if (it.ret_val.toString() == "密碼修改成功!")  {
                         Toast.makeText(this, "密碼修改成功!", Toast.LENGTH_SHORT ).show()
                         val intent = Intent(this, ShopmenuActivity::class.java)
                         startActivity(intent)
                         finish()
 
                     }else {
-                        Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT ).show()
+                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
 
                     }
 
@@ -83,6 +81,7 @@ class NewPasswordActivity : AppCompatActivity() {
 
             val intent = Intent(this, LoginPasswordActivity::class.java)
             startActivity(intent)
+
             finish()
 
         }

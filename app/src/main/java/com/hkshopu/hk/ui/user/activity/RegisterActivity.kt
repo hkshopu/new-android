@@ -134,7 +134,7 @@ class RegisterActivity : BaseActivity(), TextWatcher {
                     gender,
                     birthday,
                     phone,
-                    address
+                    address,"","","","","",""
                 )
             } else {
 //                toast(R.string.please_confirm_password)

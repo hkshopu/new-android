@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -30,13 +29,10 @@ import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityBuildacntBinding
+import com.hkshopu.hk.ui.main.store.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
-import com.hkshopu.hk.widget.view.disable
-import com.hkshopu.hk.widget.view.enable
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 class BuildAccountActivity : BaseActivity(), TextWatcher {
@@ -55,6 +51,11 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         super.onCreate(savedInstanceState)
         binding = ActivityBuildacntBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        callbackManager = CallbackManager.Factory.create()
+
+        settings = getSharedPreferences("DATA",0)
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestId()
             .requestEmail()
@@ -72,35 +73,75 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         email = binding.editEmailReg.text.toString()
         password = binding.passwordReg.text.toString()
         passwordconf = binding.passwordConf.text.toString()
-//        if (email.isEmpty() || password.isEmpty() || passwordcof.isEmpty()) {
-//            binding.tvNext.disable()
-//        } else {
-//            binding.tvNext.enable()
-//        }
+        if (email.isEmpty() || password.isEmpty() || passwordconf.isEmpty()) {
+            binding.imgViewNextStep.isEnabled = false
+            binding.imgViewNextStep.setImageResource(R.mipmap.next_step_inable)
+        } else {
+            binding.imgViewNextStep.isEnabled = true
+            binding.imgViewNextStep.setImageResource(R.mipmap.next_step)
 
+        }
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
     private fun initVM() {
-        VM.registerLiveData.observe(this, Observer {
+        VM.emailcheckLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-//                    if (url.isNotEmpty()) {
-//                        toast("登录成功")
-//
-//                    }
+                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        if (it.ret_val!!.equals("該電子郵件沒有重複使用!")) {
+                            settings.edit()
+                                .putString("email", email)
+                                .putString("password", password)
+                                .putString("passwordconf", passwordconf)
+                                .apply()
+                            val intent = Intent(this, UserIofoActivity::class.java)
+                            startActivity(intent)
 
-                    finish()
+                        }else{
+                            Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+
+                        }
+                    }else {
+                        Toast.makeText(this, "電郵格式錯誤", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 //                Status.Start -> showLoading()
 //                Status.Complete -> disLoading()
             }
         })
+
+        VM.socialloginLiveData.observe(this, Observer {
+            when (it?.status) {
+                Status.Success -> {
+                    Log.d("OnBoardActivity", "Sign-In Result" + it.ret_val)
+                    if (it.ret_val.toString().isNotEmpty()) {
+
+                        val intent = Intent(this, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        val intent = Intent(this, BuildAccountActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }
+//                Status.Start -> showLoading()
+//                Status.Complete -> disLoading()
+            }
+        })
+
     }
 
     private fun initView() {
+
+        //imgViewNextStep預設不能按
+        binding.imgViewNextStep.isEnabled = false
 
         initEditText()
         initClick()
@@ -115,13 +156,12 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
 
             finish()
         }
-        binding.ivGoogle.setOnClickListener {
+        binding.btnGoogleLogin.setOnClickListener {
 
             GoogleAccountBuild()
         }
-        binding.ivFb.setOnClickListener {
+        binding.btnFacebookLogin.setOnClickListener {
 
-            callbackManager = CallbackManager.Factory.create()
             LoginManager.getInstance().logInWithReadPermissions(
                 this, Arrays.asList("public_profile", "email")
             )
@@ -163,19 +203,18 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         binding.showPassconfBtn.setOnClickListener {
             ShowHidePass(it)
         }
-        settings = getSharedPreferences("DATA",0)
-        binding.tvNext.setOnClickListener {
-            if(email.isNotEmpty() && password.isNotEmpty()) {
-                settings.edit()
-                    .putString("email", email)
-                    .putString("password", password)
-                    .putString("passwordconf", passwordconf)
-                    .apply()
-            }
-            val intent = Intent(this, UserIofoActivity::class.java)
-            startActivity(intent)
-            finish()
+
+        binding.imgViewNextStep.setOnClickListener {
+
+            VM.emailCheck(this,email)
+
         }
+        binding.tvAgreeterm.setOnClickListener {
+            val intent = Intent(this, TermsOfServiceActivity::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     private fun initEditText() {

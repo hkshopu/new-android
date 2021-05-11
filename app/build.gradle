@@ -14,7 +14,8 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         Properties properties = new Properties()
@@ -58,6 +59,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     //noinspection GradleCompatible
@@ -93,16 +95,16 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
     implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.8.1'
     //Glide
     implementation("com.github.bumptech.glide:glide:$GLIDE_VERSION") {
         exclude group: "com.android.support"
     }
     implementation "com.github.bumptech.glide:okhttp3-integration:$GLIDE_VERSION"
     implementation "com.github.bumptech.glide:recyclerview-integration:${GLIDE_VERSION}@aar"
-    implementation 'androidx.wear:wear:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    compileOnly 'com.google.android.wearable:wearable:2.6.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     kapt'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'  //高斯模糊
 
@@ -116,6 +118,9 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'com.github.tiper:MaterialSpinner:1.4.2'
+    implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
+    implementation 'com.tencent:mmkv:1.0.15'
+    implementation 'com.asdev.PhoneEditText-Android:PhoneEditText-Android:1.1.1'
 
     //Facebook
     implementation 'com.facebook.android:facebook-login:5.15.3'
@@ -127,5 +132,15 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //ios switch button
+    implementation 'com.github.zilchzz:EasySwitcher:0.1.7'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //NiceRatingBar
+    implementation 'com.github.KaelLi1989:NiceRatingBar:1.0.0'
+
 
 }

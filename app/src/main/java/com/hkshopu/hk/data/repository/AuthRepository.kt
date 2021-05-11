@@ -22,21 +22,21 @@ class AuthRepository : BaseRepository(){
 
     fun sociallogin(lifecycleOwner: LifecycleOwner,email: String,facebook_account: String, google_account: String,apple_account: String) : Observable<Any>{
         return service.sociallogin(email,facebook_account,google_account,apple_account)
-                .compose(SchedulersUtil.applySchedulers())
-                .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
-                .map {
-                    if (it.status == 0) {
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
+            .map {
+                if (it.status == 0) {
                     RxBus.getInstance().post(EventLoginSuccess())
 //                        it.ret_val = 0
 
-                    }
-                    it
                 }
-                .compose(handleBean())
+                it
+            }
+            .compose(handleBean())
     }
 
-    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String,  address: String) : Observable<Any> {
-        return service.register(account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address)
+    fun register(lifecycleOwner: LifecycleOwner, account_name : String,email : String,password : String,confirm_password : String,first_name : String,last_name : String,gender : String,birthday : String,phone : String,address: String,region: String,district: String,street_name: String,street_no: String,floor: String,room: String) : Observable<Any> {
+        return service.register(account_name,email,password,confirm_password,first_name,last_name,gender,birthday,phone,address,region, district, street_name, street_no, floor, room)
             .compose(SchedulersUtil.applySchedulers())
             .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
             .compose(handleBean())
@@ -70,12 +70,19 @@ class AuthRepository : BaseRepository(){
             .compose(handleBean())
     }
 
+    fun emailcheck(lifecycleOwner: LifecycleOwner,email : String) : Observable<Any>{
+        return service.emailcheck(email)
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
+    }
+
 
     fun reset_password(lifecycleOwner: LifecycleOwner,email : String, password : String, confirm_password :String) : Observable<Any>{
         return service.reset_password(email,password,confirm_password)
-                .compose(SchedulersUtil.applySchedulers())
-                .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
-                .compose(handleBean())
+            .compose(SchedulersUtil.applySchedulers())
+            .bindUntilEvent(lifecycleOwner,Lifecycle.Event.ON_DESTROY)
+            .compose(handleBean())
     }
 
 
