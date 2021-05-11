@@ -33,11 +33,12 @@ class EmailAdd2Activity : BaseActivity(){
     var getstring : String? = null
     var email: String = ""
     var isEmailShow: String = ""
+    var address_id:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailadd2Binding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
         initView()
         initVM()
         initClick()
@@ -53,10 +54,9 @@ class EmailAdd2Activity : BaseActivity(){
         binding.layoutAddEmail.setOnClickListener {
             KeyboardUtil.hideKeyboard(it)
         }
-        val emailShow:Boolean = MMKV.mmkvWithID("http").getBoolean("EmailShow",false)
-        if(emailShow){
-            binding.switchview.openSwitcher()
-        }
+
+        binding.switchview.openSwitcher()
+
     }
     private fun initVM() {
 //        VM.socialloginLiveData.observe(this, Observer {
@@ -88,8 +88,7 @@ class EmailAdd2Activity : BaseActivity(){
         binding.switchview.setOnStateChangedListener(object :
             EasySwitcher.SwitchStateChangedListener {
             override fun onStateChanged(isOpen: Boolean) {
-                MMKV.mmkvWithID("http").putBoolean("EmailShow", isOpen)
-                    .putString("email",email)
+
                 if(isOpen){
                     isEmailShow = "Y"
                 }else{
@@ -139,7 +138,7 @@ class EmailAdd2Activity : BaseActivity(){
 
             }
         })
-        web.Do_ShopEmailUpdate(url,email,is_email_show)
+        web.Do_ShopEmailUpdate(url,address_id,email,is_email_show)
     }
 
 

@@ -31,11 +31,12 @@ class ShopNameEditActivity : BaseActivity(){
 
     private val VM = AuthVModel()
     var shopName: String = ""
+    var address_id:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShopnameeditBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
         initView()
         initVM()
         initClick()
@@ -84,7 +85,7 @@ class ShopNameEditActivity : BaseActivity(){
     private fun doShopTitleUpdate(shopTitle: String) {
         val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
         var url = ApiConstants.API_PATH+"shop/"+shopId+"/update/"
-
+        Log.d("ShopNameEditActivity", "送資料 URL：" + url)
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
@@ -116,7 +117,7 @@ class ShopNameEditActivity : BaseActivity(){
 
             }
         })
-        web.Do_ShopTitleUpdate(url,shopTitle)
+        web.Do_ShopTitleUpdate(url,address_id,shopTitle)
     }
 
 

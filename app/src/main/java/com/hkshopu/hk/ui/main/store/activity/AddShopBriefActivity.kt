@@ -1,20 +1,29 @@
 package com.hkshopu.hk.ui.main.store.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import com.google.gson.Gson
 
 import com.hkshopu.hk.Base.BaseActivity
+import com.hkshopu.hk.component.CommonVariable
 import com.hkshopu.hk.component.EventAddShopBriefSuccess
 import com.hkshopu.hk.component.EventGetShopCatSuccess
+import com.hkshopu.hk.data.bean.ShopAddressBean
+import com.hkshopu.hk.data.bean.ShopBriefBean
+import com.hkshopu.hk.data.bean.ShopInfoBean
+import com.hkshopu.hk.data.bean.ShopProductBean
 
 import com.hkshopu.hk.databinding.ActivityAddshopbriefBinding
 import com.hkshopu.hk.net.ApiConstants
@@ -24,14 +33,19 @@ import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 
 
 import com.hkshopu.hk.ui.user.vm.AuthVModel
+import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
 import com.tencent.mmkv.MMKV.mmkvWithID
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 
 
 class AddShopBriefActivity : BaseActivity() {
@@ -41,41 +55,31 @@ class AddShopBriefActivity : BaseActivity() {
     private val pickImage = 200
     private var imageUri: Uri? = null
     private var isSelectImage = false
+    private var address_id:String=""
     private lateinit var description:String
+    val shopId = mmkvWithID("http").getInt("ShopId",0)
+    val shoptitle = mmkvWithID("http").getString("shoptitle","")
+    var url = ApiConstants.API_HOST+"/shop/"+shopId+"/get_simple_info_of_specific_shop/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddshopbriefBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        address_id =  CommonVariable.addresslist[0].id
+//        shop_Icon = intent.getBundleExtra("bundle")!!.getString("shop_icon","")
+//        shop_Pic = intent.getBundleExtra("bundle")!!.getString("shop_pic","")
+//        shop_Des = intent.getBundleExtra("bundle")!!.getString("shop_des","")
         initView()
         initVM()
         initClick()
-
+        getShopBrief(url)
 
 
     }
     private fun initView(){
-        val phoneShow:Boolean = mmkvWithID("http").getBoolean("PhoneShow",false)
-        val phone:String? = mmkvWithID("http").getString("phone","")
-        if(phoneShow){
-            binding.tvAddshopbriefContact.visibility = View.VISIBLE
-            binding.ivAddshopbriefContact1.visibility = View.VISIBLE
-            binding.tvAddshopbriefPhone.text = phone
-        }
-        val emailShow:Boolean = mmkvWithID("http").getBoolean("EmailShow",false)
-        val email:String? = mmkvWithID("http").getString("email","")
-        if(emailShow){
-            binding.tvAddshopbriefContact.visibility = View.VISIBLE
-            binding.ivAddshopbriefEmail.visibility = View.VISIBLE
-            binding.tvAddshopbriefEmail.text = email
-        }
-        val addressShow:Boolean = mmkvWithID("http").getBoolean("AddressShow",false)
-        val address:String? = mmkvWithID("http").getString("address","")
-        if(addressShow){
-            binding.tvAddshopbriefContact.visibility = View.VISIBLE
-            binding.ivAddshopbriefAddress.visibility = View.VISIBLE
-            binding.tvAddshopbriefAddress.text = address
-        }
+        binding.tvAddshopbriefName.text = shoptitle
+
+
+
         binding.etAddshopbrief.doAfterTextChanged {
             description =  binding.etAddshopbrief.text.toString()
         }
@@ -119,6 +123,111 @@ class AddShopBriefActivity : BaseActivity() {
         }
 
     }
+    private fun getShopBrief(url: String) {
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    val list = ArrayList<ShopAddressBean>()
+                    list.clear()
+                    val infolist = ArrayList<ShopBriefBean>()
+                    infolist.clear()
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("AddShopBriefActivity", "返回資料 resStr：" + resStr)
+                    Log.d("AddShopBriefActivity", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    val status =  json.get("status")
+                    if (status==0) {
+                        val jsonObject: JSONObject = json.getJSONObject("data")
+                                val shop_Icon = jsonObject.get("shop_icon")
+                                val shop_Pic = jsonObject.get("background_pic")
+                                val shop_Des = jsonObject.get("long_description")
+                        val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
+                            runOnUiThread {
+                                if(shop_Icon.toString().length > 0){
+                                    binding.ivAddshopbriefPic.loadNovelCover(shop_Icon.toString())
+                                }
+                                if(shop_Pic.toString().length > 0){
+                                    binding.ivShopimage.loadNovelCover(shop_Pic.toString())
+                                }
+                                if(shop_Des.toString().length > 0){
+                                    binding.etAddshopbrief.setText(shop_Des.toString())
+                                }
+                                if (shopaddress.length() > 0) {
+                                    for (i in 0 until shopaddress.length()) {
+                                        val address = shopaddress.get(i)
+                                        val shopBriefBean: ShopBriefBean =
+                                            Gson().fromJson(address.toString(), ShopBriefBean::class.java)
+                                        infolist.add(shopBriefBean)
+                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                        binding.ivAddshopbriefContact1.visibility = View.VISIBLE
+//                                        binding.tvAddshopbriefPhone.text = phone
+
+                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                        binding.ivAddshopbriefEmail.visibility = View.VISIBLE
+//                                        binding.tvAddshopbriefEmail.text = email
+
+
+                                        binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                        binding.ivAddshopbriefAddress.visibility = View.VISIBLE
+//                                        binding.tvAddshopbriefAddress.text = address[0].name
+                                        Log.d("AddShopBriefActivity", "返回資料 Object：" + address.toString())
+                                    }
+                                }
+
+                            }
+                        }else{
+
+                        runOnUiThread {
+
+                            Toast.makeText(this@AddShopBriefActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Get_Data(url)
+    }
+    private fun processImage(): File? {
+        val drawable = binding.ivShopimage.drawable as BitmapDrawable
+        val bmp = drawable.bitmap
+        val bmpCompress = getResizedBitmap(bmp, 1440)
+        val file: File
+        val path = getExternalFilesDir(null).toString()
+        file = File(path, "image" + ".jpg")
+        try {
+            var stream: OutputStream? = null
+            stream = FileOutputStream(file)
+            bmpCompress!!.compress(Bitmap.CompressFormat.JPEG, 85, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) // Catch the exception
+        {
+            e.printStackTrace()
+        }
+        return file
+    }
+    fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap? {
+        var width = image.width
+        var height = image.height
+        val bitmapRatio = width.toFloat() / height.toFloat()
+        width = maxSize
+        height = (width / bitmapRatio).toInt()
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -135,7 +244,8 @@ class AddShopBriefActivity : BaseActivity() {
                             binding!!.ivShopimage.setImageBitmap(bitmap)
 
                             isSelectImage = true
-
+                            val file = processImage()
+                            doShopBgUpdate(file!!)
 
                         } else {
 
@@ -148,7 +258,8 @@ class AddShopBriefActivity : BaseActivity() {
                             runOnUiThread {
                                 binding.ivNoimage.visibility = View.INVISIBLE
                                 binding!!.ivShopimage.setImageBitmap(bitmap)
-
+                                val file = processImage()
+                                doShopBgUpdate(file!!)
                             }
 
                             isSelectImage = true
@@ -168,6 +279,47 @@ class AddShopBriefActivity : BaseActivity() {
             }
 
         }
+    }
+
+
+
+    private fun doShopBgUpdate(postImg: File) {
+        val shopId = mmkvWithID("http").getInt("ShopId", 0)
+        var url = ApiConstants.API_PATH + "shop/" + shopId + "/update/"
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("AddShopBriefActivity", "返回資料 resStr：" + resStr)
+
+                    val ret_val = json.get("ret_val")
+                    val status = json.get("status")
+                    if (status == 0) {
+                        runOnUiThread {
+                            Toast.makeText(this@AddShopBriefActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        runOnUiThread {
+
+                            Toast.makeText(this@AddShopBriefActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Do_ShopBgUpdate(url, address_id,postImg)
     }
 
     private fun doShopDesUpdate(description: String) {
@@ -205,7 +357,7 @@ class AddShopBriefActivity : BaseActivity() {
 
             }
         })
-        web.Do_ShopDesUpdate(url, description)
+        web.Do_ShopDesUpdate(url, address_id,description)
     }
 
 

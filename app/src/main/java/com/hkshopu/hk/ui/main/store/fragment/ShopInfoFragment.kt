@@ -15,8 +15,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.CommonVariable
 
 import com.hkshopu.hk.component.EventGetShopCatSuccess
+import com.hkshopu.hk.data.bean.ShopAddressBean
 import com.hkshopu.hk.data.bean.ShopInfoBean
 import com.hkshopu.hk.databinding.FragmentShopinfoBinding
 import com.hkshopu.hk.net.ApiConstants
@@ -200,15 +202,16 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo) {
 //                                Gson().fromJson(account.toString(), ShopBankAccountBean::class.java)
 //                            CommonVariable.bankaccountlist.add(shopBankAccountBean)
 //                        }
-//                        val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
-//                        if (shopaddress.length() > 0) {
-//                            for (i in 0 until shopaddress.length()) {
-//                                val address = shopaddress.get(i)
-//                                val shopAddressBean: ShopAddressBean =
-//                                    Gson().fromJson(address.toString(), ShopAddressBean::class.java)
-//                                CommonVariable.addresslist.add(shopAddressBean)
-//                            }
-//                        }
+                        val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
+                        if (shopaddress.length() > 0) {
+                            for (i in 0 until shopaddress.length()) {
+                                val address = shopaddress.get(i)
+                                val shopAddressBean: ShopAddressBean =
+                                    Gson().fromJson(address.toString(), ShopAddressBean::class.java)
+                                CommonVariable.addresslist.add(shopAddressBean)
+
+                            }
+                        }
                         val translations: JSONArray = jsonObject.getJSONArray("shop_category_id")
 
                         for (i in 0 until translations.length()) {
@@ -231,11 +234,12 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo) {
                             binding!!.myLikes.text = list[0].follower.toString()
                             binding!!.myIncome.text = list[0].income.toString()
                             binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
-                            MMKV.mmkvWithID("http").putString(
-                                "description",
-                                list[0].long_description
-                            )
-
+                            MMKV.mmkvWithID("http").putString("shoptitle", list[0].shop_title)
+                                .putString("description",list[0].long_description)
+                            if(list[0].email_on.equals("Y")){
+                                MMKV.mmkvWithID("http").putString("email_on", list[0].email_on)
+                                    .putString("shop_email",list[0].shop_email)
+                            }
 
 
                         }

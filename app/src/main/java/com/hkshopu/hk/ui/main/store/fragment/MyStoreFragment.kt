@@ -47,6 +47,7 @@ class MyStoreFragment : Fragment() {
     }
     lateinit var storeBrief:RelativeLayout
     lateinit var shopBrief:TextView
+    lateinit var shopBrief_edit:TextView
     lateinit var addShopBrief:RelativeLayout
     lateinit var newProduct_null :RelativeLayout
     lateinit var newProduct :RecyclerView
@@ -64,6 +65,11 @@ class MyStoreFragment : Fragment() {
 
         storeBrief = v.find<RelativeLayout>(R.id.layout_store_brief)
         shopBrief = v.find<TextView>(R.id.tv_shop_brief)
+        shopBrief_edit = v.find<TextView>(R.id.tv_shop_brief_more)
+        shopBrief_edit.setOnClickListener {
+            val intent = Intent(activity, AddShopBriefActivity::class.java)
+            activity!!.startActivity(intent)
+        }
         addShopBrief = v.find<RelativeLayout>(R.id.layout_store_addbrief)
         val btn_addShopBrief = v.find<ImageButton>(R.id.iv_addshopbrief)
         btn_addShopBrief.setOnClickListener {
@@ -93,11 +99,12 @@ class MyStoreFragment : Fragment() {
             "MyStoreFragment",
             "資料 description：" + description
         )
-        if(description.equals("null")){
-            addShopBrief.visibility = View.VISIBLE
-        }else{
+        if(description!!.length > 0 ){
             storeBrief.visibility = View.VISIBLE
             shopBrief.text = description
+
+        }else{
+            addShopBrief.visibility = View.VISIBLE
         }
     }
     @SuppressLint("CheckResult")

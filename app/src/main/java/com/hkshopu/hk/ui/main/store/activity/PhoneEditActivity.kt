@@ -33,13 +33,14 @@ class PhoneEditActivity : BaseActivity(){
     private val VM = AuthVModel()
     var phone_country: String = ""
     var phone_number: String = ""
-    var phone: String = ""
+    var phone_pass: String = ""
     var isphoneShow: String = ""
+    var address_id:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPhoneeditBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
         initView()
         initVM()
         initClick()
@@ -50,16 +51,15 @@ class PhoneEditActivity : BaseActivity(){
         binding.editShopphoneNumber.doAfterTextChanged {
             phone_number = binding.editShopphoneNumber.text.toString()
             phone_country = binding.tvShopphoneCountry.text.toString()
-            phone = phone_country + phone_number
+            phone_pass = phone_country + phone_number
 
         }
         binding.layoutPhoneEdit.setOnClickListener {
             KeyboardUtil.hideKeyboard(it)
         }
-        val phoneShow: Boolean = MMKV.mmkvWithID("http").getBoolean("PhoneShow", false)
-        if (phoneShow) {
-            binding.switchview.openSwitcher()
-        }
+
+        binding.switchview.openSwitcher()
+
 
     }
 
@@ -87,14 +87,12 @@ class PhoneEditActivity : BaseActivity(){
         }
 
         binding.tvSave.setOnClickListener {
-            doShopDesUpdate(phone_country,phone_number,isphoneShow)
+            doShopPhoneUpdate(phone_country,phone_number,isphoneShow)
         }
         binding.switchview.setOnStateChangedListener(object :
             EasySwitcher.SwitchStateChangedListener {
             override fun onStateChanged(isOpen: Boolean) {
 
-                MMKV.mmkvWithID("http").putBoolean("PhoneShow", isOpen)
-                    .putString("phone", phone)
                 if(isOpen){
                     isphoneShow ="Y"
                 }else{
@@ -106,10 +104,11 @@ class PhoneEditActivity : BaseActivity(){
 
     }
 
-    private fun doShopDesUpdate(countrycode: String,phone: String, is_phone_show:String) {
+
+    private fun doShopPhoneUpdate(countrycode: String,phone: String, is_phone_show:String) {
         val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
         var url = ApiConstants.API_PATH+"shop/"+shopId+"/update/"
-
+        Log.d("PhoneEditActivity", "資料 countrycode：" + countrycode)
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
@@ -121,7 +120,7 @@ class PhoneEditActivity : BaseActivity(){
                     val ret_val = json.get("ret_val")
                     val status = json.get("status")
                     if (status == 0) {
-                        RxBus.getInstance().post(EventChangeShopPhoneSuccess(phone))
+                        RxBus.getInstance().post(EventChangeShopPhoneSuccess(phone_pass))
                         finish()
                     } else {
                         runOnUiThread {
@@ -141,7 +140,7 @@ class PhoneEditActivity : BaseActivity(){
 
             }
         })
-        web.Do_ShopPhoneUpdate(url,countrycode,phone,is_phone_show)
+        web.Do_ShopPhoneUpdate(url,address_id,countrycode,phone,is_phone_show)
     }
 
 

@@ -26,13 +26,14 @@ class EmailAdd1Activity : BaseActivity(){
 
     private val VM = AuthVModel()
     var passwordCheck: String = ""
+    var address_id:String = ""
     val email = MMKV.mmkvWithID("http").getString("Email", "");
     val password = MMKV.mmkvWithID("http").getString("Password", "");
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailadd1Binding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
         initView()
         initVM()
         initEditText()
@@ -94,7 +95,10 @@ class EmailAdd1Activity : BaseActivity(){
         binding.tvGoOn.setOnClickListener {
             Log.d("EmailAdd1Activity", "PassWordCheck：" + passwordCheck)
             if(passwordCheck.equals(password)) {
+                var bundle = Bundle()
+                bundle.putString("address_id",address_id)
                 val intent = Intent(this, EmailAdd2Activity::class.java)
+                intent.putExtra("bundle",bundle)
                 startActivity(intent)
                 finish()
             }else{

@@ -16,6 +16,7 @@ class EventLogout
 class EventShopNameUpdated(val shopName: String? = null)
 class EventShopDesUpdated(val shopDes: String? = null)
 class EventShopCatSelected(val list: ArrayList<ShopCategoryBean>)
+class EventChangeShopCategory(val list: ArrayList<ShopCategoryBean>)
 class EventAddShopSuccess()
 class EventGetShopCatSuccess(val list: ArrayList<String>)
 class EventAddShopBriefSuccess(val description: String?)

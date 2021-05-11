@@ -109,7 +109,15 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.AddBankAccount2Activity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.AddShopAddressActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.AddShopAddress2Activity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
@@ -143,6 +151,12 @@
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopIncomeActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.ShopAddressListActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.ShopAddressPresetActivity"
+            android:launchMode="singleTask" />
 
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.PhoneEditActivity"
@@ -161,6 +175,9 @@
             android:launchMode="singleTask" />
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.BankListActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.BankPresetActivity"
             android:launchMode="singleTask" />
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopNotifyActivity"

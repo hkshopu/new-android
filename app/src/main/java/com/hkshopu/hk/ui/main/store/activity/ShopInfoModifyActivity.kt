@@ -49,10 +49,11 @@ class ShopInfoModifyActivity : BaseActivity() {
     private val pickImage = 100
     private val pickImage_s = 200
     private var imageUri: Uri? = null
-    private var imageUri_s: Uri? = null
     private var isSelectImage = false
     private var isSelectImage_s = false
-    val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
+    val list = ArrayList<ShopInfoBean>()
+    var addresslist = ArrayList<ShopAddressBean>()
+    val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
     var url = ApiConstants.API_HOST + "/shop/" + shopId + "/show/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,16 +82,17 @@ class ShopInfoModifyActivity : BaseActivity() {
 //            }
 //        })
     }
+
     @SuppressLint("CheckResult")
     fun initEvent() {
         RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
             .subscribe({
                 when (it) {
                     is EventChangeShopTitleSuccess -> {
-                        binding.tvShopName.text  =it.shopname
+                        binding.tvShopName.text = it.shopname
                     }
                     is EventAddShopBriefSuccess -> {
-                       binding.tvShopBrief.text = it.description
+                        binding.tvShopBrief.text = it.description
                     }
 
                     is EventChangeShopPhoneSuccess -> {
@@ -125,27 +127,55 @@ class ShopInfoModifyActivity : BaseActivity() {
         }
 
         binding.ivChevronShopName.setOnClickListener {
+            val addressId = addresslist[0].id
+            var bundle = Bundle()
+            bundle.putString("address_id",addressId)
             val intent = Intent(this, ShopNameEditActivity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
         binding.ivChevronShopBrief.setOnClickListener {
+            val addressId = addresslist[0].id
+            val shopIcon = list[0].shop_icon
+            val shopPic = list[0].shop_pic
+            val shopDes = list[0].shop_description
+            var bundle = Bundle()
+            bundle.putString("address_id",addressId)
+            bundle.putString("shop_icon",shopIcon)
+            bundle.putString("shop_pic",shopPic)
+            bundle.putString("shop_des",shopDes)
             val intent = Intent(this, AddShopBriefActivity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
-        binding.ivChevronShopPhone.setOnClickListener{
+        binding.ivChevronShopPhone.setOnClickListener {
+            val addressId = addresslist[0].id
+            var bundle = Bundle()
+            bundle.putString("address_id",addressId)
             val intent = Intent(this, PhoneEditActivity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
-        binding.ivChevronUserEmail.setOnClickListener{
+        binding.ivChevronUserEmail.setOnClickListener {
+            val addressId = addresslist[0].id
+            var bundle = Bundle()
+            bundle.putString("address_id",addressId)
             val intent = Intent(this, EmailAdd1Activity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
-        binding.ivChevronUserSocialaccount.setOnClickListener{
+        binding.ivChevronUserSocialaccount.setOnClickListener {
+            val addressId = addresslist[0].id
+            val facebook_on = list[0].facebook_on
+            var bundle = Bundle()
+            bundle.putString("address_id",addressId)
+            bundle.putString("facebook_on",facebook_on)
             val intent = Intent(this, SocialAccountSetActivity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
@@ -158,14 +188,13 @@ class ShopInfoModifyActivity : BaseActivity() {
         }
 
     }
+
     private fun getShopInfo(url: String) {
 
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
-                val list = ArrayList<ShopInfoBean>()
                 list.clear()
-                var addresslist = java.util.ArrayList<ShopAddressBean>()
                 addresslist.clear()
                 val shop_category_id_list = ArrayList<String>()
                 shop_category_id_list.clear()
@@ -175,7 +204,8 @@ class ShopInfoModifyActivity : BaseActivity() {
                     Log.d("ShopInfoFragment", "返回資料 resStr：" + resStr)
                     Log.d("ShopInfoFragment", "返回資料 ret_val：" + json.get("ret_val"))
                     val ret_val = json.get("ret_val")
-                    if (ret_val.equals("已找到商店資料!")) {
+                    val status = json.get("status")
+                    if (status == 0) {
 
                         val jsonObject: JSONObject = json.getJSONObject("data")
                         Log.d("ShopInfoFragment", "返回資料 Object：" + jsonObject.toString())
@@ -195,10 +225,13 @@ class ShopInfoModifyActivity : BaseActivity() {
 
                         runOnUiThread {
                             binding!!.tvShopName.text = list[0].shop_title
-                            binding!!.tvShopBrief.text = list[0].long_description
-                            binding.tvShopPhone.text = addresslist[0].phone
+                            if (addresslist.size > 0) {
+                                binding.tvShopPhone.text = addresslist[0].country_code+addresslist[0].phone
+                            }
                             binding.tvUserEmail.text = list[0].shop_email
+                            binding.tvShopBrief.text = list[0].shop_description
                             binding!!.ivShopImg.loadNovelCover(list[0].shop_icon)
+                            binding!!.ivShoppicB.loadNovelCover(list[0].shop_pic)
 
                         }
 
@@ -221,9 +254,9 @@ class ShopInfoModifyActivity : BaseActivity() {
     }
 
     private fun doShopIconUpdate(postImg: File) {
-        val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
-        var url = ApiConstants.API_PATH+"shop/"+shopId+"/update/"
-
+        val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
+        var url = ApiConstants.API_PATH + "shop/" + shopId + "/update/"
+        val addressId = addresslist[0].id
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
@@ -235,7 +268,9 @@ class ShopInfoModifyActivity : BaseActivity() {
                     val ret_val = json.get("ret_val")
                     val status = json.get("status")
                     if (status == 0) {
-                        Toast.makeText(this@ShopInfoModifyActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        runOnUiThread {
+                            Toast.makeText(this@ShopInfoModifyActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         runOnUiThread {
 
@@ -254,12 +289,13 @@ class ShopInfoModifyActivity : BaseActivity() {
 
             }
         })
-        web.Do_ShopIconUpdate(url,postImg)
+        web.Do_ShopIconUpdate(url, addressId,postImg)
     }
-    private fun doShopPicUpdate(postImg: File) {
-        val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
-        var url = ApiConstants.API_PATH+"shop/"+shopId+"/update/"
 
+    private fun doShopPicUpdate(postImg: File) {
+        val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
+        var url = ApiConstants.API_PATH + "shop/" + shopId + "/update/"
+        val addressId = addresslist[0].id
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
@@ -267,11 +303,13 @@ class ShopInfoModifyActivity : BaseActivity() {
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
                     Log.d("ShopInfoModifyActivity", "返回資料 resStr：" + resStr)
-
                     val ret_val = json.get("ret_val")
+                    Log.d("ShopInfoModifyActivity", "返回資料 ret_val：" + ret_val)
                     val status = json.get("status")
                     if (status == 0) {
-                        Toast.makeText(this@ShopInfoModifyActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        runOnUiThread {
+                            Toast.makeText(this@ShopInfoModifyActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         runOnUiThread {
 
@@ -290,7 +328,7 @@ class ShopInfoModifyActivity : BaseActivity() {
 
             }
         })
-        web.Do_ShopPicUpdate(url,postImg)
+        web.Do_ShopPicUpdate(url, addressId,postImg)
     }
 
     private fun processImage(): File? {
@@ -350,7 +388,7 @@ class ShopInfoModifyActivity : BaseActivity() {
 
             try {
                 imageUri?.let {
-                    if(Build.VERSION.SDK_INT <= 28) {
+                    if (Build.VERSION.SDK_INT <= 28) {
                         val bitmap =
                             MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
                         if (bitmap != null) {
@@ -364,20 +402,20 @@ class ShopInfoModifyActivity : BaseActivity() {
 
                             isSelectImage = false
                         }
-                    }else{
+                    } else {
                         val source = ImageDecoder.createSource(this.contentResolver, imageUri!!)
                         val bitmap = ImageDecoder.decodeBitmap(source)
                         if (bitmap != null) {
                             runOnUiThread {
                                 binding!!.ivShoppicB.setImageBitmap(bitmap)
                                 binding.tvShoppicBAdd.setText(R.string.modify_newbg)
-                                val file = processImageB()
-                                doShopPicUpdate(file!!)
-                            }
 
+                            }
+                            val file = processImageB()
+                            doShopPicUpdate(file!!)
                             isSelectImage = true
 
-                        }else{
+                        } else {
 
                             isSelectImage = false
                         }
@@ -391,39 +429,41 @@ class ShopInfoModifyActivity : BaseActivity() {
                 //handle exception
             }
 
-        }else if(resultCode == RESULT_OK && requestCode == pickImage_s){
-            imageUri_s = data?.data
+        }
+        if (resultCode == RESULT_OK && requestCode == pickImage_s) {
+            imageUri = data?.data
 
             try {
-                imageUri_s?.let {
-                    if(Build.VERSION.SDK_INT <= 28) {
+                imageUri?.let {
+                    if (Build.VERSION.SDK_INT <= 28) {
                         val bitmap =
-                            MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri_s)
+                            MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
                         if (bitmap != null) {
                             binding!!.ivShopImg.setImageBitmap(bitmap)
-
+                            binding!!.ivShopImgEdit.visibility = View.INVISIBLE
                             isSelectImage_s = true
                             val file = processImage()
                             doShopIconUpdate(file!!)
 
                         } else {
-
+                            binding!!.ivShopImg.setImageDrawable(getDrawable(R.mipmap.ic_no_image))
                             isSelectImage_s = false
                         }
-                    }else{
-                        val source = ImageDecoder.createSource(this.contentResolver, imageUri_s!!)
+                    } else {
+                        val source = ImageDecoder.createSource(this.contentResolver, imageUri!!)
                         val bitmap = ImageDecoder.decodeBitmap(source)
                         if (bitmap != null) {
                             runOnUiThread {
                                 binding!!.ivShopImg.setImageBitmap(bitmap)
+                                binding!!.ivShopImgEdit.visibility = View.VISIBLE
                                 val file = processImage()
                                 doShopIconUpdate(file!!)
                             }
 
                             isSelectImage_s = true
 
-                        }else{
-
+                        } else {
+                            binding!!.ivShopImg.setImageDrawable(getDrawable(R.mipmap.ic_no_image))
                             isSelectImage_s = false
                         }
                     }

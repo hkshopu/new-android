@@ -68,17 +68,17 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
 
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
-                        AlertDialog.Builder(activity!!)
-                            .setTitle("")
-                            .setMessage("您確定要離開 ？")
-                            .setPositiveButton("確定"){
-                                // 此為 Lambda 寫法
-                                    dialog, which ->requireActivity().onBackPressed()
-                            }
-                            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
-
-                            }
-                            .show()
+//                        AlertDialog.Builder(activity!!)
+//                            .setTitle("")
+//                            .setMessage("您確定要離開 ？")
+//                            .setPositiveButton("確定"){
+//                                // 此為 Lambda 寫法
+//                                    dialog, which ->requireActivity().onBackPressed()
+//                            }
+//                            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+//
+//                            }
+//                            .show()
 
                     } else {
                         isEnabled = false
