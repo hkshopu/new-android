@@ -211,7 +211,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
 
     fun ShowHidePass(view: View) {
-        if (view.getId() == R.id.show_pass_btn) {
+        if (view.getId() === R.id.show_pass_btn) {
             if (binding.edtPassword.getTransformationMethod()
                     .equals(PasswordTransformationMethod.getInstance())
             ) {

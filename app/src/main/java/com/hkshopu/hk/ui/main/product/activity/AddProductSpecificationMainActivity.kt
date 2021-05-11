@@ -96,7 +96,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
         binding.btnNextStep.setOnClickListener {
 
-            val intent = Intent(this, InventoryAndPriceActivity::class.java)
+            val intent = Intent(this, AddInventoryAndPriceActivity::class.java)
             var datas_spec_item : MutableList<ItemSpecification> = mAdapter_spec.get_spec_list()
             var datas_size_item : MutableList<ItemSpecification> = mAdapter_size.get_size_list()
             var datas_spec_size : Int = mAdapter_spec.get_datas_spec_size()
@@ -161,7 +161,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                     }else{
                         Thread(Runnable {
 
-                            mutableList_spec.add(ItemSpecification("", R.mipmap.btn_cancel))
+                            mutableList_spec.add(ItemSpecification("", R.mipmap.btn_delete_spec_item))
 
                             runOnUiThread {
 
@@ -203,7 +203,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                 mutableList_spec = mAdapter_spec.get_spec_list()
 
                 for ( i in 0..mutableList_spec.size-1) {
-                    mutableList_spec[i] = ItemSpecification(mutableList_spec[i].spec_name.toString() , R.mipmap.btn_cancel)
+                    mutableList_spec[i] = ItemSpecification(mutableList_spec[i].spec_name.toString() , R.mipmap.btn_delete_spec_item)
                 }
 
                 runOnUiThread {
@@ -302,7 +302,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                         Thread(Runnable {
 
                             mutableList_size = mAdapter_size.get_size_list()
-                            mutableList_size.add(ItemSpecification("", R.mipmap.btn_cancel))
+                            mutableList_size.add(ItemSpecification("", R.mipmap.btn_delete_spec_item))
 
                             runOnUiThread {
 
@@ -382,7 +382,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                 mutableList_size = mAdapter_size.get_size_list()
 
                 for ( i in 0..mutableList_size.size-1) {
-                    mutableList_size[i] = ItemSpecification(mutableList_size[i].spec_name , R.mipmap.btn_cancel)
+                    mutableList_size[i] = ItemSpecification(mutableList_size[i].spec_name , R.mipmap.btn_delete_spec_item)
                 }
 
 

@@ -6,9 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -59,35 +56,6 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
         initVM()
         initEvent()
         initClick()
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Log.d("ShopInfoFragment", "Fragment back pressed invoked")
-                    // Do custom work here
-
-                    // if you want onBackPressed() to be called as normal afterwards
-                    if (isEnabled) {
-//                        AlertDialog.Builder(activity!!)
-//                            .setTitle("")
-//                            .setMessage("您確定要離開 ？")
-//                            .setPositiveButton("確定"){
-//                                // 此為 Lambda 寫法
-//                                    dialog, which ->requireActivity().onBackPressed()
-//                            }
-//                            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
-//
-//                            }
-//                            .show()
-
-                    } else {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
-
-                }
-            }
-            )
 
     }
 

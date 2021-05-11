@@ -16,6 +16,7 @@ class EventLogout
 class EventShopNameUpdated(val shopName: String? = null)
 class EventShopDesUpdated(val shopDes: String? = null)
 class EventShopCatSelected(val list: ArrayList<ShopCategoryBean>)
+
 class EventChangeShopCategory(val list: ArrayList<ShopCategoryBean>)
 class EventAddShopSuccess()
 class EventGetShopCatSuccess(val list: ArrayList<String>)
@@ -29,6 +30,31 @@ class EventProductCatSelected(val selectrdId: Int = 1, var c_product_category: S
 class EventProductCatLastPostion(val postion: Int = 1)
 
 //Other Events (Not Used)
+
+//Add Product Events
+class EventProductSearch(val keyword: String = "")
+
+//Other Events (Not Used)
+
+class EventPhoneShow(val show:Boolean,val phone: String? = null)
+
+class EventEmailShow(val show:Boolean,val email: String? = null)
+
+class EventLaunchConfigsSuccess
+
+class EventRechargeSuccess
+
+class EventRefreshHome
+
+class EventReadHistoryUpdated(val bookId: Int? = null)
+
+class EventReadToHome
+
+class EventHideBottomBar
+
+class EventShowBottomBar
+
+class EventReturnComic
 
 
 
