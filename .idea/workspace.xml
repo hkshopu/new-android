@@ -30,11 +30,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5bd9a93a-b4e1-42e3-b053-c34d0ecb80c2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/component/Event.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/component/Event.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/BuyerAddAddressMainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/BuyerAddAddressMainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/net/Web.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/net/Web.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/AddBankAccount2Activity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/AddBankAccount2Activity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/AddShopBriefActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/AddShopBriefActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MyStoreFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MyStoreFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mystore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mystore.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +60,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TestHKShopPu" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -165,31 +166,31 @@
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="417" y="149" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/93.0.1187.720@93.0.1187.720" timestamp="1620735682846" />
-    <state x="669" y="174" key="FileChooserDialogImpl" timestamp="1620775233070">
+    <state x="669" y="174" key="FileChooserDialogImpl" timestamp="1620778451371">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="467" y="116" key="FileChooserDialogImpl/93.0.1187.720@93.0.1187.720" timestamp="1620729838165" />
-    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1620775233070" />
-    <state width="1784" height="304" key="GridCell.Tab.0.bottom" timestamp="1620775380353">
+    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1620778451371" />
+    <state width="867" height="246" key="GridCell.Tab.0.bottom" timestamp="1620778107517">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1144" height="346" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="304" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1620775380353" />
-    <state width="1784" height="304" key="GridCell.Tab.0.center" timestamp="1620775380353">
+    <state width="867" height="246" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107517" />
+    <state width="867" height="246" key="GridCell.Tab.0.center" timestamp="1620778107516">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1144" height="346" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="304" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1620775380353" />
-    <state width="1784" height="304" key="GridCell.Tab.0.left" timestamp="1620775380353">
+    <state width="867" height="246" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
+    <state width="867" height="246" key="GridCell.Tab.0.left" timestamp="1620778107516">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1144" height="346" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="304" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1620775380353" />
-    <state width="1784" height="304" key="GridCell.Tab.0.right" timestamp="1620775380353">
+    <state width="867" height="246" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
+    <state width="867" height="246" key="GridCell.Tab.0.right" timestamp="1620778107516">
       <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state width="1144" height="346" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="304" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1620775380353" />
+    <state width="867" height="246" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
     <state x="343" y="161" key="run.anything.popup" timestamp="1620717097495">
       <screen x="93" y="0" width="1187" height="720" />
     </state>

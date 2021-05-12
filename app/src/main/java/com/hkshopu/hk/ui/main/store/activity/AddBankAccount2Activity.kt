@@ -4,9 +4,7 @@ package com.hkshopu.hk.ui.main.store.activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
@@ -19,6 +17,9 @@ import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
@@ -125,7 +126,7 @@ class AddBankAccount2Activity : BaseActivity(){
             """.trimIndent()
         }
         if (sErrorMsg.isEmpty()) {
-            doShopBankAccountUpdate(bankCode,bankName,accountName,accountNumber)
+            doShopBankAccountUpdate(bankCode, bankName, accountName, accountNumber)
         } else {
             AlertDialog.Builder(this@AddBankAccount2Activity)
                 .setTitle("")
@@ -139,7 +140,12 @@ class AddBankAccount2Activity : BaseActivity(){
         }
     }
 
-    private fun doShopBankAccountUpdate(code:String,name:String,account:String,account_name:String) {
+    private fun doShopBankAccountUpdate(
+        code: String,
+        name: String,
+        account: String,
+        account_name: String
+    ) {
         val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
         var url = ApiConstants.API_PATH +"shop/"+ shopId + "/bankAccount/"
 
@@ -157,15 +163,26 @@ class AddBankAccount2Activity : BaseActivity(){
                     val status = json.get("status")
                     if (status == 0) {
                         runOnUiThread {
-                            val intent = Intent(this@AddBankAccount2Activity, BankListActivity::class.java)
+                            val intent = Intent(
+                                this@AddBankAccount2Activity,
+                                BankListActivity::class.java
+                            )
                             startActivity(intent)
                             finish()
-                            Toast.makeText(this@AddBankAccount2Activity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@AddBankAccount2Activity,
+                                ret_val.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         runOnUiThread {
 
-                            Toast.makeText(this@AddBankAccount2Activity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@AddBankAccount2Activity,
+                                ret_val.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -180,7 +197,8 @@ class AddBankAccount2Activity : BaseActivity(){
 
             }
         })
-        web.Do_ShopBankAccountUpdate(url,code,name,account,account_name)
+        web.Do_ShopBankAccountUpdate(url, code, name, account, account_name)
     }
+
 
 }

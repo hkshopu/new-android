@@ -53,7 +53,7 @@ class MyStoreFragment : Fragment() {
     lateinit var newProduct_null :RelativeLayout
     lateinit var newProduct :RecyclerView
     lateinit var btn_addNewMerchant:ImageView
-    private val adapter = ShopProductAdapter()
+    private val adapter = ShopProductAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
