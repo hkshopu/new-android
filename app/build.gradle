@@ -18,6 +18,7 @@ android {
 
 
 
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         Properties properties = new Properties()
         if (rootProject.file("local.properties").exists()) {
