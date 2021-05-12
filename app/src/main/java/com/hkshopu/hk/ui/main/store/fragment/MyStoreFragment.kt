@@ -86,7 +86,7 @@ class MyStoreFragment : Fragment() {
             activity!!.startActivity(intent)
         }
 
-        btn_addNewMerchant = v.find<FloatingActionButton>(R.id.iv_addmerchant)
+        btn_addNewMerchant = v.find<ImageView>(R.id.iv_addmerchant)
 
         btn_addNewMerchant.setOnClickListener {
             val intent = Intent(activity, AddNewProductActivity::class.java)
