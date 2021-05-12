@@ -61,8 +61,6 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         getProductInfo(MMKV_product_id)
 
 
-
-
         initView()
 
     }
@@ -70,8 +68,6 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     fun initView() {
 
         initClick()
-
-
 
     }
 
