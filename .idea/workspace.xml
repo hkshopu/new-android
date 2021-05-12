@@ -6,8 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="MMKV_weight_Edit" />
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="BranchesTreeState">
@@ -30,7 +29,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5bd9a93a-b4e1-42e3-b053-c34d0ecb80c2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/MyProductBean.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/MyProductBean.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ProductInfoBean.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ProductInfoBean.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ShopProductBean.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ShopProductBean.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/repository/ShopmanageRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/repository/ShopmanageRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/service/ShopmanageService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/service/ShopmanageService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddInventoryAndPriceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddInventoryAndPriceActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddShippingFareActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddShippingFareActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditInventoryAndPriceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditInventoryAndPriceActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MerchandiseActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MerchandiseActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/StoreOrNotDialogFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/StoreOrNotDialogFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/MyProductsAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/MyProductsAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/ShopProductAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/ShopProductAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsNoPopFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsNoPopFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsOndeckFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsOndeckFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsSoldFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MerchantsSoldFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/vm/ShopVModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/vm/ShopVModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginPasswordActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/LoginPasswordActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_new_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_new_product.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_merchandise.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_merchandise.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_products.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_products.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +80,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1sNKO4pdPYhyoYqQsNGYNWS2pw1" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -55,7 +90,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TestHKShopPu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -154,43 +189,56 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="417" y="149" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1620735682846">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="417" y="149" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/93.0.1187.720@93.0.1187.720" timestamp="1620735682846" />
-    <state x="467" y="116" key="FileChooserDialogImpl" timestamp="1620729838165">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="669" y="174" key="FileChooserDialogImpl" timestamp="1620779134872">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="467" y="116" key="FileChooserDialogImpl/93.0.1187.720@93.0.1187.720" timestamp="1620729838165" />
-    <state width="1784" height="208" key="GridCell.Tab.0.bottom" timestamp="1620751779229">
-      <screen x="93" y="0" width="1827" height="1080" />
+    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1620779134872" />
+    <state width="1144" height="23" key="GridCell.Tab.0.bottom" timestamp="1620813338680">
+      <screen x="93" y="0" width="1187" height="720" />
     </state>
-    <state width="1144" height="346" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="208" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1620751779229" />
-    <state width="1784" height="208" key="GridCell.Tab.0.center" timestamp="1620751779229">
-      <screen x="93" y="0" width="1827" height="1080" />
+    <state width="1144" height="23" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1620813338680" />
+    <state width="867" height="246" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107517" />
+    <state width="1144" height="23" key="GridCell.Tab.0.center" timestamp="1620813338679">
+      <screen x="93" y="0" width="1187" height="720" />
     </state>
-    <state width="1144" height="346" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="208" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1620751779229" />
-    <state width="1784" height="208" key="GridCell.Tab.0.left" timestamp="1620751779229">
-      <screen x="93" y="0" width="1827" height="1080" />
+    <state width="1144" height="23" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1620813338679" />
+    <state width="867" height="246" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
+    <state width="1144" height="23" key="GridCell.Tab.0.left" timestamp="1620813338679">
+      <screen x="93" y="0" width="1187" height="720" />
     </state>
-    <state width="1144" height="346" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="208" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1620751779229" />
-    <state width="1784" height="208" key="GridCell.Tab.0.right" timestamp="1620751779229">
-      <screen x="93" y="0" width="1827" height="1080" />
+    <state width="1144" height="23" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1620813338679" />
+    <state width="867" height="246" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
+    <state width="1144" height="23" key="GridCell.Tab.0.right" timestamp="1620813338679">
+      <screen x="93" y="0" width="1187" height="720" />
     </state>
-    <state width="1144" height="346" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1620739898067" />
-    <state width="1784" height="208" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1620751779229" />
+    <state width="1144" height="23" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1620813338679" />
+    <state width="867" height="246" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
     <state x="343" y="161" key="run.anything.popup" timestamp="1620717097495">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="343" y="161" key="run.anything.popup/93.0.1187.720@93.0.1187.720" timestamp="1620717097495" />
-    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1620716629759">
+    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1620807181365">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
-    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup/93.0.1187.720@93.0.1187.720" timestamp="1620716629759" />
+    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup/93.0.1187.720@93.0.1187.720" timestamp="1620807181365" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductActivity.kt</url>
+          <line>1440</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
