@@ -97,8 +97,10 @@ class MyStoreFragment : Fragment() {
         }
         newProduct_null = v.find<RelativeLayout>(R.id.layout_new_product)
         newProduct = v.find<RecyclerView>(R.id.recyclerview_newproduct)
+
         initView()
         initEvent()
+
         return v
     }
 
@@ -116,6 +118,7 @@ class MyStoreFragment : Fragment() {
             addShopBrief.visibility = View.VISIBLE
         }
     }
+
     @SuppressLint("CheckResult")
     fun initEvent() {
         RxBus.getInstance().toMainThreadObservable(activity!!, Lifecycle.Event.ON_DESTROY)
@@ -130,6 +133,12 @@ class MyStoreFragment : Fragment() {
 
             })
     }
+
+
+
+
+
+
 
     private fun initRecyclerView(){
 
