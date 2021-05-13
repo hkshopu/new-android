@@ -85,7 +85,7 @@
                 android:background="@drawable/customborder_onboard_8dp"
                 android:hint="@string/password_now"
                 android:textSize="14sp"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/color_somegray"
                 app:delSrc="@mipmap/ic_edit_del_1" />

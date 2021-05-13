@@ -288,7 +288,7 @@
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/floor"
                 android:textColorHint="@color/colorTextlightGray"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingStart="16dp"
                 android:textSize="14sp"
                 />
@@ -302,7 +302,7 @@
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/room"
                 android:textColorHint="@color/colorTextlightGray"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingStart="16dp"
                 android:textSize="14sp"/>
 

@@ -22,8 +22,8 @@
         android:visibility="gone"/>
 
     <EditText
-        android:id="@+id/tv_logistic"
-        android:layout_width="match_parent"
+        android:id="@+id/et_logistic"
+        android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_marginTop="10dp"
         android:background="@color/white"

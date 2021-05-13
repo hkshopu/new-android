@@ -101,7 +101,7 @@ class LogisticsListAdapter :
             override fun onStateChanged(isOpen: Boolean) {
                 if (isOpen) {
 
-                    if (value_shipping_name == "") {
+                    if (value_shipping_name.isEmpty()) {
                         Toast.makeText(viewHolder.OnOff.context, "請先填入自訂項目名稱", Toast.LENGTH_SHORT)
                             .show()
                         viewHolder.OnOff.closeSwitcher()
@@ -115,7 +115,7 @@ class LogisticsListAdapter :
                             position
                         )
 
-                        Handler(Looper.getMainLooper()).post(Runnable {
+                        Handler(Looper.getMainLooper()).post({
                             addEmptyItem()
                         })
 
@@ -133,12 +133,15 @@ class LogisticsListAdapter :
                         position
                     )
 
-                    Handler(Looper.getMainLooper()).post(Runnable {
-                        delEmptyItem(position)
-                    })
+//                    Handler(Looper.getMainLooper()).post(Runnable {
+//                        delEmptyItem(position)
+//                    })
 
                 }
             }
+        })
+        Handler(Looper.getMainLooper()).post({
+            addEmptyItem()
         })
 
     }
@@ -149,7 +152,7 @@ class LogisticsListAdapter :
 
     inner class LogisticsListLinearHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cancel = itemView.find<ImageView>(R.id.iv_cancel)
-        val name = itemView.find<EditText>(R.id.tv_logistic)
+        val name = itemView.find<EditText>(R.id.et_logistic)
         val OnOff = itemView.find<EasySwitcher>(R.id.switchview)
 
         init {
@@ -168,7 +171,7 @@ class LogisticsListAdapter :
         empty_item_num = 0
         if (mData.size > 0) {
             for (i in 0..mData.size - 1) {
-                if (mData.get(i).getShipmentDesc() == "") {
+                if (mData.get(i).getShipmentDesc()!!.isEmpty()) {
                     empty_item_num += 1
                 } else {
                     empty_item_num += 0
