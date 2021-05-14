@@ -26,7 +26,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class MerchanCategoryActivity : BaseActivity() {
+class AddMerchanCategoryActivity : BaseActivity() {
 
     var url = "https://hkshopu.df.r.appspot.com/product_category/index/"
     var sub_url = "https://hkshopu.df.r.appspot.com/product_sub_category/index/"
@@ -71,7 +71,7 @@ class MerchanCategoryActivity : BaseActivity() {
     fun initClick() {
         binding.titleBackProductCategory.setOnClickListener {
 
-            val intent = Intent(this, EditProductActivity::class.java)
+            val intent = Intent(this, AddNewProductActivity::class.java)
             startActivity(intent)
 
             finish()

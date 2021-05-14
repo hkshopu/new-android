@@ -2,6 +2,8 @@ package com.hkshopu.hk.net;
 
 import android.util.Log;
 
+import com.hkshopu.hk.data.bean.ShopLogisticBean;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,9 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -49,7 +49,7 @@ public class Web {
 
     public void Get_Data(String url) {
 
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder().url(url).get().build();
 
 
         Call call = okHttpClient.newCall(request);
@@ -68,6 +68,29 @@ public class Web {
             }
         });
     }
+
+    public void Delete_Data(String url) {
+
+        Request request = new Request.Builder().url(url).delete().build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
+
 
     public void Do_SocialLogin(String url,String email , String facebook_account, String google_account,String apple_account) {
 
@@ -185,6 +208,144 @@ public class Web {
         });
     }
 
+    public void Do_ShopAddressPreset(String url,int shopid,String presetid) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("shop_id",String.valueOf(shopid))
+                .add("shop_address_id", presetid)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+    public void Do_ShopLogisticSetup(String url, ArrayList<ShopLogisticBean> mData) {
+        List<JSONObject> myJSONObjects = new  ArrayList<JSONObject> (mData.size());
+        JSONArray jsonArray=new JSONArray();
+        try {
+            for(int i=0; i<mData.size()-1; i++) {
+                JSONObject jsonObject=new JSONObject();
+                jsonObject.put("shipment_desc", mData.get(i).getShipmentDesc());
+                jsonObject.put("onoff", mData.get(i).getOnOff());
+                Log.d(TAG, "Content ＝ " + mData.get(i).getShipmentDesc());
+//                myJSONObjects.add(jsonObject);
+                jsonArray.put(jsonObject);
+            }
+
+
+            Log.d(TAG, "Content ＝ " + jsonArray.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("shipment_settings",jsonArray.toString())
+                .build();
+
+//        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
+
+    public void Do_ShopDesUpdate(String url,String addressid,String description) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("address_id",addressid)
+                .add("long_description", description)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
+
+    public void Do_AddNewShopBankAccount(String url,String code,String name,String account,String account_name) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("code", code)
+                .add("name", name)
+                .add("account", account)
+                .add("account_name", account_name)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
 
     private static String bodyToString(final Request request){
 
@@ -272,7 +433,6 @@ public class Web {
             }
         });
     }
-
     public void Do_ProductUpdate(String url, int product_category_id, int product_sub_category_id, String product_title, String product_description, int shipping_fee, int weight, String new_secondhand,int product_pic_list_size ,ArrayList<File> product_pic_list, String product_spec_list, int user_id, int length, int width, int height, String shipment_method, int longterm_stock_up, String product_status, String product_spec_on)  {
         Log.d(TAG, "Do_ProductAdd Url ＝ " + url);
 
@@ -394,27 +554,6 @@ public class Web {
 
     }
 
-    public void Delete_Data(String url) {
-
-        Request request = new Request.Builder().url(url).delete().build();
-
-
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                listener.onErrorResponse(e);
-                Log.d(TAG, "Return error ＝ " + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                listener.onResponse(response);
-                response.close();
-                call.cancel();
-            }
-        });
-    }
 
     public void Do_ShopBankAccountUpdate(String url,String code,String name,String account,String account_name) {
         JSONObject jsonObject=new JSONObject();
@@ -657,34 +796,7 @@ public class Web {
             }
         });
     }
-    public void Do_ShopAddressPreset(String url,int shopid,String presetid) {
 
-        RequestBody formBody = new FormBody.Builder()
-                .add("shop_id",String.valueOf(shopid))
-                .add("shop_address_id", presetid)
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .post(formBody)
-                .build();
-
-
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                listener.onErrorResponse(e);
-                Log.d(TAG, "Return error ＝ " + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                listener.onResponse(response);
-//                response.close();
-//                Log.d(TAG, "Return Content ＝ " + response.body().string());
-            }
-        });
-    }
 
     public void Do_ShopIconUpdate(String url,String addressid,File postImg) {
 

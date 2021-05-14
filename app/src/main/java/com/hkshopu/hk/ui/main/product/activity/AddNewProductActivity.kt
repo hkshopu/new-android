@@ -17,11 +17,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.EventdeleverFragmentAfterUpdateStatus
 import com.hkshopu.hk.data.bean.ItemPics
 import com.hkshopu.hk.data.bean.ItemShippingFare
 import com.hkshopu.hk.databinding.ActivityAddNewProductBinding
@@ -33,6 +32,7 @@ import com.hkshopu.hk.ui.main.product.adapter.PicsAdapter
 import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogFragment
 import com.hkshopu.hk.ui.main.product.adapter.ShippingFareCheckedAdapter
 import com.hkshopu.hk.ui.user.vm.ShopVModel
+import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
@@ -779,7 +779,7 @@ class AddNewProductActivity : BaseActivity() {
         }
 
         binding.categoryContainer.setOnClickListener {
-            val intent = Intent(this, MerchanCategoryActivity::class.java)
+            val intent = Intent(this, AddMerchanCategoryActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -1066,7 +1066,7 @@ class AddNewProductActivity : BaseActivity() {
                     for (i in 0..mutableList_pics.size-1) {
                         //transfer to Base64
                         val baos = ByteArrayOutputStream()
-                        mutableList_pics[i].bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                        mutableList_pics[i].bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
                         val b = baos.toByteArray()
                         val encodedImage: String = Base64.encodeToString(b, Base64.DEFAULT)
                         MMKV.mmkvWithID("addPro").putString("value_pic${i}", encodedImage)
@@ -1096,7 +1096,7 @@ class AddNewProductActivity : BaseActivity() {
                             val baos = ByteArrayOutputStream()
                             mutableList_pics[i].bitmap.compress(
                                 Bitmap.CompressFormat.JPEG,
-                                100,
+                                80,
                                 baos
                             )
                             val b = baos.toByteArray()
@@ -1143,7 +1143,7 @@ class AddNewProductActivity : BaseActivity() {
     fun initProFareDatas() {
 
         MMKV_weight = MMKV.mmkvWithID("addPro").getString("datas_packagesWeights", "").toString()
-        MMKV_length = MMKV.mmkvWithID("addPro").getString("datas_lenght", "").toString()
+        MMKV_length = MMKV.mmkvWithID("addPro").getString("datas_length", "").toString()
         MMKV_width = MMKV.mmkvWithID("addPro").getString("datas_width", "").toString()
         MMKV_height = MMKV.mmkvWithID("addPro").getString("datas_height", "").toString()
         var fare_datas_size = MMKV.mmkvWithID("addPro").getString("fare_datas_size", "0").toString().toInt()
@@ -1311,7 +1311,7 @@ class AddNewProductActivity : BaseActivity() {
         try {
             var stream: OutputStream? = null
             stream = FileOutputStream(file)
-            bmpCompress!!.compress(Bitmap.CompressFormat.JPEG, 85, stream)
+            bmpCompress!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream?.flush()
             stream?.close()
         } catch (e: IOException) // Catch the exception
@@ -1344,20 +1344,20 @@ class AddNewProductActivity : BaseActivity() {
                     val ret_val = json.get("ret_val")
                     if (ret_val.equals("產品新增成功!")) {
 
-                     when(which_click){
-                         "store"->{
-                             runOnUiThread {
-                                 Toast.makeText(this@AddNewProductActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                         when(which_click){
+                             "store"->{
+                                 runOnUiThread {
+                                     Toast.makeText(this@AddNewProductActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                                 }
                              }
-                         }
-                         "Launch"->{
-                             runOnUiThread {
-                                 Toast.makeText(this@AddNewProductActivity, "產品上架成功!", Toast.LENGTH_SHORT).show()
+                             "Launch"->{
+                                 runOnUiThread {
+                                     Toast.makeText(this@AddNewProductActivity, "產品上架成功!", Toast.LENGTH_SHORT).show()
+                                 }
                              }
+
                          }
-
-                     }
-
+                        RxBus.getInstance().post(EventdeleverFragmentAfterUpdateStatus("action"))
                         finish()
 
                     } else {

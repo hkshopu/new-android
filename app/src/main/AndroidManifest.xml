@@ -228,12 +228,22 @@
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
         <activity
+            android:name=".ui.main.store.activity.EmailAdd2Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
+
+        <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.SocialAccountSetActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
-<!-- Product -->
-        <activity android:name=".ui.main.product.activity.MerchanCategoryActivity"
+<!-- Product -->EditMerchanCategoryActivity
+        <activity android:name=".ui.main.product.activity.AddMerchanCategoryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ui.main.product.activity.EditMerchanCategoryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize"/>
@@ -275,6 +285,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
+
+
+        <activity
+            android:name=".ui.main.store.activity.LogisticListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
+
+
 
         <meta-data
             android:name="com.google.android.gms.version"
