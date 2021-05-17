@@ -14,7 +14,8 @@
     <string name="please_input_newPassword">輸入新密碼</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="password_notify">密碼格式必須包括大小階英文、數字及符號</string>
+    <string name="password_notify">密碼格式必須8個字包括大小階英文、數字及符號</string>
+    <string name="password_check">請確認密碼是否一致</string>
     <string name="hint_email">電子郵件地址</string>
     <string name="hint_password">密碼</string>
     <string name="hint_password_second">再次確認密碼</string>
@@ -207,7 +208,7 @@
         HKshopu 未行使或執行本服務條款任何權利或規定，不構成前開權利或規定之棄權。\n
         若任何本服務條款規定，經有管轄權之法院認定無效，當事人仍同意法院應努力使當事人於前開規定所表達之真意生效，且本服務條款之其他規定仍應完全有效。\n
         本服務條款之標題僅係為方便起見，不具任何法律或契約效果。\n
-        如欲回報任何違反本服務條款，或對本服務條款有疑問，請透過電子郵件（<font color="#1DBCCF"><b>service@HKshopu.com</b></font>）聯絡我們。\n
+        如欲回報任何違反本服務條款，或對本服務條款有疑問，請透過電子郵件（<font color="#1DBCCF"><b>customer-service@hkshopu.com </b></font>）聯絡我們。\n
         最近一次更新條款：2021 年 xx 月 xx 日
     </string>
 

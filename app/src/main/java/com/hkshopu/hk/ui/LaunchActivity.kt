@@ -9,7 +9,6 @@ import android.widget.ImageView
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityLaunchBinding
-import com.hkshopu.hk.ui.main.store.activity.OnBoardActivity
 
 
 class LaunchActivity : BaseActivity() {

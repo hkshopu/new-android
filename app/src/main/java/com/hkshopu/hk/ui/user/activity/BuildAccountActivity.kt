@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-
 import androidx.lifecycle.Observer
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -29,10 +28,19 @@ import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.databinding.ActivityBuildacntBinding
+import com.hkshopu.hk.net.ApiConstants
+import com.hkshopu.hk.net.Web
+import com.hkshopu.hk.net.WebListener
 import com.hkshopu.hk.ui.main.store.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
 import com.hkshopu.hk.widget.view.KeyboardUtil
+import com.tencent.mmkv.MMKV
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
 import java.util.*
+import java.util.regex.Pattern
 
 
 class BuildAccountActivity : BaseActivity(), TextWatcher {
@@ -54,7 +62,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
 
         callbackManager = CallbackManager.Factory.create()
 
-        settings = getSharedPreferences("DATA",0)
+        settings = getSharedPreferences("DATA", 0)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestId()
@@ -90,7 +98,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         VM.emailcheckLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
-                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         if (it.ret_val!!.equals("該電子郵件沒有重複使用!")) {
                             settings.edit()
                                 .putString("email", email)
@@ -100,11 +108,11 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
                             val intent = Intent(this, UserIofoActivity::class.java)
                             startActivity(intent)
 
-                        }else{
+                        } else {
                             Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
 
                         }
-                    }else {
+                    } else {
                         Toast.makeText(this, "電郵格式錯誤", Toast.LENGTH_SHORT).show()
                     }
 
@@ -175,7 +183,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
                                     // Application code
                                     val id = response.jsonObject.getString("id")
                                     val email = response.jsonObject.getString("email")
-                                    VM.sociallogin(this@BuildAccountActivity, email, id, "", "")
+                                    doSocialLogin(email,"",id,"")
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
@@ -205,8 +213,21 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
         }
 
         binding.imgViewNextStep.setOnClickListener {
+            if (!isMeetPwdRule(password)) {
+                runOnUiThread {
 
-            VM.emailCheck(this,email)
+                    Toast.makeText(this, R.string.password_notify, Toast.LENGTH_LONG).show()
+                }
+            } else {
+                if (passwordconf.equals(password)) {
+                    VM.emailCheck(this, email)
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this, R.string.password_check, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
 
         }
         binding.tvAgreeterm.setOnClickListener {
@@ -243,7 +264,7 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
                 val account = task.getResult(ApiException::class.java)!!
                 val email = account.email.toString()
                 val id = account.id.toString()
-                VM.sociallogin(this, email, "", id, "")
+                doSocialLogin(email,"",id,"")
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.d("BuildAccountActivity", "Google sign in failed", e)
@@ -279,6 +300,81 @@ class BuildAccountActivity : BaseActivity(), TextWatcher {
                 binding.passwordConf.setTransformationMethod(PasswordTransformationMethod.getInstance())
             }
         }
+    }
+    private fun doSocialLogin(email: String, facebook_account: String, google_account: String, apple_account: String) {
+        var url = ApiConstants.API_PATH+"user/socialLoginProcess/"
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("OnBoardActivity", "返回資料 resStr：" + resStr)
+                    Log.d("OnBoardActivity", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    val status = json.get("status")
+                    if (status != 0) {
+                        var user_id: Int = json.getInt("user_id")
+
+                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
+                            .putString("Email",email)
+                        val intent = Intent(this@BuildAccountActivity, ShopmenuActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        runOnUiThread {
+                            val intent = Intent(this@BuildAccountActivity, BuildAccountActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                            Toast.makeText(this@BuildAccountActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+//                        initRecyclerView()
+
+
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Do_SocialLogin(url, email,facebook_account,google_account, apple_account)
+    }
+
+
+    fun isMeetPwdRule(str: String): Boolean {
+        var isMeetPwdRule = false
+
+        // 1.判斷字串總長度是否大於等於8碼
+        if (str.length > 7) {
+            var isDigit = false
+            var isLetter = false
+
+            // 2.判斷字串中是否符合至少各有一個英文字母及數字在其中
+            for (i in 0 until str.length) {
+                // 利用char包裝類 - Character 中的判斷數字的方法(isDigit)，來判定該字串中是否包含數字
+                if (Character.isDigit(str[i])) {
+                    isDigit = true
+                }
+                // 利用char包裝類 - Character 中的判斷英文字母的方法(isLetter)，來判定該字串中是否包含英文字母
+                if (Character.isLetter(str[i])) {
+                    isLetter = true
+                }
+                // 如符合至少各有一個英文字母及數字在其中者，則可跳出該迴圈
+                if (isDigit && isLetter) break
+            }
+
+            // 3.判斷字串中是否包含大小寫英文字母 和 數字 (或 特殊符號)
+            val regex =
+                Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$") // ^[a-zA-Z0-9]+$  此正規表達式不包含特殊符號，即有特殊符號則為false
+            isMeetPwdRule = isDigit && isLetter && str.matches(regex)
+        }
+        return isMeetPwdRule
     }
 
 }

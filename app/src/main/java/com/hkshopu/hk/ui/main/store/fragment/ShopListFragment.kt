@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -56,6 +57,16 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
         initVM()
         initEvent()
         initClick()
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // you can execute the logic here
+                if (isEnabled) {
+
+                } else {
+                    activity?.onBackPressed()
+                }
+            }
+        })
 
     }
 

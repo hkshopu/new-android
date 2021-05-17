@@ -13,6 +13,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
@@ -147,7 +148,6 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
         binding.btnLogin.setOnClickListener {
 
-            password = binding.edtPassword.text.toString()
             val url = ApiConstants.API_HOST+"/user/loginProcess/"
 //            VM.login(this, getstring!!, password!!)
 
@@ -161,7 +161,9 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
     private fun initEditText() {
 
-        binding.edtPassword.addTextChangedListener(this)
+        binding.edtPassword.doAfterTextChanged {
+            password = binding.edtPassword.text.toString()
+        }
 
         binding.edtPassword.singleLine = true
         binding.edtPassword.setOnEditorActionListener() { v, actionId, event ->

@@ -70,6 +70,7 @@ class LogisticsListAdapter :
     }
 
     var cancelClick: ((id: String) -> Unit)? = null
+
     override fun onBindViewHolder(holder: LogisticsListLinearHolder, position: Int) {
         val viewHolder: LogisticsListLinearHolder = holder
         val item = mData.get(position)
@@ -116,7 +117,7 @@ class LogisticsListAdapter :
                         )
 
                         Handler(Looper.getMainLooper()).post({
-                            addEmptyItem()
+                            addEmptyItem2(position)
                         })
 
 
@@ -139,9 +140,6 @@ class LogisticsListAdapter :
 
                 }
             }
-        })
-        Handler(Looper.getMainLooper()).post({
-            addEmptyItem()
         })
 
     }
@@ -206,6 +204,48 @@ class LogisticsListAdapter :
                 e.printStackTrace()
             }
             notifyDataSetChanged()
+        }
+    }
+    fun addEmptyItem2(position: Int) {
+        Log.d("LogisticsListAdapter", "Data Size ＝ " + mData.size)
+        Log.d("LogisticsListAdapter", "Position ＝ " + position)
+        empty_item_num = 0
+        if (position == mData.size - 1 ) {
+                if (mData.get(position).getShipmentDesc()!!.isNotEmpty()) {
+                    empty_item_num += 1
+                } else {
+                    empty_item_num += 0
+                }
+
+            if (empty_item_num == 0) {
+                val shopLogisticBean = ShopLogisticBean()
+                shopLogisticBean.id = 0
+                shopLogisticBean.shipment_desc = ""
+                shopLogisticBean.shop_id = shop_id.toString()
+                shopLogisticBean.onoff = "off"
+                mData.add(shopLogisticBean)
+
+                try {
+                    Thread.sleep(300)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+
+                notifyDataSetChanged()
+            }
+        } else {
+//            val shopLogisticBean = ShopLogisticBean()
+//            shopLogisticBean.id = 0
+//            shopLogisticBean.shipment_desc = ""
+//            shopLogisticBean.shop_id = shop_id.toString()
+//            shopLogisticBean.onoff = "off"
+//            mData.add(shopLogisticBean)
+//            try {
+//                Thread.sleep(300)
+//            } catch (e: InterruptedException) {
+//                e.printStackTrace()
+//            }
+//            notifyDataSetChanged()
         }
     }
 

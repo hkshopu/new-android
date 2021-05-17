@@ -115,7 +115,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.hkshopu.hk.ui.main.store.activity.OnBoardActivity"
+            android:name="com.hkshopu.hk.ui.OnBoardActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 

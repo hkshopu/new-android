@@ -32,6 +32,7 @@ class LogisticListActivity : BaseActivity() {
     val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
     var url = ApiConstants.API_HOST + "/shop/" + shopId + "/shipmentSettings/get/"
     var isUpdate:Boolean = false
+    val list = ArrayList<ShopLogisticBean>()
     private var mData: ArrayList<ShopLogisticBean> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,7 @@ class LogisticListActivity : BaseActivity() {
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
-                val list = ArrayList<ShopLogisticBean>()
+
                 list.clear()
 
                 try {
@@ -96,12 +97,16 @@ class LogisticListActivity : BaseActivity() {
                                 Gson().fromJson(jsonObject.toString(), ShopLogisticBean::class.java)
                             list.add(shopLogisticBean)
                         }
-                        adapter.setData(list)
-                        runOnUiThread {
-                            binding.recyclerview.adapter = adapter
+                        if(list.size == 0){
+                            binding.tvLogisticSave.isClickable = false
+                        }else {
+                            binding.tvLogisticSave.isClickable = true
+                            adapter.setData(list)
+                            runOnUiThread {
+                                binding.recyclerview.adapter = adapter
 
+                            }
                         }
-
 
                     }
 //                        initRecyclerView()
@@ -127,20 +132,26 @@ class LogisticListActivity : BaseActivity() {
             doShopLogistisSetup(mData)
         }
         binding.ivBack.setOnClickListener {
-            if(isUpdate) {
+            if(list.size == 0){
                 finish()
-            }else{
-                AlertDialog.Builder(this)
-                            .setTitle("")
-                            .setMessage("您尚未儲存變更，確定要離開？")
-                            .setPositiveButton("捨棄"){
-                                // 此為 Lambda 寫法
-                                    dialog, which ->finish()
-                            }
-                            .setNegativeButton("取消"){ dialog, which -> dialog.cancel()
+            }else {
+                if (isUpdate) {
+                    finish()
+                } else {
+                    AlertDialog.Builder(this)
+                        .setTitle("")
+                        .setMessage("您尚未儲存變更，確定要離開？")
+                        .setPositiveButton("捨棄") {
+                            // 此為 Lambda 寫法
+                                dialog, which ->
+                            finish()
+                        }
+                        .setNegativeButton("取消") { dialog, which ->
+                            dialog.cancel()
 
-                            }
-                            .show()
+                        }
+                        .show()
+                }
             }
         }
 
