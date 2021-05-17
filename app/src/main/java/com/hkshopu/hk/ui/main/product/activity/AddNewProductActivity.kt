@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
@@ -17,10 +18,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.component.EventdeleverFragmentAfterUpdateStatus
 import com.hkshopu.hk.data.bean.ItemPics
@@ -48,6 +47,7 @@ import kotlin.collections.ArrayList
 
 
 class AddNewProductActivity : BaseActivity() {
+    var activity : BaseActivity  = this
 
     var editMode_or_AddMode = "editMdoe"
 
@@ -95,12 +95,18 @@ class AddNewProductActivity : BaseActivity() {
         binding = ActivityAddNewProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.d("testActivity", activity.toString())
+
+
         //Add Mode
         initView()
 
         //Edit Mode
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
 
     fun initMMKV_and_initViewValue() {
 
@@ -194,8 +200,10 @@ class AddNewProductActivity : BaseActivity() {
             "n"
         ).toString()
         if(MMKV_boolean_needMoreTimeToStockUp=="n"){
+            binding.needMoreTimeToStockUp.setText(R.string.textView_questionNeedMoreTimeToStockUp)
             binding.needMoreTimeToStockUp.isChecked =false
         }else{
+            binding.needMoreTimeToStockUp.setText(R.string.textView_needMoreTimeToStockUp)
             binding.needMoreTimeToStockUp.isChecked =true
         }
         MMKV_editMoreTimeInput = MMKV.mmkvWithID("addPro").getString("value_editMoreTimeInput", "").toString()
@@ -544,7 +552,7 @@ class AddNewProductActivity : BaseActivity() {
                                                     +"MMKV_editMoreTimeInput: ${MMKV_editMoreTimeInput} ; "
                                                     +"MMKV_product_spec_on: ${MMKV_product_spec_on} ; ")
                                         MMKV.mmkvWithID("addPro").clearAll()
-                                        finish()
+
                                     }else{
                                         Toast.makeText(this, "商品運費尚未設定", Toast.LENGTH_SHORT).show()
                                     }
@@ -604,7 +612,7 @@ class AddNewProductActivity : BaseActivity() {
                                                         +"MMKV_editMoreTimeInput: ${MMKV_editMoreTimeInput} ; "
                                                         +"MMKV_product_spec_on: ${MMKV_product_spec_on} ; ")
                                             MMKV.mmkvWithID("addPro").clearAll()
-                                            finish()
+
                                         }else{
                                             Toast.makeText(this, "商品運費尚未設定", Toast.LENGTH_SHORT).show()
                                         }
@@ -731,7 +739,7 @@ class AddNewProductActivity : BaseActivity() {
 
         binding.titleBackAddproduct.setOnClickListener {
 
-            StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+            StoreOrNotDialogFragment(activity).show(supportFragmentManager, "MyCustomFragment")
 
         }
 
@@ -771,6 +779,7 @@ class AddNewProductActivity : BaseActivity() {
         binding.containerAddSpecification.setOnClickListener {
             val intent = Intent(this, AddProductSpecificationMainActivity::class.java)
             startActivity(intent)
+
             finish()
 
         }
@@ -781,7 +790,7 @@ class AddNewProductActivity : BaseActivity() {
         }
 
         binding.categoryContainer.setOnClickListener {
-            val intent = Intent(this, MerchanCategoryActivity::class.java)
+            val intent = Intent(this, AddMerchanCategoryActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -864,7 +873,7 @@ class AddNewProductActivity : BaseActivity() {
                                                     +"MMKV_product_spec_on: ${MMKV_product_spec_on} ; ")
 
                                         MMKV.mmkvWithID("addPro").clearAll()
-                                        finish()
+
 
 
                                     }else{
@@ -925,7 +934,7 @@ class AddNewProductActivity : BaseActivity() {
                                                             +"MMKV_editMoreTimeInput: ${MMKV_editMoreTimeInput} ; "
                                                             +"MMKV_product_spec_on: ${MMKV_product_spec_on} ; ")
                                             MMKV.mmkvWithID("addPro").clearAll()
-                                            finish()
+
 
                                         }else{
                                             Toast.makeText(this, "商品運費尚未設定", Toast.LENGTH_SHORT).show()
@@ -1145,7 +1154,7 @@ class AddNewProductActivity : BaseActivity() {
     fun initProFareDatas() {
 
         MMKV_weight = MMKV.mmkvWithID("addPro").getString("datas_packagesWeights", "").toString()
-        MMKV_length = MMKV.mmkvWithID("addPro").getString("datas_lenght", "").toString()
+        MMKV_length = MMKV.mmkvWithID("addPro").getString("datas_length", "").toString()
         MMKV_width = MMKV.mmkvWithID("addPro").getString("datas_width", "").toString()
         MMKV_height = MMKV.mmkvWithID("addPro").getString("datas_height", "").toString()
         var fare_datas_size = MMKV.mmkvWithID("addPro").getString("fare_datas_size", "0").toString().toInt()
@@ -1399,8 +1408,7 @@ class AddNewProductActivity : BaseActivity() {
 
     override fun onBackPressed() {
 
-        StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
-
+        StoreOrNotDialogFragment(activity).show(supportFragmentManager, "MyCustomFragment")
     }
 
 

@@ -1,4 +1,4 @@
-package com.hkshopu.hk.ui
+package com.hkshopu.hk.ui.main.store.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -30,7 +30,6 @@ import com.hkshopu.hk.databinding.ActivityOnboardBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.store.activity.ShopmenuActivity
 import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel

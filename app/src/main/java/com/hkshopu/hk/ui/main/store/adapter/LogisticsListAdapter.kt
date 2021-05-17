@@ -1,24 +1,30 @@
 package com.hkshopu.hk.ui.main.store.adapter
 
 
+import android.app.Activity
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.ItemData
+import com.hkshopu.hk.data.bean.ItemShippingFare
 import com.hkshopu.hk.data.bean.ShopLogisticBean
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.utils.extension.inflate
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
 import org.jetbrains.anko.find
+import org.jetbrains.anko.singleLine
 import java.util.*
+import kotlin.concurrent.schedule
 
 
 class LogisticsListAdapter :
@@ -70,7 +76,6 @@ class LogisticsListAdapter :
     }
 
     var cancelClick: ((id: String) -> Unit)? = null
-
     override fun onBindViewHolder(holder: LogisticsListLinearHolder, position: Int) {
         val viewHolder: LogisticsListLinearHolder = holder
         val item = mData.get(position)
@@ -79,12 +84,16 @@ class LogisticsListAdapter :
 
         if (item.onoff.equals("on")) {
             viewHolder.OnOff.openSwitcher()
+        }else{
+            viewHolder.OnOff.closeSwitcher()
         }
 
-        value_shipping_name = viewHolder.name.text.toString()
+        var value_shipping_name_check = viewHolder.name.text.toString()
         if (cancel_inner) {
-            if (value_shipping_name.isNotEmpty()) {
+            if (value_shipping_name_check.isNotEmpty()) {
                 viewHolder.cancel.visibility = View.VISIBLE
+            }else{
+                viewHolder.cancel.visibility = View.GONE
             }
 
         } else {
@@ -95,12 +104,64 @@ class LogisticsListAdapter :
         viewHolder.cancel.setOnClickListener {
             removeItem(position)
         }
-        value_shipping_name = viewHolder.name.text.toString()
+//        value_shipping_name = viewHolder.name.text.toString()
+
+
+        //editText_shipping_name編輯鍵盤監控
+        viewHolder.name.singleLine = true
+        viewHolder.name.setOnEditorActionListener() { v, actionId, event ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+
+                    value_shipping_name = viewHolder.name.text.toString()
+
+                    if(viewHolder.OnOff.isOpened()){
+                        value_shipping_isChecked = "on"
+                    }else{
+                        value_shipping_isChecked = "off"
+                    }
+
+                    //檢查名稱是否重複
+                    var check_duplicate = 0
+
+                    for (i in 0..mData.size - 1) {
+                        if (value_shipping_name == mData[i].shipment_desc) {
+                            check_duplicate = check_duplicate + 1
+                        } else {
+                            check_duplicate = check_duplicate + 0
+                        }
+                    }
+
+                    if (check_duplicate > 0) {
+                        viewHolder.name.setText("")
+                        Toast.makeText(viewHolder.name.context, "貨運商不可重複", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        onItemUpdate(
+                            value_shipping_name,
+                            value_shipping_isChecked,
+                            position
+                        )
+
+                        viewHolder.name.clearFocus()
+                    }
+
+                    true
+                }
+                else -> false
+            }
+        }
 
         viewHolder.OnOff.setOnStateChangedListener(object :
             EasySwitcher.SwitchStateChangedListener {
             override fun onStateChanged(isOpen: Boolean) {
+
+                Log.d("isOpen",mData.toString())
+
+
                 if (isOpen) {
+
+                    value_shipping_name = viewHolder.name.text.toString()
 
                     if (value_shipping_name.isEmpty()) {
                         Toast.makeText(viewHolder.OnOff.context, "請先填入自訂項目名稱", Toast.LENGTH_SHORT)
@@ -116,10 +177,9 @@ class LogisticsListAdapter :
                             position
                         )
 
-                        Handler(Looper.getMainLooper()).post({
-                            addEmptyItem2(position)
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            addEmptyItem()
                         })
-
 
                     }
 
@@ -134,9 +194,10 @@ class LogisticsListAdapter :
                         position
                     )
 
-//                    Handler(Looper.getMainLooper()).post(Runnable {
-//                        delEmptyItem(position)
-//                    })
+                    Log.d("dfjjifjd", mData[position].onoff.toString())
+                    Handler(Looper.getMainLooper()).post(Runnable {
+                        delEmptyItem(position)
+                    })
 
                 }
             }
@@ -150,14 +211,20 @@ class LogisticsListAdapter :
 
     inner class LogisticsListLinearHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cancel = itemView.find<ImageView>(R.id.iv_cancel)
-        val name = itemView.find<EditText>(R.id.et_logistic)
+        val name = itemView.find<EditText>(R.id.tv_logistic)
         val OnOff = itemView.find<EasySwitcher>(R.id.switchview)
 
         init {
+
             Handler(Looper.getMainLooper()).post(Runnable {
                 shop_id = MMKV.mmkvWithID("http").getInt("ShopId", 0)
                 addEmptyItem()
             })
+
+
+
+
+
 
         }
 
@@ -206,48 +273,6 @@ class LogisticsListAdapter :
             notifyDataSetChanged()
         }
     }
-    fun addEmptyItem2(position: Int) {
-        Log.d("LogisticsListAdapter", "Data Size ＝ " + mData.size)
-        Log.d("LogisticsListAdapter", "Position ＝ " + position)
-        empty_item_num = 0
-        if (position == mData.size - 1 ) {
-                if (mData.get(position).getShipmentDesc()!!.isNotEmpty()) {
-                    empty_item_num += 1
-                } else {
-                    empty_item_num += 0
-                }
-
-            if (empty_item_num == 0) {
-                val shopLogisticBean = ShopLogisticBean()
-                shopLogisticBean.id = 0
-                shopLogisticBean.shipment_desc = ""
-                shopLogisticBean.shop_id = shop_id.toString()
-                shopLogisticBean.onoff = "off"
-                mData.add(shopLogisticBean)
-
-                try {
-                    Thread.sleep(300)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-
-                notifyDataSetChanged()
-            }
-        } else {
-//            val shopLogisticBean = ShopLogisticBean()
-//            shopLogisticBean.id = 0
-//            shopLogisticBean.shipment_desc = ""
-//            shopLogisticBean.shop_id = shop_id.toString()
-//            shopLogisticBean.onoff = "off"
-//            mData.add(shopLogisticBean)
-//            try {
-//                Thread.sleep(300)
-//            } catch (e: InterruptedException) {
-//                e.printStackTrace()
-//            }
-//            notifyDataSetChanged()
-        }
-    }
 
     //刪除空白項目
     fun delEmptyItem(position: Int) {
@@ -262,7 +287,17 @@ class LogisticsListAdapter :
         }
 
         if (empty_item_num > 1) {
-            mData.removeAt(position)
+
+            val shopLogisticBean = ShopLogisticBean()
+            shopLogisticBean.id = 0
+            shopLogisticBean.shipment_desc = ""
+            shopLogisticBean.shop_id = shop_id.toString()
+            shopLogisticBean.onoff = "off"
+
+            mData.remove(
+                shopLogisticBean
+            )
+//            mData.removeAt(position)
 
 
             try {
@@ -284,9 +319,9 @@ class LogisticsListAdapter :
         mData[position].setShipmentDesc(update_txt)
         mData[position].setShopID(shop_id.toString())
         mData[position].setOnOff(is_checked)
-//        Handler(Looper.getMainLooper()).post(Runnable {
-//            notifyItemChanged(position)
-//        })
+        Handler(Looper.getMainLooper()).post(Runnable {
+            notifyItemChanged(position)
+        })
 
     }
 

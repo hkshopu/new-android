@@ -22,8 +22,8 @@
         android:visibility="gone"/>
 
     <EditText
-        android:id="@+id/et_logistic"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_logistic"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="10dp"
         android:background="@color/white"
@@ -32,6 +32,7 @@
         android:singleLine="true"
         android:gravity="center_vertical"
         android:layout_marginStart="8dp"
+        android:imeOptions="actionDone"
         android:paddingStart="20dp"
         android:paddingEnd="00dp"
         android:textColor="@color/black"

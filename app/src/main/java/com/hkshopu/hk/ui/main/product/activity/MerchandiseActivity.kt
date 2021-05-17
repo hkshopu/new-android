@@ -302,7 +302,7 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
                             when(productInfoList.product_status){
                                 "active"->{
-                                    binding.btnLaunch.setImageResource(R.mipmap.btn_launch)
+                                    binding.btnLaunch.setImageResource(R.mipmap.btn_draft)
                                     product_status = productInfoList.product_status
                                 }
                                 "draft"->{
@@ -312,8 +312,15 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                             }
 
 
+                            if(productInfoList.product_spec_on.equals("y")){
+                                binding.textViewProductPriceRange.setText("HKD$${productInfoList.shipment_min_price}-HKD$${
+                                    productInfoList.shipment_max_price
+                                }")
+                            }else{
+                                binding.textViewProductPriceRange.setText("HKD$${productInfoList.product_price.toString()}")
+                            }
+
                             binding.textViewProductName.setText(productInfoList.product_title.toString())
-                            binding.textViewProductPriceRange.setText(pick_max_and_min_num().toString())
                             binding.textViewProductInformation.setText(productInfoList.product_description.toString())
                             binding.textViewSoldQuantity.setText(productInfoList.sold_quantity.toString())
                             binding.textViewLike.setText(productInfoList.like.toString())
@@ -321,12 +328,6 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                             binding.textViewSeletedCategory.setText(
                                 "${productInfoList.c_product_category} > ${
                                     productInfoList.c_sub_product_category
-                                }"
-                            )
-
-                            binding.textViewShippingFareRange.setText(
-                                "HKD$${productInfoList.shipment_min_price}-HKD$${
-                                    productInfoList.shipment_max_price
                                 }"
                             )
 
@@ -411,7 +412,7 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                                             binding.containerInvenItem02.isVisible = true
                                             binding.containerInvenItem03.isVisible = false
 
-                                            when(mutableSet_spec_dec_1_items.size){
+                                            when(mutableSet_spec_dec_2_items.size){
                                                 1->{
                                                     binding.secondLayerItemContainer01.isVisible = true
                                                     binding.secondLayerItemContainer02.isVisible = false
@@ -503,7 +504,7 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                                             binding.containerInvenItem02.isVisible = true
                                             binding.containerInvenItem03.isVisible = true
 
-                                            when(mutableSet_spec_dec_1_items.size){
+                                            when(mutableSet_spec_dec_2_items.size){
                                                 1->{
                                                     binding.secondLayerItemContainer01.isVisible = true
                                                     binding.secondLayerItemContainer02.isVisible = false
@@ -685,9 +686,15 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
 
                         if (productInfoList.new_secondhand == "new") {
+                            runOnUiThread {
+                                binding.statusLebal.setImageResource(R.mipmap.new_lebal)
+                            }
 
                         } else {
+                            runOnUiThread {
+                                binding.statusLebal.setImageResource(R.mipmap.secondhand_lebal)
 
+                            }
                         }
 
 

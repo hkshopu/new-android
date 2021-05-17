@@ -131,7 +131,7 @@ class AddBankAccountActivity : BaseActivity(){
                     .apply()
             val intent = Intent(this, AddShopAddressActivity::class.java)
             startActivity(intent)
-//            finish()
+            finish()
         } else {
             AlertDialog.Builder(this@AddBankAccountActivity)
                 .setTitle("")

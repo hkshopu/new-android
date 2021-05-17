@@ -5,8 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -57,16 +57,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
         initVM()
         initEvent()
         initClick()
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // you can execute the logic here
-                if (isEnabled) {
 
-                } else {
-                    activity?.onBackPressed()
-                }
-            }
-        })
 
     }
 
@@ -144,7 +135,8 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
                     Log.d("ShopListFragment", "返回資料 resStr：" + resStr)
                     Log.d("ShopListFragment", "返回資料 ret_val：" + json.get("ret_val"))
                     val ret_val = json.get("ret_val")
-                    if (ret_val.equals("已取得您的商店清單!")) {
+                    val status = json.get("status")
+                    if (status == 0) {
 
                         val translations: JSONArray = json.getJSONArray("data")
 
@@ -158,6 +150,7 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist){
                         adapter.setData(list)
 
                         activity!!.runOnUiThread {
+                            binding!!.container1.visibility = View.GONE
                             initRecyclerView()
                             binding!!.container2.visibility = View.VISIBLE
                             binding!!.tvAddonlineshop2.visibility = View.VISIBLE

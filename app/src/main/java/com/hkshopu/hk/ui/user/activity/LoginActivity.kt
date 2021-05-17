@@ -117,55 +117,33 @@ class LoginActivity : BaseActivity(), TextWatcher {
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
     private fun initVM() {
-        VM.loginLiveData.observe(this, Observer {
+
+        VM.emailcheckLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
+                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        if (it.ret_val!!.equals("該電子郵件已存在!")) {
+                            settings.edit()
+                                .putString("email", email)
+                                .apply()
 
-                    if (it.ret_val.toString() == "密碼錯誤!") {
+                            val intent = Intent(this, LoginPasswordActivity::class.java)
+                            startActivity(intent)
 
-                        val editor : SharedPreferences.Editor = settings_rememberEmail.edit()
-                        editor.apply {
-                            putString("rememberEmail", "true")
-                        }.apply()
-
-
-                        settings.edit().apply {
-                            putString("email", email)
-                        }.apply()
-
-                        val intent = Intent(this, LoginPasswordActivity::class.java)
-                        startActivity(intent)
-
-                    } else {
-                        Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT ).show()
+                        }else{
+                            Toast.makeText(this, "電子郵件不存在", Toast.LENGTH_SHORT).show()
+                        }
+                    }else {
+                        Toast.makeText(this, "電子郵件格式錯誤", Toast.LENGTH_SHORT).show()
                     }
-
                 }
 //                Status.Start -> showLoading()
 //                Status.Complete -> disLoading()
             }
         })
 
-        VM.socialloginLiveData.observe(this, Observer {
-            when (it?.status) {
-                Status.Success -> {
-//                    Log.d("OnBoardActivity", "Sign-In Result" + it.data)
-                    if (it.ret_val.toString().isNotEmpty()) {
-                        val intent = Intent(this, ShopmenuActivity::class.java)
-                        startActivity(intent)
-                        finish()
 
-                    } else {
-                        val intent = Intent(this, BuildAccountActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
 
-                }
-//                Status.Start -> showLoading()
-//                Status.Complete -> disLoading()
-            }
-        })
     }
 
     private fun initView() {
@@ -199,15 +177,13 @@ class LoginActivity : BaseActivity(), TextWatcher {
                 putString("rememberEmail", "true")
             }.apply()
 
-
             settings.edit().apply {
                 putString("email", email)
             }.apply()
 
-            val intent = Intent(this, LoginPasswordActivity::class.java)
-            startActivity(intent)
-//            val password = binding.password1.text.toString()
-//            VM.login(this, email, "checkfortheemail")
+            VM.emailCheck(this,email)
+
+
 
         }
 
@@ -248,8 +224,7 @@ class LoginActivity : BaseActivity(), TextWatcher {
                                     // Application code
                                     val id = response.jsonObject.getString("id")
                                     val email = response.jsonObject.getString("email")
-                                    doSocialLogin(email,id,"","")
-                                } catch (e: Exception) {
+                                    doSocialLogin(email,id,"","")                                              } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
                             }
@@ -300,6 +275,31 @@ class LoginActivity : BaseActivity(), TextWatcher {
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                val email = account.email.toString()
+                val id = account.id.toString()
+
+                doSocialLogin(email,"",id,"")
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.d("OnBoardActivity", "Google sign in failed", e)
+                // ...
+            }
+        }
+    }
+
+
     private fun doSocialLogin(email: String, facebook_account: String, google_account: String, apple_account: String) {
         var url = ApiConstants.API_PATH+"user/socialLoginProcess/"
         val web = Web(object : WebListener {
@@ -343,29 +343,6 @@ class LoginActivity : BaseActivity(), TextWatcher {
             }
         })
         web.Do_SocialLogin(url, email,facebook_account,google_account, apple_account)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                val email = account.email.toString()
-                val id = account.id.toString()
-
-                doSocialLogin(email,"",id,"")
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.d("OnBoardActivity", "Google sign in failed", e)
-                // ...
-            }
-        }
     }
 
 

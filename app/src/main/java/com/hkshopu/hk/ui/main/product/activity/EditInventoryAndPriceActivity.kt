@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.*
 import com.hkshopu.hk.databinding.ActivityInventoryAndPriceBinding
@@ -33,13 +34,15 @@ import org.json.JSONObject
 import java.io.IOException
 import java.lang.reflect.Type
 
-class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
+class EditInventoryAndPriceActivity : BaseActivity(), TextWatcher{
 
     private lateinit var binding : ActivityInventoryAndPriceBinding
 
 
     var mutableList_spec = mutableListOf<ItemSpecification>()
     var mutableList_size = mutableListOf<ItemSpecification>()
+    var mutableList_price = mutableListOf<Int>()
+    var mutableList_quant = mutableListOf<Int>()
     var inven_price_range: String = ""
     var inven_quant_range: String = ""
     var mutableList_InvenDatas = mutableListOf<InventoryItemDatas>()
@@ -48,6 +51,10 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
     var datas_size_size: Int = 0
     var datas_spec_title_first : String = ""
     var datas_spec_title_second : String = ""
+    var datas_price_size: Int = 0
+    var datas_quant_size: Int = 0
+
+
 
     var specGroup_only:Boolean = false
 
@@ -56,7 +63,7 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
     var MMKV_shop_id: Int = 1
     var MMKV_product_id: Int = 1
     var MMKV_inven_datas_size=0
-    lateinit var productInfoList :  ProductInfoBean
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,13 +75,6 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
         MMKV_user_id = MMKV.mmkvWithID("http").getInt("UserId", 0)
         MMKV_shop_id = MMKV.mmkvWithID("http").getInt("ShopId", 0)
         MMKV_product_id = MMKV.mmkvWithID("http").getInt("ProductId", 0)
-
-        getProductInfo(MMKV_product_id)
-        try{
-            Thread.sleep(500)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
 
         initMMKV()
         initView()
@@ -93,15 +93,54 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
             mutableList_spec.add(ItemSpecification(item_name.toString(), R.drawable.custom_unit_transparent))
         }
 
+
         for(i in 0..datas_size_size-1){
             var item_name = MMKV.mmkvWithID("addPro").getString("datas_size_item${i}", "")
             mutableList_size.add(ItemSpecification(item_name.toString(), R.drawable.custom_unit_transparent))
         }
 
+        datas_price_size = MMKV.mmkvWithID("addPro").getString(
+            "datas_price_size",
+            "0"
+        ).toString().toInt()
+        datas_quant_size = MMKV.mmkvWithID("addPro").getString(
+            "datas_quant_size",
+            "0"
+        ).toString().toInt()
+
+        if(datas_price_size.equals(0)||datas_quant_size.equals(0)){
+
+
+            for (i in 0..datas_spec_size*datas_size_size - 1) {
+                mutableList_price.add(0)
+            }
+
+            for (i in 0..datas_spec_size*datas_size_size - 1) {
+                mutableList_quant.add(0)
+            }
+
+
+        }else{
+
+              for (i in 0..datas_price_size - 1) {
+            var price_item = MMKV.mmkvWithID("addPro").getString("spec_price${i}", "0").toString().toInt()
+            mutableList_price.add(price_item)
+            }
+
+            for (i in 0..datas_quant_size - 1) {
+                var quant_item = MMKV.mmkvWithID("addPro").getString("spec_quantity${i}", "0").toString().toInt()
+                mutableList_quant.add(quant_item)
+            }
+
+        }
+
+
+
     }
 
     fun initView() {
         binding.titleInven.setText(R.string.title_editInventoryAndPrice)
+
         initSpecDatas()
 
         if (mutableList_InvenDatas.isNotEmpty()){
@@ -176,9 +215,9 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[0]?.quantity =
                                     binding.secondLayerItemQuant01.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
 
                             }
                             2 -> {
@@ -191,13 +230,13 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[1]?.quantity =
                                     binding.secondLayerItemQuant02.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.price =
-                                    binding.secondLayerItemPrice05.text.toString().toInt()
+                                    binding.secondLayerItemPrice12.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.quantity =
-                                    binding.secondLayerItemQuant05.text.toString().toInt()
+                                    binding.secondLayerItemQuant12.text.toString().toInt()
 
                             }
                             3 -> {
@@ -214,17 +253,17 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[2]?.quantity =
                                     binding.secondLayerItemQuant03.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.price =
-                                    binding.secondLayerItemPrice05.text.toString().toInt()
+                                    binding.secondLayerItemPrice12.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.quantity =
-                                    binding.secondLayerItemQuant05.text.toString().toInt()
+                                    binding.secondLayerItemQuant12.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.price =
-                                    binding.secondLayerItemPrice06.text.toString().toInt()
+                                    binding.secondLayerItemPrice13.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.quantity =
-                                    binding.secondLayerItemQuant06.text.toString().toInt()
+                                    binding.secondLayerItemQuant13.text.toString().toInt()
 
 
                             }
@@ -243,13 +282,13 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[0]?.quantity =
                                     binding.secondLayerItemQuant01.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.price =
-                                    binding.secondLayerItemPrice07.text.toString().toInt()
+                                    binding.secondLayerItemPrice21.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.quantity =
-                                    binding.secondLayerItemQuant07.text.toString().toInt()
+                                    binding.secondLayerItemQuant21.text.toString().toInt()
 
                             }
                             2 -> {
@@ -263,21 +302,21 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[1]?.quantity =
                                     binding.secondLayerItemQuant02.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.price =
-                                    binding.secondLayerItemPrice05.text.toString().toInt()
+                                    binding.secondLayerItemPrice12.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.quantity =
-                                    binding.secondLayerItemQuant05.text.toString().toInt()
+                                    binding.secondLayerItemQuant12.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.price =
-                                    binding.secondLayerItemPrice07.text.toString().toInt()
+                                    binding.secondLayerItemPrice21.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.quantity =
-                                    binding.secondLayerItemQuant07.text.toString().toInt()
+                                    binding.secondLayerItemQuant21.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.price =
-                                    binding.secondLayerItemPrice08.text.toString().toInt()
+                                    binding.secondLayerItemPrice22.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.quantity =
-                                    binding.secondLayerItemQuant08.text.toString().toInt()
+                                    binding.secondLayerItemQuant22.text.toString().toInt()
 
 
                             }
@@ -295,29 +334,29 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[2]?.quantity =
                                     binding.secondLayerItemQuant03.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.price =
-                                    binding.secondLayerItemPrice04.text.toString().toInt()
+                                    binding.secondLayerItemPrice11.text.toString().toInt()
                                 mutableList_InvenDatas[3]?.quantity =
-                                    binding.secondLayerItemQuant04.text.toString().toInt()
+                                    binding.secondLayerItemQuant11.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.price =
-                                    binding.secondLayerItemPrice05.text.toString().toInt()
+                                    binding.secondLayerItemPrice12.text.toString().toInt()
                                 mutableList_InvenDatas[4]?.quantity =
-                                    binding.secondLayerItemQuant05.text.toString().toInt()
+                                    binding.secondLayerItemQuant12.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.price =
-                                    binding.secondLayerItemPrice06.text.toString().toInt()
+                                    binding.secondLayerItemPrice13.text.toString().toInt()
                                 mutableList_InvenDatas[5]?.quantity =
-                                    binding.secondLayerItemQuant06.text.toString().toInt()
+                                    binding.secondLayerItemQuant13.text.toString().toInt()
                                 mutableList_InvenDatas[6]?.price =
-                                    binding.secondLayerItemPrice07.text.toString().toInt()
+                                    binding.secondLayerItemPrice21.text.toString().toInt()
                                 mutableList_InvenDatas[6]?.quantity =
-                                    binding.secondLayerItemQuant07.text.toString().toInt()
+                                    binding.secondLayerItemQuant21.text.toString().toInt()
                                 mutableList_InvenDatas[7]?.price =
-                                    binding.secondLayerItemPrice08.text.toString().toInt()
+                                    binding.secondLayerItemPrice22.text.toString().toInt()
                                 mutableList_InvenDatas[7]?.quantity =
-                                    binding.secondLayerItemQuant08.text.toString().toInt()
+                                    binding.secondLayerItemQuant22.text.toString().toInt()
                                 mutableList_InvenDatas[8]?.price =
-                                    binding.secondLayerItemPrice09.text.toString().toInt()
+                                    binding.secondLayerItemPrice23.text.toString().toInt()
                                 mutableList_InvenDatas[8]?.quantity =
-                                    binding.secondLayerItemQuant09.text.toString().toInt()
+                                    binding.secondLayerItemQuant23.text.toString().toInt()
 
                             }
 
@@ -370,14 +409,12 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
     }
     fun initClick() {
         binding.titleBackAddshop.setOnClickListener {
-            val intent = Intent(this, EditProductSpecificationMainActivity::class.java)
+            val intent = Intent(this, AddNewProductActivity::class.java)
             startActivity(intent)
             finish()
         }
 
         binding.btnInvenStore.setOnClickListener {
-
-            val intent = Intent(this, EditProductActivity::class.java)
 
             MMKV.mmkvWithID("addPro").putInt("inven_datas_size", mutableList_InvenDatas.size)
 
@@ -409,8 +446,8 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
             MMKV.mmkvWithID("addPro").putString("inven_price_range", inven_price_range)
             MMKV.mmkvWithID("addPro").putString("inven_quant_range", inven_quant_range)
 
+            val intent = Intent(this, EditProductActivity::class.java)
             startActivity(intent)
-
             finish()
         }
 
@@ -420,22 +457,22 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
         setTextWatcher_price(binding.textViewHKdolors01, binding.secondLayerItemPrice01, 0)
         setTextWatcher_price(binding.textViewHKdolors02, binding.secondLayerItemPrice02, 1)
         setTextWatcher_price(binding.textViewHKdolors03, binding.secondLayerItemPrice03, 2)
-        setTextWatcher_price(binding.textViewHKdolors04, binding.secondLayerItemPrice04, 3)
-        setTextWatcher_price(binding.textViewHKdolors05, binding.secondLayerItemPrice05, 4)
-        setTextWatcher_price(binding.textViewHKdolors06, binding.secondLayerItemPrice06, 5)
-        setTextWatcher_price(binding.textViewHKdolors07, binding.secondLayerItemPrice07, 6)
-        setTextWatcher_price(binding.textViewHKdolors08, binding.secondLayerItemPrice08, 7)
-        setTextWatcher_price(binding.textViewHKdolors09, binding.secondLayerItemPrice09, 8)
+        setTextWatcher_price(binding.textViewHKdolors11, binding.secondLayerItemPrice11, 3)
+        setTextWatcher_price(binding.textViewHKdolors12, binding.secondLayerItemPrice12, 4)
+        setTextWatcher_price(binding.textViewHKdolors13, binding.secondLayerItemPrice13, 5)
+        setTextWatcher_price(binding.textViewHKdolors21, binding.secondLayerItemPrice21, 6)
+        setTextWatcher_price(binding.textViewHKdolors22, binding.secondLayerItemPrice22, 7)
+        setTextWatcher_price(binding.textViewHKdolors23, binding.secondLayerItemPrice23, 8)
 
         setTextWatcher_quant(binding.secondLayerItemQuant01, 0)
         setTextWatcher_quant(binding.secondLayerItemQuant02, 1)
         setTextWatcher_quant(binding.secondLayerItemQuant03, 2)
-        setTextWatcher_quant(binding.secondLayerItemQuant04, 3)
-        setTextWatcher_quant(binding.secondLayerItemQuant05, 4)
-        setTextWatcher_quant(binding.secondLayerItemQuant06, 5)
-        setTextWatcher_quant(binding.secondLayerItemQuant07, 6)
-        setTextWatcher_quant(binding.secondLayerItemQuant08, 7)
-        setTextWatcher_quant(binding.secondLayerItemQuant09, 8)
+        setTextWatcher_quant(binding.secondLayerItemQuant11, 3)
+        setTextWatcher_quant(binding.secondLayerItemQuant12, 4)
+        setTextWatcher_quant(binding.secondLayerItemQuant13, 5)
+        setTextWatcher_quant(binding.secondLayerItemQuant21, 6)
+        setTextWatcher_quant(binding.secondLayerItemQuant22, 7)
+        setTextWatcher_quant(binding.secondLayerItemQuant23, 8)
 
 
         if(datas_spec_size != null &&  datas_size_size != null) {
@@ -457,7 +494,7 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                         when(datas_size_size){
 
                             1->{
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = false
@@ -473,8 +510,8 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                             }
                             2->{
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add( InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add( InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
@@ -494,9 +531,9 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                             }
                             3->{
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name, productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name, mutableList_price.get(2), mutableList_quant.get(2) ))
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
@@ -541,43 +578,52 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                         when(datas_size_size){
 
                             1->{
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(1), mutableList_quant.get(1) ))
 
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = false
                                 binding.secondLayerItemContainer03.isVisible = false
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = false
-                                binding.secondLayerItemContainer06.isVisible = false
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = false
+                                binding.secondLayerItemContainer13.isVisible = false
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
                                 binding.secondLayerItemQuant01.setText(mutableList_InvenDatas[0]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[1]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[1]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice11.setText(mutableList_InvenDatas[1]?.price.toString())
+                                binding.secondLayerItemQuant11.setText(mutableList_InvenDatas[1]?.quantity.toString())
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
                                 mutableList_InvenDatas[0]?.quantity = binding.secondLayerItemQuant01.text.toString().toInt()
-                                mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
+                                mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
 
                             }
                             2->{
+                                Log.d("datas_spec_title_first",
+                                    "datas_spec_title_first : ${datas_spec_title_first} ;" +
+                                            " datas_spec_title_second : ${datas_spec_title_second} ;" +
+                                            " mutableList_spec : ${mutableList_spec}} ;" +
+                                            " mutableList_size : ${mutableList_size} ;" +
+                                            " mutableList_price : ${mutableList_price} ;" +
+                                            " mutableList_quant : ${mutableList_quant} ; " +
+                                            " datas_price_size : ${datas_price_size} ; " +
+                                            " datas_quant_size : ${datas_quant_size}")
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name,  productInfoList.price.get(1), productInfoList.spec_quantity.get(1)))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name,  productInfoList.price.get(3), productInfoList.spec_quantity.get(3) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name,  mutableList_price.get(1), mutableList_quant.get(1)))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(2), mutableList_quant.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name,  mutableList_price.get(3), mutableList_quant.get(3) ))
 
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
                                 binding.secondLayerItemContainer03.isVisible = false
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = true
-                                binding.secondLayerItemContainer06.isVisible = false
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = true
+                                binding.secondLayerItemContainer13.isVisible = false
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
@@ -585,39 +631,39 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 binding.secondLayerItemName02.text =  mutableList_size[1].spec_name
                                 binding.secondLayerItemPrice02.setText(mutableList_InvenDatas[1]?.price.toString())
                                 binding.secondLayerItemQuant02.setText(mutableList_InvenDatas[1]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[2]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[2]?.quantity.toString())
-                                binding.secondLayerItemName05.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice05.setText(mutableList_InvenDatas[3]?.price.toString())
-                                binding.secondLayerItemQuant05.setText(mutableList_InvenDatas[3]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice11.setText(mutableList_InvenDatas[2]?.price.toString())
+                                binding.secondLayerItemQuant11.setText(mutableList_InvenDatas[2]?.quantity.toString())
+                                binding.secondLayerItemName12.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice12.setText(mutableList_InvenDatas[3]?.price.toString())
+                                binding.secondLayerItemQuant12.setText(mutableList_InvenDatas[3]?.quantity.toString())
 
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
                                 mutableList_InvenDatas[0]?.quantity = binding.secondLayerItemQuant01.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice02.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant02.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice05.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant05.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice12.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant12.text.toString().toInt()
 
                             }
                             3->{
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name,  productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name,  productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  productInfoList.price.get(3), productInfoList.spec_quantity.get(3) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name,  productInfoList.price.get(4), productInfoList.spec_quantity.get(4) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[2].spec_name,  productInfoList.price.get(5), productInfoList.spec_quantity.get(5) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name,  mutableList_price.get(1), mutableList_quant.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name,  mutableList_price.get(2), mutableList_quant.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name,  mutableList_price.get(3), mutableList_quant.get(3) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name,  mutableList_price.get(4), mutableList_quant.get(4) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[2].spec_name,  mutableList_price.get(5), mutableList_quant.get(5) ))
 
 
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
                                 binding.secondLayerItemContainer03.isVisible = true
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = true
-                                binding.secondLayerItemContainer06.isVisible = true
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = true
+                                binding.secondLayerItemContainer13.isVisible = true
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
@@ -628,15 +674,15 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 binding.secondLayerItemName03.text =  mutableList_size[2].spec_name
                                 binding.secondLayerItemPrice03.setText(mutableList_InvenDatas[2]?.price.toString())
                                 binding.secondLayerItemQuant03.setText(mutableList_InvenDatas[2]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[3]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[3]?.quantity.toString())
-                                binding.secondLayerItemName05.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice05.setText(mutableList_InvenDatas[4]?.price.toString())
-                                binding.secondLayerItemQuant05.setText(mutableList_InvenDatas[4]?.quantity.toString())
-                                binding.secondLayerItemName06.text =  mutableList_size[2].spec_name
-                                binding.secondLayerItemPrice06.setText(mutableList_InvenDatas[5]?.price.toString())
-                                binding.secondLayerItemQuant06.setText(mutableList_InvenDatas[5]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice11.setText(mutableList_InvenDatas[3]?.price.toString())
+                                binding.secondLayerItemQuant11.setText(mutableList_InvenDatas[3]?.quantity.toString())
+                                binding.secondLayerItemName12.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice12.setText(mutableList_InvenDatas[4]?.price.toString())
+                                binding.secondLayerItemQuant12.setText(mutableList_InvenDatas[4]?.quantity.toString())
+                                binding.secondLayerItemName13.text =  mutableList_size[2].spec_name
+                                binding.secondLayerItemPrice13.setText(mutableList_InvenDatas[5]?.price.toString())
+                                binding.secondLayerItemQuant13.setText(mutableList_InvenDatas[5]?.quantity.toString())
 
 
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
@@ -645,12 +691,12 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant02.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice03.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant03.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice05.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant05.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice06.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant06.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice12.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant12.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice13.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant13.text.toString().toInt()
 
 
                             }
@@ -679,57 +725,57 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
 
                             1->{
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, mutableList_price.get(2), mutableList_quant.get(2) ))
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = false
                                 binding.secondLayerItemContainer03.isVisible = false
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = false
-                                binding.secondLayerItemContainer06.isVisible = false
-                                binding.secondLayerItemContainer07.isVisible = true
-                                binding.secondLayerItemContainer08.isVisible = false
-                                binding.secondLayerItemContainer09.isVisible = false
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = false
+                                binding.secondLayerItemContainer13.isVisible = false
+                                binding.secondLayerItemContainer21.isVisible = true
+                                binding.secondLayerItemContainer22.isVisible = false
+                                binding.secondLayerItemContainer23.isVisible = false
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
                                 binding.secondLayerItemQuant01.setText(mutableList_InvenDatas[0]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[1]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[1]?.quantity.toString())
-                                binding.secondLayerItemName07.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice07.setText(mutableList_InvenDatas[2]?.price.toString())
-                                binding.secondLayerItemQuant07.setText(mutableList_InvenDatas[2]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice12.setText(mutableList_InvenDatas[1]?.price.toString())
+                                binding.secondLayerItemQuant13.setText(mutableList_InvenDatas[1]?.quantity.toString())
+                                binding.secondLayerItemName21.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice22.setText(mutableList_InvenDatas[2]?.price.toString())
+                                binding.secondLayerItemQuant23.setText(mutableList_InvenDatas[2]?.quantity.toString())
 
 
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
                                 mutableList_InvenDatas[0]?.quantity = binding.secondLayerItemQuant01.text.toString().toInt()
-                                mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice07.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant07.text.toString().toInt()
+                                mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice12.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant12.text.toString().toInt()
 
                             }
                             2->{
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(3), productInfoList.spec_quantity.get(3) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(4), productInfoList.spec_quantity.get(4) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(5), productInfoList.spec_quantity.get(5) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, mutableList_price.get(2), mutableList_quant.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name, mutableList_price.get(3), mutableList_quant.get(3) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, mutableList_price.get(4), mutableList_quant.get(4) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[1].spec_name, mutableList_price.get(5), mutableList_quant.get(5) ))
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
                                 binding.secondLayerItemContainer03.isVisible = false
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = true
-                                binding.secondLayerItemContainer06.isVisible = false
-                                binding.secondLayerItemContainer07.isVisible = true
-                                binding.secondLayerItemContainer08.isVisible = true
-                                binding.secondLayerItemContainer09.isVisible = false
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = true
+                                binding.secondLayerItemContainer13.isVisible = false
+                                binding.secondLayerItemContainer21.isVisible = true
+                                binding.secondLayerItemContainer22.isVisible = true
+                                binding.secondLayerItemContainer23.isVisible = false
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
@@ -737,57 +783,57 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 binding.secondLayerItemName02.text =  mutableList_size[1].spec_name
                                 binding.secondLayerItemPrice02.setText(mutableList_InvenDatas[1]?.price.toString())
                                 binding.secondLayerItemQuant02.setText(mutableList_InvenDatas[1]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[2]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[2]?.quantity.toString())
-                                binding.secondLayerItemName05.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice05.setText(mutableList_InvenDatas[3]?.price.toString())
-                                binding.secondLayerItemQuant05.setText(mutableList_InvenDatas[3]?.quantity.toString())
-                                binding.secondLayerItemName07.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice07.setText(mutableList_InvenDatas[4]?.price.toString())
-                                binding.secondLayerItemQuant07.setText(mutableList_InvenDatas[4]?.quantity.toString())
-                                binding.secondLayerItemName08.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice08.setText(mutableList_InvenDatas[5]?.price.toString())
-                                binding.secondLayerItemQuant08.setText(mutableList_InvenDatas[5]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice11.setText(mutableList_InvenDatas[2]?.price.toString())
+                                binding.secondLayerItemQuant11.setText(mutableList_InvenDatas[2]?.quantity.toString())
+                                binding.secondLayerItemName12.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice12.setText(mutableList_InvenDatas[3]?.price.toString())
+                                binding.secondLayerItemQuant12.setText(mutableList_InvenDatas[3]?.quantity.toString())
+                                binding.secondLayerItemName21.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice21.setText(mutableList_InvenDatas[4]?.price.toString())
+                                binding.secondLayerItemQuant21.setText(mutableList_InvenDatas[4]?.quantity.toString())
+                                binding.secondLayerItemName22.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice22.setText(mutableList_InvenDatas[5]?.price.toString())
+                                binding.secondLayerItemQuant22.setText(mutableList_InvenDatas[5]?.quantity.toString())
 
 
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
                                 mutableList_InvenDatas[0]?.quantity = binding.secondLayerItemQuant01.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.price = binding.secondLayerItemPrice02.text.toString().toInt()
                                 mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant02.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice05.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant05.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice07.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant07.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice08.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant08.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice12.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant12.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice21.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant21.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice22.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant22.text.toString().toInt()
 
 
                             }
                             3->{
 
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name, productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(3), productInfoList.spec_quantity.get(3) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(4), productInfoList.spec_quantity.get(4) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[2].spec_name, productInfoList.price.get(5), productInfoList.spec_quantity.get(5) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, productInfoList.price.get(6), productInfoList.spec_quantity.get(6) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[1].spec_name, productInfoList.price.get(7), productInfoList.spec_quantity.get(7) ))
-                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[2].spec_name, productInfoList.price.get(8), productInfoList.spec_quantity.get(8) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[0].spec_name, mutableList_size[2].spec_name, mutableList_price.get(2), mutableList_quant.get(2) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[0].spec_name, mutableList_price.get(3), mutableList_quant.get(3) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[1].spec_name, mutableList_price.get(4), mutableList_quant.get(4) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[1].spec_name, mutableList_size[2].spec_name, mutableList_price.get(5), mutableList_quant.get(5) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[0].spec_name, mutableList_price.get(6), mutableList_quant.get(6) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[1].spec_name, mutableList_price.get(7), mutableList_quant.get(7) ))
+                                mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, mutableList_spec[2].spec_name, mutableList_size[2].spec_name, mutableList_price.get(8), mutableList_quant.get(8) ))
 
 
                                 binding.secondLayerItemContainer01.isVisible = true
                                 binding.secondLayerItemContainer02.isVisible = true
                                 binding.secondLayerItemContainer03.isVisible = true
-                                binding.secondLayerItemContainer04.isVisible = true
-                                binding.secondLayerItemContainer05.isVisible = true
-                                binding.secondLayerItemContainer06.isVisible = true
-                                binding.secondLayerItemContainer07.isVisible = true
-                                binding.secondLayerItemContainer08.isVisible = true
-                                binding.secondLayerItemContainer09.isVisible = true
+                                binding.secondLayerItemContainer11.isVisible = true
+                                binding.secondLayerItemContainer12.isVisible = true
+                                binding.secondLayerItemContainer13.isVisible = true
+                                binding.secondLayerItemContainer21.isVisible = true
+                                binding.secondLayerItemContainer22.isVisible = true
+                                binding.secondLayerItemContainer23.isVisible = true
 
                                 binding.secondLayerItemName01.text =  mutableList_size[0].spec_name
                                 binding.secondLayerItemPrice01.setText(mutableList_InvenDatas[0]?.price.toString())
@@ -798,24 +844,24 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 binding.secondLayerItemName03.text =  mutableList_size[2].spec_name
                                 binding.secondLayerItemPrice03.setText(mutableList_InvenDatas[2]?.price.toString())
                                 binding.secondLayerItemQuant03.setText(mutableList_InvenDatas[2]?.quantity.toString())
-                                binding.secondLayerItemName04.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice04.setText(mutableList_InvenDatas[3]?.price.toString())
-                                binding.secondLayerItemQuant04.setText(mutableList_InvenDatas[3]?.quantity.toString())
-                                binding.secondLayerItemName05.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice05.setText(mutableList_InvenDatas[4]?.price.toString())
-                                binding.secondLayerItemQuant05.setText(mutableList_InvenDatas[4]?.quantity.toString())
-                                binding.secondLayerItemName06.text =  mutableList_size[2].spec_name
-                                binding.secondLayerItemPrice06.setText(mutableList_InvenDatas[5]?.price.toString())
-                                binding.secondLayerItemQuant06.setText(mutableList_InvenDatas[5]?.quantity.toString())
-                                binding.secondLayerItemName07.text =  mutableList_size[0].spec_name
-                                binding.secondLayerItemPrice07.setText(mutableList_InvenDatas[6]?.price.toString())
-                                binding.secondLayerItemQuant07.setText(mutableList_InvenDatas[6]?.quantity.toString())
-                                binding.secondLayerItemName08.text =  mutableList_size[1].spec_name
-                                binding.secondLayerItemPrice08.setText(mutableList_InvenDatas[7]?.price.toString())
-                                binding.secondLayerItemQuant08.setText(mutableList_InvenDatas[7]?.quantity.toString())
-                                binding.secondLayerItemName09.text =  mutableList_size[2].spec_name
-                                binding.secondLayerItemPrice09.setText(mutableList_InvenDatas[8]?.price.toString())
-                                binding.secondLayerItemQuant09.setText(mutableList_InvenDatas[8]?.quantity.toString())
+                                binding.secondLayerItemName11.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice11.setText(mutableList_InvenDatas[3]?.price.toString())
+                                binding.secondLayerItemQuant11.setText(mutableList_InvenDatas[3]?.quantity.toString())
+                                binding.secondLayerItemName12.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice12.setText(mutableList_InvenDatas[4]?.price.toString())
+                                binding.secondLayerItemQuant12.setText(mutableList_InvenDatas[4]?.quantity.toString())
+                                binding.secondLayerItemName13.text =  mutableList_size[2].spec_name
+                                binding.secondLayerItemPrice13.setText(mutableList_InvenDatas[5]?.price.toString())
+                                binding.secondLayerItemQuant13.setText(mutableList_InvenDatas[5]?.quantity.toString())
+                                binding.secondLayerItemName21.text =  mutableList_size[0].spec_name
+                                binding.secondLayerItemPrice21.setText(mutableList_InvenDatas[6]?.price.toString())
+                                binding.secondLayerItemQuant21.setText(mutableList_InvenDatas[6]?.quantity.toString())
+                                binding.secondLayerItemName22.text =  mutableList_size[1].spec_name
+                                binding.secondLayerItemPrice22.setText(mutableList_InvenDatas[7]?.price.toString())
+                                binding.secondLayerItemQuant22.setText(mutableList_InvenDatas[7]?.quantity.toString())
+                                binding.secondLayerItemName23.text =  mutableList_size[2].spec_name
+                                binding.secondLayerItemPrice23.setText(mutableList_InvenDatas[8]?.price.toString())
+                                binding.secondLayerItemQuant23.setText(mutableList_InvenDatas[8]?.quantity.toString())
 
 
                                 mutableList_InvenDatas[0]?.price = binding.secondLayerItemPrice01.text.toString().toInt()
@@ -824,18 +870,18 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                                 mutableList_InvenDatas[1]?.quantity = binding.secondLayerItemQuant02.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.price = binding.secondLayerItemPrice03.text.toString().toInt()
                                 mutableList_InvenDatas[2]?.quantity = binding.secondLayerItemQuant03.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice04.text.toString().toInt()
-                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant04.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice05.text.toString().toInt()
-                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant05.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice06.text.toString().toInt()
-                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant06.text.toString().toInt()
-                                mutableList_InvenDatas[6]?.price = binding.secondLayerItemPrice07.text.toString().toInt()
-                                mutableList_InvenDatas[6]?.quantity = binding.secondLayerItemQuant07.text.toString().toInt()
-                                mutableList_InvenDatas[7]?.price = binding.secondLayerItemPrice08.text.toString().toInt()
-                                mutableList_InvenDatas[7]?.quantity = binding.secondLayerItemQuant08.text.toString().toInt()
-                                mutableList_InvenDatas[8]?.price = binding.secondLayerItemPrice09.text.toString().toInt()
-                                mutableList_InvenDatas[8]?.quantity = binding.secondLayerItemQuant09.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.price = binding.secondLayerItemPrice11.text.toString().toInt()
+                                mutableList_InvenDatas[3]?.quantity = binding.secondLayerItemQuant11.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.price = binding.secondLayerItemPrice12.text.toString().toInt()
+                                mutableList_InvenDatas[4]?.quantity = binding.secondLayerItemQuant12.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.price = binding.secondLayerItemPrice13.text.toString().toInt()
+                                mutableList_InvenDatas[5]?.quantity = binding.secondLayerItemQuant13.text.toString().toInt()
+                                mutableList_InvenDatas[6]?.price = binding.secondLayerItemPrice21.text.toString().toInt()
+                                mutableList_InvenDatas[6]?.quantity = binding.secondLayerItemQuant21.text.toString().toInt()
+                                mutableList_InvenDatas[7]?.price = binding.secondLayerItemPrice22.text.toString().toInt()
+                                mutableList_InvenDatas[7]?.quantity = binding.secondLayerItemQuant22.text.toString().toInt()
+                                mutableList_InvenDatas[8]?.price = binding.secondLayerItemPrice23.text.toString().toInt()
+                                mutableList_InvenDatas[8]?.quantity = binding.secondLayerItemQuant23.text.toString().toInt()
 
                             }
 
@@ -851,12 +897,41 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
 
                 binding.firstLayerColumn01.text = datas_spec_title_first
 
-                mutableList_spec.add(ItemSpecification("",R.drawable.custom_unit_transparent))
 
+
+                mutableList_size.clear()
                 for (i in 0..datas_spec_size-1){
                     mutableList_size.add(
-                        intent.getBundleExtra("bundle_AddProductSpecificationMainActivity")?.getParcelable<ItemSpecification>("spec" + i.toString())!!
+                        ItemSpecification( mutableList_spec.get(i).spec_name, R.drawable.custom_unit_transparent)
                     )
+                }
+
+                mutableList_price.clear()
+                mutableList_quant.clear()
+                if(datas_price_size.equals(0)||datas_quant_size.equals(0)){
+
+
+                    for (i in 0..datas_spec_size - 1) {
+                        mutableList_price.add(0)
+                    }
+
+                    for (i in 0..datas_spec_size - 1) {
+                        mutableList_quant.add(0)
+                    }
+
+
+                }else{
+
+                    for (i in 0..datas_price_size - 1) {
+                        var price_item = MMKV.mmkvWithID("addPro").getString("spec_price${i}", "0").toString().toInt()
+                        mutableList_price.add(price_item)
+                    }
+
+                    for (i in 0..datas_quant_size - 1) {
+                        var quant_item = MMKV.mmkvWithID("addPro").getString("spec_quantity${i}", "0").toString().toInt()
+                        mutableList_quant.add(quant_item)
+                    }
+
                 }
 
                 binding.containerInvenItem01.isVisible = true
@@ -875,7 +950,7 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                 when(datas_spec_size){
                     1->{
 
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
 
                         binding.secondLayerItemContainer01.isVisible = true
                         binding.secondLayerItemContainer02.isVisible = false
@@ -892,8 +967,8 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                     }
                     2->{
 
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_size[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_size[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
 
 
                         binding.secondLayerItemContainer01.isVisible = true
@@ -915,9 +990,9 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                     }
                     3->{
 
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[0].spec_name, productInfoList.price.get(0), productInfoList.spec_quantity.get(0) ))
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[1].spec_name, productInfoList.price.get(1), productInfoList.spec_quantity.get(1) ))
-                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[2].spec_name, productInfoList.price.get(2), productInfoList.spec_quantity.get(2) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[0].spec_name, mutableList_price.get(0), mutableList_quant.get(0) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[1].spec_name, mutableList_price.get(1), mutableList_quant.get(1) ))
+                        mutableList_InvenDatas.add(InventoryItemDatas(datas_spec_title_first, datas_spec_title_second, "", mutableList_spec[2].spec_name, mutableList_price.get(2), mutableList_quant.get(2) ))
 
                         binding.secondLayerItemContainer01.isVisible = true
                         binding.secondLayerItemContainer02.isVisible = true
@@ -984,8 +1059,9 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                 }
 
                 if(editText.text.toString() == "" ){
-
                     editText.setText("0")
+                    editText.setTextColor(resources.getColor(R.color.gray_txt))
+                    textView.setTextColor(resources.getColor(R.color.gray_txt))
 
                 }else{
                     editText.setTextColor(resources.getColor(R.color.black))
@@ -1005,6 +1081,8 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
                     if(editText.text.toString() == "" ){
 
                         editText.setText("0")
+                        editText.setTextColor(resources.getColor(R.color.gray_txt))
+                        textView.setTextColor(resources.getColor(R.color.gray_txt))
 
                     }else{
                         editText.setTextColor(resources.getColor(R.color.black))
@@ -1141,67 +1219,10 @@ class EditInventoryAndPriceActivity : AppCompatActivity(), TextWatcher{
 
     override fun onBackPressed() {
 
-        val intent = Intent(this, EditProductSpecificationMainActivity::class.java)
+        val intent = Intent(this, AddNewProductActivity::class.java)
         startActivity(intent)
         finish()
 
-    }
-
-    private fun getProductInfo(product_id: Int) {
-
-        val url = ApiConstants.API_HOST+"product/${product_id}/product_info_forAndroid/"
-        val web = Web(object : WebListener {
-            override fun onResponse(response: Response) {
-                var resStr: String? = ""
-                val list = ArrayList<ProductInfoBean>()
-                try {
-                    resStr = response.body()!!.string()
-                    val json = JSONObject(resStr)
-                    Log.d("getProductInfo", "返回資料 resStr：" + resStr)
-                    Log.d("getProductInfo", "返回資料 ret_val：" + json.get("ret_val"))
-                    val ret_val = json.get("ret_val")
-                    if (ret_val.equals("已取得商品資訊!")) {
-
-                        val jsonArray: JSONArray = json.getJSONArray("data")
-                        Log.d("getProductInfo", "返回資料 jsonArray：" + jsonArray.toString())
-
-                        for (i in 0 until jsonArray.length()) {
-                            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                            productInfoList = Gson().fromJson(
-                                jsonObject.toString(),
-                                ProductInfoBean::class.java
-                            )
-
-                        }
-                        Log.d("getProductInfo", "返回資料 productInfoList：" + productInfoList.toString())
-
-//                        MMKV.mmkvWithID("addPro").putString("value_editTextProductSpecFirst", productInfoList.spec_desc_1.get(0)).toString()
-//                        MMKV.mmkvWithID("addPro").putString("value_editTextProductSpecSecond", productInfoList.spec_desc_2.get(0)).toString()
-//                        MMKV.mmkvWithID("addPro").putString("datas_spec_size", productInfoList.spec_dec_1_items.size.toString()).toString().toInt()
-//                        MMKV.mmkvWithID("addPro").putString("datas_size_size", productInfoList.spec_dec_2_items.size.toString()).toString().toInt()
-
-
-
-
-
-                    }else{
-
-                    }
-
-                } catch (e: JSONException) {
-
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-
-                }
-            }
-
-            override fun onErrorResponse(ErrorResponse: IOException?) {
-
-            }
-        })
-        web.Get_Data(url)
     }
 
 

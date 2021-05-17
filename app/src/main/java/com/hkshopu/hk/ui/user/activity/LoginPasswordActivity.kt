@@ -13,7 +13,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
@@ -44,6 +43,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
     var email: String = ""
     var password : String = ""
     private lateinit var settings: SharedPreferences
+    lateinit var settings_rememberPassword: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,6 +148,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
         binding.btnLogin.setOnClickListener {
 
+            password = binding.edtPassword.text.toString()
             val url = ApiConstants.API_HOST+"/user/loginProcess/"
 //            VM.login(this, getstring!!, password!!)
 
@@ -161,9 +162,7 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
 
     private fun initEditText() {
 
-        binding.edtPassword.doAfterTextChanged {
-            password = binding.edtPassword.text.toString()
-        }
+        binding.edtPassword.addTextChangedListener(this)
 
         binding.edtPassword.singleLine = true
         binding.edtPassword.setOnEditorActionListener() { v, actionId, event ->
@@ -219,6 +218,13 @@ class LoginPasswordActivity : BaseActivity(), TextWatcher {
                         MMKV.mmkvWithID("http").putInt("UserId", user_id)
                             .putString("Email",email)
                             .putString("Password",password)
+
+                        settings_rememberPassword = getSharedPreferences("rememberPassword", 0)
+
+                        val editor : SharedPreferences.Editor = settings_rememberPassword.edit()
+                        editor.apply {
+                            putString("rememberPassword", "true")
+                        }.apply()
 
 
                         val intent = Intent(this@LoginPasswordActivity, ShopmenuActivity::class.java)
