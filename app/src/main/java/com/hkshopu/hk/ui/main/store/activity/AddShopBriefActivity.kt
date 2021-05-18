@@ -155,7 +155,7 @@ class AddShopBriefActivity : BaseActivity() {
                                     binding.tvAddshopbriefEmail.text = infolist[0].shop_email
                                 }
 
-                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
+
                                 if(infolist[0].phone.length > 0) {
 
                                     binding.tvAddshopbriefContact.visibility = View.VISIBLE
