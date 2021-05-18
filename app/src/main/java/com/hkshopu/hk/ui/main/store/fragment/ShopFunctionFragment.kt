@@ -73,6 +73,7 @@ class ShopFunctionFragment : Fragment(R.layout.fragment_shopfunction) {
         }
 
         binding!!.tvMoreStoresort.setOnClickListener {
+
             var bundle = Bundle()
             bundle.putBoolean("toShopFunction",true)
             val intent = Intent(activity, ShopCategoryActivity::class.java)

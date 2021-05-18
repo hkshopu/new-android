@@ -21,7 +21,6 @@ import com.hkshopu.hk.component.CommonVariable
 import com.hkshopu.hk.component.EventAddShopBriefSuccess
 import com.hkshopu.hk.component.EventGetShopCatSuccess
 import com.hkshopu.hk.data.bean.*
-
 import com.hkshopu.hk.databinding.ActivityAddshopbriefBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
@@ -157,7 +156,13 @@ class AddShopBriefActivity : BaseActivity() {
                                 }
 
                                     binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                if(infolist[0].phone.length > 0) {
 
+                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
+                                    binding.ivAddshopbriefContact1.visibility = View.VISIBLE
+                                    binding.tvAddshopbriefPhone.text = infolist[0].phone
+                                    binding.tvAddshopbriefPhone.visibility = View.VISIBLE
+                                }
 
                                 val shopaddress: JSONArray = jsonObject.getJSONArray("shop_address")
                                 if (shopaddress.length() > 0) {
@@ -174,12 +179,6 @@ class AddShopBriefActivity : BaseActivity() {
                                                 binding.tvAddshopbriefAddress.visibility = View.VISIBLE
                                                 binding.tvAddshopbriefAddress.text = address_brief
 
-                                                if(infolist[0].phone.length > 0) {
-                                                    val phone_brief = list[i].country_code +"-"+infolist[0].phone
-                                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
-                                                    binding.ivAddshopbriefContact1.visibility = View.VISIBLE
-                                                    binding.tvAddshopbriefPhone.text = phone_brief
-                                                }
                                             }
                                         }
 
