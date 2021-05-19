@@ -73,6 +73,7 @@ class ShopFunctionFragment : Fragment(R.layout.fragment_shopfunction) {
         }
 
         binding!!.tvMoreStoresort.setOnClickListener {
+
             var bundle = Bundle()
             bundle.putBoolean("toShopFunction",true)
             val intent = Intent(activity, ShopCategoryActivity::class.java)
@@ -98,6 +99,11 @@ class ShopFunctionFragment : Fragment(R.layout.fragment_shopfunction) {
 
         }
 
+        binding!!.tvMoreHelp.setOnClickListener {
+            val intent = Intent(activity, HelpCenterActivity::class.java)
+            activity!!.startActivity(intent)
+
+        }
     }
 
     @SuppressLint("CheckResult")

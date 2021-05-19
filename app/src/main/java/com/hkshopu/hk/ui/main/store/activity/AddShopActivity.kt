@@ -286,7 +286,7 @@ class AddShopActivity : BaseActivity() {
             if(isChecked) {
                 val intent = Intent(this, AddBankAccountActivity::class.java)
                 startActivity(intent)
-                finish()
+//                finish()
             }
         }
         binding.tvMoreStoresort.setOnClickListener {

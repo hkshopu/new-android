@@ -15,6 +15,8 @@ import com.hkshopu.hk.data.bean.ShopAddressListBean
 import com.hkshopu.hk.data.bean.ShopBankAccountBean
 
 import com.hkshopu.hk.databinding.ActivityBankaccountpresetBinding
+import com.hkshopu.hk.databinding.ActivityShopaddresslistBinding
+import com.hkshopu.hk.databinding.ActivityShopaddresspresetBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
@@ -33,7 +35,7 @@ import java.io.IOException
 
 
 class ShopAddressPresetActivity : BaseActivity() {
-    private lateinit var binding: ActivityBankaccountpresetBinding
+    private lateinit var binding: ActivityShopaddresspresetBinding
 
     private val adapter = ShopAddressPresetAdapter()
     val shopId = MMKV.mmkvWithID("http").getInt("ShopId", 0)
@@ -41,7 +43,7 @@ class ShopAddressPresetActivity : BaseActivity() {
     var presetid:String= ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBankaccountpresetBinding.inflate(layoutInflater)
+        binding = ActivityShopaddresspresetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()
@@ -173,7 +175,7 @@ class ShopAddressPresetActivity : BaseActivity() {
         web.Do_ShopAddressPreset(url,shopId,pressId)
     }
     private fun initClick() {
-        binding.tvBankaccountpreset.setOnClickListener {
+        binding.tvShopaddresspreset.setOnClickListener {
             AlertDialog.Builder(this@ShopAddressPresetActivity)
                 .setTitle("")
                 .setMessage("確定將此地址改為預設地址嗎?")
