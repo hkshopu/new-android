@@ -124,7 +124,7 @@ class PhoneEditActivity : BaseActivity(){
                     val status = json.get("status")
                     if (status == 0) {
                         if(isphoneShow.equals("Y")) {
-                            RxBus.getInstance().post(EventChangeShopPhoneSuccess(phone_pass))
+                            RxBus.getInstance().post(EventChangeShopPhoneSuccess(phone_number))
                         }
                         finish()
                     } else {

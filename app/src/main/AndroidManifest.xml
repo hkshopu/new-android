@@ -211,6 +211,11 @@
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopNotifyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.HelpCenterActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 <!-- Product -->
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopPreviewActivity"
