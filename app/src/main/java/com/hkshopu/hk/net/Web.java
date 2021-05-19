@@ -746,10 +746,10 @@ public class Web {
     public void Do_ShopPhoneUpdate(String url,String addressid,String countrycode,String phone,String is_phone_show) {
 
         RequestBody formBody = new FormBody.Builder()
-                .add("address_id",addressid)
+//                .add("address_id",addressid)
                 .add("address_country_code", countrycode)
                 .add("shop_phone", phone)
-                .add("address_is_phone_show", is_phone_show)
+                .add("shop_is_phone_show", is_phone_show)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
