@@ -408,7 +408,13 @@ class EditProductActivity : BaseActivity() {
 
         binding.editTextMerchanPrice.setOnFocusChangeListener { v, hasFocus ->
             if(hasFocus){
-                binding.editTextMerchanPrice.setText("${MMKV_editTextMerchanPrice}")
+
+                if(MMKV_editTextMerchanPrice.equals("-1")){
+                    binding.editTextMerchanPrice.setText("")
+                }else{
+                    binding.editTextMerchanPrice.setText("${MMKV_editTextMerchanPrice}")
+                }
+
             }
         }
         binding.editTextMerchanPrice.singleLine = true
@@ -427,6 +433,7 @@ class EditProductActivity : BaseActivity() {
                         )
 
                     }else{
+
                         binding.editTextMerchanPrice.setText("")
                         MMKV_editTextMerchanPrice = binding.editTextMerchanPrice.text.toString()
                         MMKV.mmkvWithID("addPro").putString(
@@ -458,13 +465,13 @@ class EditProductActivity : BaseActivity() {
 
                 if(binding.editTextMerchanPrice.text.startsWith("HKD$ ")){
 
-
                     MMKV_editTextMerchanPrice =
                         binding.editTextMerchanPrice.text.toString().substring(5)
                     MMKV.mmkvWithID("addPro").putString(
                         "value_editTextMerchanPrice",
                         MMKV_editTextMerchanPrice
                     )
+
                 }else{
                     if(binding.editTextMerchanPrice.text.toString().length >= 2 && binding.editTextMerchanPrice.text.toString().startsWith("0")){
                         binding.editTextMerchanPrice.setText(binding.editTextMerchanPrice.text.toString().replace("0", "", false))
@@ -1216,6 +1223,7 @@ class EditProductActivity : BaseActivity() {
             "inven_quant_range",
             MMKV_inven_quant_range
         ).toString()
+
         MMKV_editTextMerchanPrice = MMKV.mmkvWithID("addPro").getString(
             "value_editTextMerchanPrice",
             MMKV_editTextMerchanPrice
@@ -1235,7 +1243,7 @@ class EditProductActivity : BaseActivity() {
                 binding.editTextMerchanPrice.setText(MMKV_editTextMerchanPrice)
             }
         }
-        if(MMKV_editTextMerchanPrice.equals("-1")){
+        if(MMKV_editTextMerchanQunt.equals("-1")){
             runOnUiThread {
                 binding.editTextMerchanQunt.setText("")
             }
@@ -1587,19 +1595,19 @@ class EditProductActivity : BaseActivity() {
                         if(productInfoList.product_shipment_list.size>0){
                             for (i in 0..productInfoList.product_shipment_list.size - 1) {
 
-                                var json_shippingItem = GsonProvider.gson.toJson(ItemShippingFare(productInfoList.product_shipment_list.get(i).shipment_desc, productInfoList.product_shipment_list.get(i).price, R.drawable.custom_unit_transparent, productInfoList.product_shipment_list.get(i).onoff, MMKV_shop_id))
+                                var json_shippingItem = GsonProvider.gson.toJson(ItemShippingFare(productInfoList.product_shipment_list.get(i).shipment_desc, productInfoList.product_shipment_list.get(i).price, productInfoList.product_shipment_list.get(i).onoff, MMKV_shop_id))
                                 MMKV.mmkvWithID("addPro").putString("value_fare_item${i}",json_shippingItem)
 
                             }
                         }else{
-                            var json_shippingItem = GsonProvider.gson.toJson(ItemShippingFare("", 0, R.drawable.custom_unit_transparent, "off", MMKV_shop_id))
+                            var json_shippingItem = GsonProvider.gson.toJson(ItemShippingFare("", 0, "off", MMKV_shop_id))
                             MMKV.mmkvWithID("addPro").putString("value_fare_item${0}",json_shippingItem)
                         }
 
                         //將從API取出的資料以ItemShippingFare的形式存取並裝成mutableList_itemShipingFare_filtered
                         for (i in 0..productInfoList.product_shipment_list.size - 1) {
                             if(productInfoList.product_shipment_list.get(i).onoff.equals("on")){
-                                mutableList_itemShipingFare_filtered.add( ItemShippingFare(productInfoList.product_shipment_list.get(i).shipment_desc, productInfoList.product_shipment_list.get(i).price, R.drawable.custom_unit_transparent, productInfoList.product_shipment_list.get(i).onoff, MMKV_shop_id))
+                                mutableList_itemShipingFare_filtered.add( ItemShippingFare(productInfoList.product_shipment_list.get(i).shipment_desc, productInfoList.product_shipment_list.get(i).price, productInfoList.product_shipment_list.get(i).onoff, MMKV_shop_id))
 
                             }
                         }

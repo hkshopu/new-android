@@ -53,7 +53,7 @@ class ShopFunctionFragment : Fragment(R.layout.fragment_shopfunction) {
 
     private fun initClick() {
         binding!!.tvMoreList.setOnClickListener {
-            val intent = Intent(activity, MyMerchantsActivity::class.java)
+            val intent = Intent(activity, MySalesActivity::class.java)
             activity!!.startActivity(intent)
 
         }
@@ -104,7 +104,6 @@ class ShopFunctionFragment : Fragment(R.layout.fragment_shopfunction) {
             activity!!.startActivity(intent)
 
         }
-
     }
 
     @SuppressLint("CheckResult")

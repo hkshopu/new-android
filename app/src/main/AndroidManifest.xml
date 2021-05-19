@@ -211,11 +211,6 @@
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopNotifyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-
-        <activity
-            android:name="com.hkshopu.hk.ui.main.store.activity.HelpCenterActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
 <!-- Product -->
         <activity
             android:name="com.hkshopu.hk.ui.main.store.activity.ShopPreviewActivity"
@@ -248,7 +243,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
-<!-- Product -->EditMerchanCategoryActivity
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.MySalesActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.hkshopu.hk.ui.main.store.activity.HelpCenterActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+<!-- Product -->
         <activity android:name=".ui.main.product.activity.AddMerchanCategoryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"

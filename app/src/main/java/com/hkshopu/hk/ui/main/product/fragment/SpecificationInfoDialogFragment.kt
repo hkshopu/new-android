@@ -50,7 +50,7 @@ class SpecificationInfoDialogFragment : DialogFragment(), View.OnClickListener {
         )
         dialog!!.window!!.setBackgroundDrawable(inset)
 
-        v.findViewById<View>(R.id.btn_to_help_center).setOnClickListener(this)
+//        v.findViewById<View>(R.id.btn_to_help_center).setOnClickListener(this)
         v.findViewById<View>(R.id.btn_keep_going).setOnClickListener(this)
 
         return v
@@ -61,13 +61,13 @@ class SpecificationInfoDialogFragment : DialogFragment(), View.OnClickListener {
             R.id.btn_keep_going -> {
                 dismiss()
             }
-            R.id.btn_to_help_center -> {
+//            R.id.btn_to_help_center -> {
 //                var ShopDes = et_shopDes!!.text.toString()
 //                if(!ShopDes.isEmpty()){
 //                    RxBus.getInstance().post(EventShopDesUpdated(ShopDes))
 //                    dismiss()
 //                }
-            }
+//            }
         }
     }
 }

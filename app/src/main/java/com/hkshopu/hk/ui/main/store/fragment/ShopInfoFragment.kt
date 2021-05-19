@@ -4,12 +4,15 @@ package com.hkshopu.hk.ui.main.store.fragment
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,11 +26,13 @@ import com.hkshopu.hk.databinding.FragmentShopinfoBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
+import com.hkshopu.hk.ui.main.product.activity.AddNewProductActivity
 import com.hkshopu.hk.ui.main.store.activity.*
 import com.hkshopu.hk.utils.extension.loadNovelCover
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
+import org.jetbrains.anko.find
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -50,6 +55,7 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo) {
     private val pickCoverImage = 100
     private val pickImage = 200
     private var imageUri: Uri? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val shopId = arguments!!.getInt("shop_id", 0)
@@ -78,9 +84,14 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo) {
             }
             false
         })
+
+
     }
 
+
+
     fun initView() {
+
         initClick()
         initVM()
         initEvent()
@@ -98,12 +109,15 @@ class ShopInfoFragment : Fragment(R.layout.fragment_shopinfo) {
             override fun getItemCount(): Int {
                 return ResourceStore.tabList.size
             }
+
         }
+
+
         TabLayoutMediator(binding!!.tabs, binding!!.mviewPager) { tab, position ->
             tab.text = getString(ResourceStore.tabList[position])
-
         }.attach()
         binding!!.mviewPager.setUserInputEnabled(false);
+
 //        binding.setViewPager(binding.mviewPager, arrayOf(getString(R.string.product),getString(R.string.info)))
     }
 

@@ -107,7 +107,6 @@
                 android:id="@+id/btn_addspecification_spec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:src="@mipmap/bnt_adddescription"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/r_view_specification_item_spec"
@@ -181,7 +180,6 @@
                 android:id="@+id/btn_addspecification_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:src="@mipmap/bnt_adddescription"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rview_specificationitem_size"
