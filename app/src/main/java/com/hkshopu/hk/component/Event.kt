@@ -35,6 +35,7 @@ class EventdeleverFragmentAfterUpdateStatus(val action : String)
 
 class EventCheckFirstSpecEnableBtnOrNot(val boolean : Boolean)
 class EventCheckSecondSpecEnableBtnOrNot(val boolean : Boolean)
+
 //Other Events (Not Used)
 
 //Add Product Events

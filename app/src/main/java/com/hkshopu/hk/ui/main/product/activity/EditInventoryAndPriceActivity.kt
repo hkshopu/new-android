@@ -24,7 +24,6 @@ import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.GsonProvider
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.product.adapter.InventoryAndPriceSpecAdapter
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
 import org.jetbrains.anko.singleLine
@@ -122,9 +121,9 @@ class EditInventoryAndPriceActivity : BaseActivity(), TextWatcher{
 
         }else{
 
-              for (i in 0..datas_price_size - 1) {
-            var price_item = MMKV.mmkvWithID("addPro").getString("spec_price${i}", "0").toString().toInt()
-            mutableList_price.add(price_item)
+            for (i in 0..datas_price_size - 1) {
+                var price_item = MMKV.mmkvWithID("addPro").getString("spec_price${i}", "0").toString().toInt()
+                mutableList_price.add(price_item)
             }
 
             for (i in 0..datas_quant_size - 1) {

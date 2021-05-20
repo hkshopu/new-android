@@ -1,6 +1,7 @@
 package com.hkshopu.hk.ui.main.store.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
@@ -16,6 +18,8 @@ import com.hkshopu.hk.data.bean.MyProductBean
 
 import com.hkshopu.hk.ui.main.product.activity.EditProductActivity
 import com.hkshopu.hk.ui.main.product.activity.MerchandiseActivity
+import com.hkshopu.hk.ui.main.product.fragment.EditProductRemindDialogFragment
+import com.hkshopu.hk.ui.main.product.fragment.EditProductRemindForFragmentDialogFragment
 import com.hkshopu.hk.ui.main.store.fragment.MerchantsOndeckFragment
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.extension.inflate
@@ -74,8 +78,8 @@ class MyProductsAdapter(var fragment: Fragment, var product_type: String) : Recy
 
             MMKV.mmkvWithID("http").putInt("ProductId", MMKV_product_id)
 
-            val intent = Intent(fragment.context, EditProductActivity::class.java)
-            fragment.context?.startActivity(intent)
+            EditProductRemindForFragmentDialogFragment(this.fragment).show(fragment.activity!!.supportFragmentManager, "MyCustomFragment")
+
 
         }
         holder.btn_draftOrActive.setOnClickListener {

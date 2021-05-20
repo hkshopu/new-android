@@ -67,7 +67,7 @@ class SpecificationSizeAdapter: RecyclerView.Adapter<SpecificationSizeAdapter.mV
 
                         customSpecName = editTextView.text.toString()
 
-                        if(customSpecName.equals(unAssignList.get(position).spec_name)){
+                        if(customSpecName.equals(unAssignList.get(adapterPosition).spec_name)){
                             value_spec = editTextView.text.toString()
                             onItemUpdate(value_spec , adapterPosition)
 
@@ -184,6 +184,7 @@ class SpecificationSizeAdapter: RecyclerView.Adapter<SpecificationSizeAdapter.mV
                 }
             }
         }
+
 
         if(unAssignList.size > 0 && check_empty_num.equals(0)) {
             nextStepBtnStatus = true

@@ -73,7 +73,6 @@ class AddInventoryAndPriceActivity : BaseActivity(), TextWatcher{
 
     fun initMMKV() {
 
-
         datas_spec_title_first = MMKV.mmkvWithID("addPro").getString("value_editTextProductSpecFirst", "").toString()
         datas_spec_title_second = MMKV.mmkvWithID("addPro").getString("value_editTextProductSpecSecond", "").toString()
         datas_spec_size = MMKV.mmkvWithID("addPro").getString("datas_spec_size", "0").toString().toInt()
@@ -124,9 +123,6 @@ class AddInventoryAndPriceActivity : BaseActivity(), TextWatcher{
             }
 
         }
-
-
-
     }
 
     fun initView() {

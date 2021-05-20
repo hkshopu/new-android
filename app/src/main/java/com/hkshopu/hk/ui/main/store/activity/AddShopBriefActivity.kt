@@ -74,9 +74,6 @@ class AddShopBriefActivity : BaseActivity() {
     }
     private fun initView(){
         binding.tvAddshopbriefName.text = shoptitle
-
-
-
         binding.etAddshopbrief.doAfterTextChanged {
             description =  binding.etAddshopbrief.text.toString()
         }
@@ -146,7 +143,6 @@ class AddShopBriefActivity : BaseActivity() {
 
                                     binding.ivAddshopbriefPic.load(infolist[0].shop_icon)
                                     binding.ivShopimage.load(infolist[0].background_pic)
-
                                     binding.etAddshopbrief.setText(infolist[0].long_description)
 
                                 if(infolist[0].shop_email.length > 0) {
@@ -183,6 +179,7 @@ class AddShopBriefActivity : BaseActivity() {
                                         }
 
                                     }
+                                    binding.tvAddshopbriefContact.visibility = View.VISIBLE
                                 }
 
                             }

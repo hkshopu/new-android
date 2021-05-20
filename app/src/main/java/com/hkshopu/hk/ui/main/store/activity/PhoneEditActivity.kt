@@ -58,7 +58,6 @@ class PhoneEditActivity : BaseActivity(){
             KeyboardUtil.hideKeyboard(it)
         }
 
-        binding.switchview.openSwitcher()
         if(binding.switchview.isOpened()){
             isphoneShow ="Y"
         }else{
@@ -123,9 +122,9 @@ class PhoneEditActivity : BaseActivity(){
                     val ret_val = json.get("ret_val")
                     val status = json.get("status")
                     if (status == 0) {
-                        if(isphoneShow.equals("Y")) {
+//                        if(isphoneShow.equals("Y")) {
                             RxBus.getInstance().post(EventChangeShopPhoneSuccess(phone_number))
-                        }
+//                        }
                         finish()
                     } else {
                         runOnUiThread {

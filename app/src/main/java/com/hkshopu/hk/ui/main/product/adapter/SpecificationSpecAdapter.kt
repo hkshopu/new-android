@@ -66,7 +66,7 @@ class SpecificationSpecAdapter: RecyclerView.Adapter<SpecificationSpecAdapter.mV
 
                         customSpecName = editTextView.text.toString()
 
-                        if(customSpecName.equals(unAssignList.get(position).spec_name)){
+                        if(customSpecName.equals(unAssignList.get(adapterPosition).spec_name)){
                             value_spec = editTextView.text.toString()
                             onItemUpdate(value_spec , adapterPosition)
 
@@ -99,6 +99,9 @@ class SpecificationSpecAdapter: RecyclerView.Adapter<SpecificationSpecAdapter.mV
 
                         //identify all the elements have name
                         var checkEnableBtnOrNot = nextStepEnableOrNot()
+
+                        Toast.makeText(itemView.context, checkEnableBtnOrNot.toString(), Toast.LENGTH_SHORT).show()
+
                         RxBus.getInstance().post(EventCheckFirstSpecEnableBtnOrNot(checkEnableBtnOrNot))
 
 

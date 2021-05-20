@@ -5,43 +5,26 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.ArrayMap
 import android.util.Log
 import android.view.View
-import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.*
-import com.hkshopu.hk.databinding.ActivityMerchandiseBinding
 import com.hkshopu.hk.databinding.ActivityShippingFareBinding
-import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.GsonProvider
-import com.hkshopu.hk.net.Web
-import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.product.adapter.InventoryAndPriceSpecAdapter
 import com.hkshopu.hk.ui.main.adapter.ShippingFareAdapter
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.tencent.mmkv.MMKV
-import okhttp3.Response
 import org.jetbrains.anko.singleLine
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
 
 class AddShippingFareActivity : AppCompatActivity(){
 

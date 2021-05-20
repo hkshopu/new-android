@@ -266,6 +266,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 }
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
                         }
 
 
@@ -292,6 +293,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 }
 
                             }).start()
+
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
                         }
 
                     }
@@ -341,6 +344,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                 }
 
             }).start()
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
 
@@ -382,7 +386,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
             }).start()
 
-            if(mAdapter_spec.get_datas_spec_size()==0){
+            if(mAdapter_spec.get_datas_spec_size()==0||mAdapter_spec.nextStepEnableOrNot().equals(false)){
                 binding.btnNextStep.disable()
                 binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
             }
@@ -427,6 +431,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 }
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
                         }
 
@@ -459,6 +464,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
                         }
 
@@ -511,7 +517,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
             }).start()
 
 
-            if(mAdapter_size.get_datas_size_size()==0){
+            if(mAdapter_size.get_datas_size_size()==0||mAdapter_size.nextStepEnableOrNot().equals(false)){
                 binding.btnNextStep.disable()
                 binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
             }
@@ -558,6 +564,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                 }
 
             }).start()
+
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
     }
@@ -738,7 +746,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                             }
                             false->{
-                                checkButtonNextStep_single()
+                                binding.btnNextStep.isEnabled = false
+                                binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                             }
                         }
@@ -753,7 +762,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 checkButtonNextStep_double()
                             }
                             false->{
-                                checkButtonNextStep_double()
+                                binding.btnNextStep.isEnabled = false
+                                binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
                             }
                         }
 

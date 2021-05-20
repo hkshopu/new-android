@@ -279,8 +279,19 @@ class EditProductSpecificationMainActivity : BaseActivity() {
                                     mAdapter_spec.notifyDataSetChanged()
 
                                 }
+                                runOnUiThread {
+
+                                    //更新或新增item
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
+
+
+                                }
 
                             }).start()
+
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
+
                         }
 
 
@@ -305,8 +316,19 @@ class EditProductSpecificationMainActivity : BaseActivity() {
                                     mAdapter_spec.notifyDataSetChanged()
 
                                 }
+                                runOnUiThread {
+
+                                    //更新或新增item
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
+
+
+                                }
 
                             }).start()
+
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
+
                         }
 
                     }
@@ -356,6 +378,8 @@ class EditProductSpecificationMainActivity : BaseActivity() {
                 }
 
             }).start()
+
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
 
@@ -440,8 +464,17 @@ class EditProductSpecificationMainActivity : BaseActivity() {
 
 
                                 }
+                                runOnUiThread {
+
+                                    //更新或新增item
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
+
+
+                                }
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
                         }
 
@@ -471,10 +504,18 @@ class EditProductSpecificationMainActivity : BaseActivity() {
                                     mAdapter_size.notifyDataSetChanged()
 
                                 }
+                                runOnUiThread {
+
+                                    //更新或新增item
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
+
+
+                                }
 
 
                             }).start()
-
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
                         }
 
 
@@ -570,6 +611,8 @@ class EditProductSpecificationMainActivity : BaseActivity() {
                 }
 
             }).start()
+
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
     }

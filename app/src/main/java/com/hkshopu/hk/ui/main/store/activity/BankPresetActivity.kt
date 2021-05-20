@@ -181,7 +181,9 @@ class BankPresetActivity : BaseActivity() {
                 }
                 .show()
         }
-
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
 //        iv_Google.setOnClickListener {
 //
 //            GoogleSignIn()

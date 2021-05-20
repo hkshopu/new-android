@@ -163,6 +163,8 @@ class AddShopActivity : BaseActivity() {
                             )
 
                             binding.tvStoresort1.visibility = View.VISIBLE
+                            binding.tvStoresort2.visibility = View.INVISIBLE
+                            binding.tvStoresort3.visibility = View.INVISIBLE
 
                         } else if (list.size == 2) {
                             shop_category_id1 = list[0].id
@@ -185,6 +187,7 @@ class AddShopActivity : BaseActivity() {
                                 )
                             )
                             binding.tvStoresort2.visibility = View.VISIBLE
+                            binding.tvStoresort3.visibility = View.INVISIBLE
                         } else {
                             shop_category_id1 = list[0].id
                             shop_category_id2 = list[1].id
@@ -289,6 +292,14 @@ class AddShopActivity : BaseActivity() {
 //                finish()
             }
         }
+        binding.layoutStoresortAct.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putBoolean("toShopFunction",false)
+            val intent = Intent(this, ShopCategoryActivity::class.java)
+            intent.putExtra("bundle",bundle)
+            startActivity(intent)
+        }
+
         binding.tvMoreStoresort.setOnClickListener {
             var bundle = Bundle()
             bundle.putBoolean("toShopFunction",false)
