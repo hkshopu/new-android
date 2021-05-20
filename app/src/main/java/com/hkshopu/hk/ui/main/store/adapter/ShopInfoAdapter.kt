@@ -22,7 +22,7 @@ import java.util.*
 class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolder>(){
     private var mData: ArrayList<ShopListBean> = ArrayList()
     var itemClick : ((id: Int) -> Unit)? = null
-
+    var deleteClick : ((id: Int) -> Unit)? = null
     fun setData(list : ArrayList<ShopListBean>){
         list?:return
         this.mData = list
@@ -57,6 +57,7 @@ class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolde
         val score = itemView.find<TextView>(R.id.tv_shopScore)
         val follower = itemView.find<TextView>(R.id.tv_LikeNums)
         val income = itemView.find<TextView>(R.id.tv_IncomeNums)
+        val delete = itemView.find<TextView>(R.id.tv_shopDelete)
         fun bindShop(bean : ShopListBean){
             container.click {
                 itemClick?.invoke(bean.id)
@@ -67,6 +68,10 @@ class ShopInfoAdapter : RecyclerView.Adapter<ShopInfoAdapter.ShopInfoLinearHolde
             follower.text = bean.follower
             score.text = bean.rating
             income.text = bean.income
+            delete.click {
+                removeAt(absoluteAdapterPosition)
+                deleteClick?.invoke(bean.id)
+            }
 
         }
     }

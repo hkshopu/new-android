@@ -38,7 +38,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tv_shopNameEdit"
+        android:id="@+id/tv_shopDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -48,7 +48,7 @@
         android:text="編輯"
         android:textColor="@color/color_somegray"
         android:textSize="14sp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <com.kaelli.niceratingbar.NiceRatingBar
         android:id="@+id/ratingBar"
