@@ -70,7 +70,11 @@ class BankListActivity : BaseActivity() {
         adapter.cancelClick = {
             cancelurl =  ApiConstants.API_HOST +"shop/bankAccount/"+it+"/"
         }
-
+        adapter.toPresetClick = {
+            val intent = Intent(this, BankPresetActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun initVM() {

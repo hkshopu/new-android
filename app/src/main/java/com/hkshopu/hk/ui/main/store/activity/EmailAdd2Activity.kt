@@ -1,15 +1,12 @@
 package com.hkshopu.hk.ui.main.store.activity
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.component.EventChangeShopEmailSuccess
-import com.hkshopu.hk.component.EventChangeShopPhoneSuccess
 
 import com.hkshopu.hk.databinding.*
 import com.hkshopu.hk.net.ApiConstants
@@ -56,7 +53,7 @@ class EmailAdd2Activity : BaseActivity(){
             KeyboardUtil.hideKeyboard(it)
         }
 
-        binding.switchview.openSwitcher()
+        binding.switchview.closeSwitcher()
 
     }
     private fun initVM() {

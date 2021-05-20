@@ -95,7 +95,7 @@ class ShopAddressListAdapter : RecyclerView.Adapter<ShopAddressListAdapter.BankL
             intentClick?.invoke(item.id)
         }
 
-//        if(item.is_default.isEmpty()||item.is_default.equals("null")) {
+        if(item.is_default.equals("N")) {
             if (cancel_inner) {
                 viewHolder.cancel.visibility = View.VISIBLE
             } else {
@@ -105,7 +105,7 @@ class ShopAddressListAdapter : RecyclerView.Adapter<ShopAddressListAdapter.BankL
                removeItem(position)
                 cancelClick?.invoke(item.id)
             }
-//        }
+        }
     }
 
     interface OnItemClickListener {

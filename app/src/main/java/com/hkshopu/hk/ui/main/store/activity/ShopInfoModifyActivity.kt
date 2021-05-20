@@ -129,8 +129,10 @@ class ShopInfoModifyActivity : BaseActivity() {
 
         binding.ivChevronShopName.setOnClickListener {
             val addressId = addresslist[0].id
+            val shopName = list[0].shop_title
             var bundle = Bundle()
             bundle.putString("address_id",addressId)
+            bundle.putString("shop_name",shopName)
             val intent = Intent(this, ShopNameEditActivity::class.java)
             intent.putExtra("bundle",bundle)
             startActivity(intent)

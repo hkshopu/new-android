@@ -8,32 +8,18 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.gson.Gson
 import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.Base.response.Status
-import com.hkshopu.hk.R
-import com.hkshopu.hk.application.App
-import com.hkshopu.hk.component.CommonVariable
-import com.hkshopu.hk.component.EventGetBankAccountSuccess
-import com.hkshopu.hk.component.EventProductCatSelected
+
 import com.hkshopu.hk.data.bean.*
-import com.hkshopu.hk.databinding.ActivityAccountsetupBinding
-import com.hkshopu.hk.databinding.ActivityBankaccountlistBinding
+
 import com.hkshopu.hk.databinding.ActivityShopaddresslistBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.store.adapter.BankListAdapter
-import com.hkshopu.hk.ui.main.store.adapter.CategoryMultiAdapter
+
 import com.hkshopu.hk.ui.main.store.adapter.ShopAddressListAdapter
-import com.hkshopu.hk.ui.user.vm.AuthVModel
-import com.hkshopu.hk.ui.user.vm.ShopVModel
-import com.hkshopu.hk.utils.extension.loadNovelCover
+
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
@@ -112,6 +98,9 @@ class ShopAddressListActivity : BaseActivity() {
                             val shopAddressListBean: ShopAddressListBean =
                                 Gson().fromJson(jsonObject.toString(), ShopAddressListBean::class.java)
                             list.add(shopAddressListBean)
+                            if(list.get(i).is_default.equals("Y")){
+                                binding.switchview.openSwitcher()
+                            }
                         }
 
                         adapter.setData(list)
@@ -249,7 +238,7 @@ class ShopAddressListActivity : BaseActivity() {
     }
     private fun doShopAddressDel(list: ArrayList<String>) {
 
-        var url = ApiConstants.API_PATH +"shop/delete_shop_address/"
+        var url = ApiConstants.API_PATH +"shop/delete_shop_address_forAndroid/"
 
         Log.d("ShopAddressListActivity", "返回資料 Url：" + url)
         val web = Web(object : WebListener {

@@ -146,8 +146,20 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
             val phone = settings.getString("phone", "")
             val gender = settings.getString("gender", "")
 
-            VM.register(
-                this,
+//            VM.register(
+//                this,
+//                "",
+//                email!!,
+//                password!!,
+//                passwordconf!!,
+//                firstName!!,
+//                lastName!!,
+//                gender!!,
+//                birth!!,
+//                phone!!,
+//                address!!,region!!,district!!,street_name!!,street_no!!,floor!!, room!!
+//            )
+            doRegister(
                 "",
                 email!!,
                 password!!,
