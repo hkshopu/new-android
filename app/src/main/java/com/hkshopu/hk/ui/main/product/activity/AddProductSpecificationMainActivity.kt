@@ -113,8 +113,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
             runOnUiThread {
                 //更新或新增item
                 mAdapter_spec.updateList(mutableList_spec)
-                mAdapter_spec.notifyDataSetChanged()
-
             }
 
         }).start()
@@ -136,8 +134,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                 //更新或新增item
                 mAdapter_size.updateList(mutableList_size)
-                mAdapter_size.notifyDataSetChanged()
-
             }
 
         }).start()
@@ -227,7 +223,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
             }
 
 
-            val intent = Intent(this, AddInventoryAndPriceActivity::class.java)
+            val intent = Intent(this, AddInventoryAndPriceOldActivity::class.java)
             startActivity(intent)
             finish()
 
@@ -261,7 +257,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 runOnUiThread {
                                     //更新或新增item
                                     mAdapter_spec.updateList(mutableList_spec)
-                                    mAdapter_spec.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
@@ -288,7 +285,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_spec.updateList(mutableList_spec)
-                                    mAdapter_spec.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
@@ -339,7 +337,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_spec.updateList(mutableList_spec)
-                    mAdapter_spec.notifyDataSetChanged()
 
                 }
 
@@ -380,7 +377,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_spec.updateList(mutableList_spec)
-                    mAdapter_spec.notifyDataSetChanged()
 
                 }
 
@@ -425,9 +421,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_size.updateList(mutableList_size)
-                                    mAdapter_size.notifyDataSetChanged()
-
-
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
                                 }
 
                             }).start()
@@ -458,7 +453,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_size.updateList(mutableList_size)
-                                    mAdapter_size.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
@@ -510,8 +506,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_size.updateList(mutableList_size)
-                    mAdapter_size.notifyDataSetChanged()
-
                 }
 
             }).start()
@@ -559,7 +553,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_size.updateList(mutableList_size)
-                    mAdapter_size.notifyDataSetChanged()
 
                 }
 

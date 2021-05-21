@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.EventCheckFirstSpecEnableBtnOrNot
 
 import com.hkshopu.hk.component.EventCheckSecondSpecEnableBtnOrNot
 import com.hkshopu.hk.data.bean.ItemSpecification
@@ -58,6 +59,12 @@ class SpecificationSizeAdapter: RecyclerView.Adapter<SpecificationSizeAdapter.mV
                 }
             }
             editTextView.addTextChangedListener(textWatcher)
+
+            editTextView.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckFirstSpecEnableBtnOrNot(false))
+                }
+            }
 
             //editTextView編輯鍵盤監控
             editTextView.singleLine = true
@@ -149,6 +156,7 @@ class SpecificationSizeAdapter: RecyclerView.Adapter<SpecificationSizeAdapter.mV
     //更新資料用
     fun updateList(list01:MutableList<ItemSpecification>) {
         unAssignList = list01
+        notifyDataSetChanged()
     }
     override fun onItemDissmiss(position: Int) {
         unAssignList.removeAt(position)

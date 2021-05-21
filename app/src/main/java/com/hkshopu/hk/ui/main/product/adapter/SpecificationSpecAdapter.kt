@@ -58,6 +58,12 @@ class SpecificationSpecAdapter: RecyclerView.Adapter<SpecificationSpecAdapter.mV
             }
             editTextView.addTextChangedListener(textWatcher)
 
+            editTextView.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckFirstSpecEnableBtnOrNot(false))
+                }
+            }
+
             //editTextView編輯模式
             editTextView.singleLine = true
             editTextView.setOnEditorActionListener() { v, actionId, event ->
@@ -99,8 +105,6 @@ class SpecificationSpecAdapter: RecyclerView.Adapter<SpecificationSpecAdapter.mV
 
                         //identify all the elements have name
                         var checkEnableBtnOrNot = nextStepEnableOrNot()
-
-                        Toast.makeText(itemView.context, checkEnableBtnOrNot.toString(), Toast.LENGTH_SHORT).show()
 
                         RxBus.getInstance().post(EventCheckFirstSpecEnableBtnOrNot(checkEnableBtnOrNot))
 
@@ -150,6 +154,7 @@ class SpecificationSpecAdapter: RecyclerView.Adapter<SpecificationSpecAdapter.mV
     //更新資料用
     fun updateList(list:MutableList<ItemSpecification>){
         unAssignList = list
+        notifyDataSetChanged()
     }
     override fun onItemDissmiss(position: Int) {
         unAssignList.removeAt(position)

@@ -455,8 +455,8 @@
 
     <string name="title_specification">新增規格</string>
     <string name="title_editSpecification">編輯規格</string>
-    <string name="txtview_category">新增商別類別<font color='red' size='10'><sub> * </sub></font></string>
-    <string name="txtview_addspecification">新增商別規格</string>
+    <string name="txtview_category">新增商品類別<font color='red' size='10'><sub> * </sub></font></string>
+    <string name="txtview_addspecification">新增商品規格</string>
     <string name="txtview_specification">商品規格</string>
     <string name="txtview_price">商品價格<font color='red' size='10'><sub> * </sub></font></string>
     <string name="txtview_quantity">商品數量<font color='red' size='10'><sub> * </sub></font></string>
@@ -543,6 +543,13 @@
     <string name="thoroughfare">街道名稱</string>
     <string name="thoroughfare_input">請輸入街道名稱</string>
     <string name="feature">街道門牌</string>
+
+    <!--    刪除店舖-->
+    <string name="store_delete_apply">申請刪除店鋪</string>
+    <string name="store_delete_apply_note">店鋪一旦刪除，商品都會自動下架！ 確定要刪除此店鋪嗎？</string>
+    <string name="store_delete">已確認刪除店鋪</string>
+    <string name="store_orders">請先完成進行中的訂單再申請刪除店鋪</string>
+    <string name="store_restore">若是需要恢復店鋪，請前往幫助中心查看恢復方式。</string>
 
 
 </resources>
