@@ -49,7 +49,7 @@ class EventLaunchConfigsSuccess
 
 class EventRechargeSuccess
 
-class EventRefreshHome
+class EventRefreshShopList
 
 class EventReadHistoryUpdated(val bookId: Int? = null)
 

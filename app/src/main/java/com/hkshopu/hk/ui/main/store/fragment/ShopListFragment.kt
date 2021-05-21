@@ -5,10 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -16,13 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.hkshopu.hk.R
 import com.hkshopu.hk.component.EventAddShopSuccess
+import com.hkshopu.hk.component.EventRefreshShopList
 import com.hkshopu.hk.data.bean.ShopListBean
 import com.hkshopu.hk.databinding.FragmentShoplistBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogFragment
 import com.hkshopu.hk.ui.main.store.activity.AddShopActivity
+import com.hkshopu.hk.ui.main.store.activity.ShopNotifyActivity
 import com.hkshopu.hk.ui.main.store.adapter.ShopInfoAdapter
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.utils.rxjava.RxBus
@@ -87,19 +85,10 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist) {
             ft.commit()
         }
         adapter.deleteClick = {
-            AlertDialog.Builder(activity!!)
-                .setTitle("申請刪除店鋪")
-                .setMessage("店鋪一旦刪除，商品都會自動下架！ 確定要刪除此店鋪嗎？")
-                .setPositiveButton("下一步") {
-                    // 此為 Lambda 寫法
-                        dialog, which ->
-                    Do_ShopDelete(it)
-                }
-                .setNegativeButton("取消") { dialog, which ->
-                    dialog.cancel()
-
-                }
-                .show()
+            StoreDeleteApplyDialogFragment(it).show(
+                fragmentManager!!,
+                "MyCustomFragment"
+            )
         }
     }
 
@@ -116,6 +105,10 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist) {
                         getShopList(url)
                     }
 
+                    is EventRefreshShopList -> {
+                        getShopList(url)
+                    }
+
                 }
             }, {
                 it.printStackTrace()
@@ -123,6 +116,11 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist) {
     }
 
     fun initClick() {
+
+        binding!!.ivNotify.setOnClickListener {
+            val intent = Intent(activity, ShopNotifyActivity::class.java)
+            activity!!.startActivity(intent)
+        }
 
         binding!!.tvAddonlineshop.setOnClickListener {
             val intent = Intent(activity, AddShopActivity::class.java)
@@ -140,6 +138,11 @@ class ShopListFragment : Fragment(R.layout.fragment_shoplist) {
             val intent = Intent(activity, LoginActivity::class.java)
             activity!!.startActivity(intent)
             activity!!.finish()
+        }
+        var cancel = false
+        binding!!.ivShopdelete.setOnClickListener {
+            cancel = !cancel
+            adapter.updateData(cancel)
         }
 
     }
