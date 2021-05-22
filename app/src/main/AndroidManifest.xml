@@ -113,8 +113,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.user.activity.EmailVerifyActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.user.activity.MailAddressActivity"
             android:launchMode="singleTask"
@@ -243,17 +244,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
-        <activity
-            android:name="com.hkshopu.hk.ui.main.store.activity.MySalesActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name="com.hkshopu.hk.ui.main.store.activity.HelpCenterActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-
-<!-- Product -->
+<!-- Product -->EditMerchanCategoryActivity
         <activity android:name=".ui.main.product.activity.AddMerchanCategoryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
@@ -275,6 +266,9 @@
         <activity android:name=".ui.main.product.activity.AddInventoryAndPriceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.main.product.activity.AddInventoryAndPriceOldActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.main.product.activity.AddShippingFareActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
@@ -291,6 +285,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".ui.main.product.activity.EditInventoryAndPriceOldActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".ui.main.product.activity.EditShippingFareActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
@@ -301,14 +299,23 @@
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
 
-
         <activity
             android:name=".ui.main.store.activity.LogisticListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask" />
 
+        <activity
+            android:name=".ui.main.store.activity.HelpCenterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
 
+        <activity
+            android:name=".ui.main.store.activity.MySalesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="com.google.android.gms.version"

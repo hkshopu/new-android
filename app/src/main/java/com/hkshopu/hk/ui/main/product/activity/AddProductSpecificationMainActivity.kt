@@ -113,8 +113,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
             runOnUiThread {
                 //更新或新增item
                 mAdapter_spec.updateList(mutableList_spec)
-                mAdapter_spec.notifyDataSetChanged()
-
             }
 
         }).start()
@@ -136,8 +134,6 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                 //更新或新增item
                 mAdapter_size.updateList(mutableList_size)
-                mAdapter_size.notifyDataSetChanged()
-
             }
 
         }).start()
@@ -227,7 +223,7 @@ class AddProductSpecificationMainActivity : BaseActivity() {
             }
 
 
-            val intent = Intent(this, AddInventoryAndPriceActivity::class.java)
+            val intent = Intent(this, AddInventoryAndPriceOldActivity::class.java)
             startActivity(intent)
             finish()
 
@@ -261,11 +257,13 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 runOnUiThread {
                                     //更新或新增item
                                     mAdapter_spec.updateList(mutableList_spec)
-                                    mAdapter_spec.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
                         }
 
 
@@ -287,11 +285,14 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_spec.updateList(mutableList_spec)
-                                    mAdapter_spec.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
                             }).start()
+
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
                         }
 
                     }
@@ -336,11 +337,11 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_spec.updateList(mutableList_spec)
-                    mAdapter_spec.notifyDataSetChanged()
 
                 }
 
             }).start()
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
 
@@ -376,13 +377,12 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_spec.updateList(mutableList_spec)
-                    mAdapter_spec.notifyDataSetChanged()
 
                 }
 
             }).start()
 
-            if(mAdapter_spec.get_datas_spec_size()==0){
+            if(mAdapter_spec.get_datas_spec_size()==0||mAdapter_spec.nextStepEnableOrNot().equals(false)){
                 binding.btnNextStep.disable()
                 binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
             }
@@ -421,12 +421,12 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_size.updateList(mutableList_size)
-                                    mAdapter_size.notifyDataSetChanged()
-
-
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
                                 }
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
                         }
 
@@ -453,12 +453,14 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                                     //更新或新增item
                                     mAdapter_size.updateList(mutableList_size)
-                                    mAdapter_size.notifyDataSetChanged()
+                                    binding.btnNextStep.disable()
+                                    binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                                 }
 
 
                             }).start()
+                            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
                         }
 
@@ -504,14 +506,12 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_size.updateList(mutableList_size)
-                    mAdapter_size.notifyDataSetChanged()
-
                 }
 
             }).start()
 
 
-            if(mAdapter_size.get_datas_size_size()==0){
+            if(mAdapter_size.get_datas_size_size()==0||mAdapter_size.nextStepEnableOrNot().equals(false)){
                 binding.btnNextStep.disable()
                 binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
             }
@@ -553,11 +553,12 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                     //更新或新增item
                     mAdapter_size.updateList(mutableList_size)
-                    mAdapter_size.notifyDataSetChanged()
 
                 }
 
             }).start()
+
+            MMKV.mmkvWithID("addPro").putBoolean("rebuild_datas", true)
 
         }
     }
@@ -738,7 +739,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
 
                             }
                             false->{
-                                checkButtonNextStep_single()
+                                binding.btnNextStep.isEnabled = false
+                                binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
 
                             }
                         }
@@ -753,7 +755,8 @@ class AddProductSpecificationMainActivity : BaseActivity() {
                                 checkButtonNextStep_double()
                             }
                             false->{
-                                checkButtonNextStep_double()
+                                binding.btnNextStep.isEnabled = false
+                                binding.btnNextStep.setImageResource(R.mipmap.btn_nextstepdisable)
                             }
                         }
 

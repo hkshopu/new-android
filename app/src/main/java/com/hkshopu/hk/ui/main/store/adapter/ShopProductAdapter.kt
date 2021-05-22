@@ -19,6 +19,8 @@ import com.tencent.mmkv.MMKV
 
 
 import org.jetbrains.anko.find
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class ShopProductAdapter(var fragment: Fragment) : RecyclerView.Adapter<ShopProductAdapter.ShopInfoLinearHolder>(){
@@ -86,10 +88,29 @@ class ShopProductAdapter(var fragment: Fragment) : RecyclerView.Adapter<ShopProd
                 price.text = bean.product_price.toString()
             }
 
-            sold.text = "已賣出"+bean.sold_quantity.toString()
-            amount.text = "數量"+bean.sum_quantity.toString()
-            heart.text = "讚"+bean.like.toString()
-            eye.text = "檢視"+bean.seen.toString()
+
+
+            if(bean.sold_quantity.toString().length>3){
+                var one_thous = 1000
+                var float = bean.sold_quantity.toDouble()/one_thous.toDouble()
+                var bigDecimal = float.toBigDecimal()
+                sold.text = "${bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toString()}k"
+            }else{
+                sold.text = "${bean.sold_quantity.toString()}"
+            }
+
+            if(bean.sum_quantity.toString().length>3){
+                var one_thous = 1000
+                var float = bean.sum_quantity.toDouble()/one_thous.toDouble()
+                var bigDecimal = float.toBigDecimal()
+                amount.text = "${bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toString()}k"
+            }else{
+                amount.text =  "${bean.sum_quantity.toString()}"
+            }
+
+
+            heart.text = "${bean.like.toString()}"
+            eye.text = "${bean.seen.toString()}"
 
         }
     }

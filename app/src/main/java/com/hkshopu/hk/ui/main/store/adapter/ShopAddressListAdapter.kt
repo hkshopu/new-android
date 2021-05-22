@@ -87,17 +87,22 @@ class ShopAddressListAdapter : RecyclerView.Adapter<ShopAddressListAdapter.BankL
         viewHolder.phone.text = phone
         val address = item.area + item.district + item.road + item.number + item.other + item.floor + item.room
         viewHolder.address.text = address
+
         if(item.is_default.equals("Y")){
+
             viewHolder.preset.visibility = View.VISIBLE
+
         }
         viewHolder.preset.setOnClickListener {
 
             intentClick?.invoke(item.id)
         }
 
-        if(item.is_default.equals("N")) {
+//        if(item.is_default.isEmpty()||item.is_default.equals("null")) {
             if (cancel_inner) {
-                viewHolder.cancel.visibility = View.VISIBLE
+                if(item.is_default.equals("N")){
+                    viewHolder.cancel.visibility = View.VISIBLE
+                }
             } else {
                 viewHolder.cancel.visibility = View.GONE
             }
@@ -105,7 +110,7 @@ class ShopAddressListAdapter : RecyclerView.Adapter<ShopAddressListAdapter.BankL
                removeItem(position)
                 cancelClick?.invoke(item.id)
             }
-        }
+//        }
     }
 
     interface OnItemClickListener {

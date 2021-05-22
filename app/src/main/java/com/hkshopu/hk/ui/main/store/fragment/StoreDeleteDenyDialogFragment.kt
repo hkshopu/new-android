@@ -16,11 +16,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.R
-import com.hkshopu.hk.component.EventAddShopSuccess
-import com.hkshopu.hk.component.EventRefreshShopList
 import com.hkshopu.hk.ui.main.store.activity.HelpCenterActivity
+import com.hkshopu.hk.ui.main.store.activity.MySalesActivity
 import com.hkshopu.hk.ui.main.store.activity.ShopmenuActivity
-import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
 import org.w3c.dom.Text
 
@@ -75,12 +73,10 @@ class StoreDeleteDenyDialogFragment(val numbers:Int): DialogFragment(), View.OnC
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.btn_cancel -> {
-
-                dismiss()}
+            R.id.btn_cancel -> dismiss()
             R.id.btn_tomysales -> {
 
-                val intent = Intent(activity, HelpCenterActivity::class.java)
+                val intent = Intent(activity, MySalesActivity::class.java)
                 activity!!.startActivity(intent)
             }
         }

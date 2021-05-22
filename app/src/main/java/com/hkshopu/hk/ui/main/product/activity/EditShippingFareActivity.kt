@@ -1,52 +1,35 @@
 package com.hkshopu.hk.ui.main.product.activity
 
 import MyLinearLayoutManager
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.ArrayMap
-import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.view.View.VISIBLE
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.EventCheckShipmentEnableBtnOrNot
 import com.hkshopu.hk.data.bean.*
-import com.hkshopu.hk.databinding.ActivityMerchandiseBinding
 import com.hkshopu.hk.databinding.ActivityShippingFareBinding
-import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.GsonProvider
-import com.hkshopu.hk.net.Web
-import com.hkshopu.hk.net.WebListener
-import com.hkshopu.hk.ui.main.product.adapter.InventoryAndPriceSpecAdapter
 import com.hkshopu.hk.ui.main.adapter.ShippingFareAdapter
 import com.hkshopu.hk.ui.user.vm.ShopVModel
+import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
-import okhttp3.Response
+import com.tencent.mmkv.MMKVHandler
 import org.jetbrains.anko.singleLine
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.lang.reflect.Type
 
 class EditShippingFareActivity : AppCompatActivity(){
 
@@ -107,8 +90,22 @@ class EditShippingFareActivity : AppCompatActivity(){
         binding.editPackageHeight.setText(MMKV_height)
 
         if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
-            binding.btnShippingFareStore.isEnabled = true
-            binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
+
+            var check_onOff= 0
+            for (i in 0..mAdapters_shippingFare.get_shipping_method_datas().size-1){
+                if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).onoff.equals("on")){
+                    check_onOff+=1
+                }
+            }
+            if(check_onOff>1){
+                binding.btnShippingFareStore.isEnabled = true
+                binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
+            }else{
+                binding.btnShippingFareStore.isEnabled = false
+                binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
+            }
+
+
         }else{
             binding.btnShippingFareStore.isEnabled = false
             binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
@@ -136,6 +133,8 @@ class EditShippingFareActivity : AppCompatActivity(){
 
         generateCustomFare_uneditable()
 
+        initVM()
+        initEvent()
         initClick()
         initEdit()
     }
@@ -560,5 +559,39 @@ class EditShippingFareActivity : AppCompatActivity(){
 
     }
 
+
+    @SuppressLint("CheckResult")
+    fun initEvent() {
+        var boolean: Boolean
+
+        RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
+            .subscribe({
+                when (it) {
+                    is EventCheckShipmentEnableBtnOrNot -> {
+
+                        boolean = it.boolean
+
+                        var check_onOff= 0
+                        for (i in 0..mAdapters_shippingFare.get_shipping_method_datas().size-1){
+                            if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).onoff.equals("on")){
+                                check_onOff=check_onOff+1
+                            }
+                        }
+
+                        if(check_onOff>0 && MMKV_weight.isNotEmpty() && MMKV_length.isNotEmpty() && MMKV_width.isNotEmpty() && MMKV_height.isNotEmpty()){
+                            binding.btnShippingFareStore.isEnabled = true
+                            binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
+                        }else{
+                            binding.btnShippingFareStore.isEnabled = false
+                            binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
+                        }
+
+                    }
+                }
+            }, {
+                it.printStackTrace()
+            })
+
+    }
 
 }

@@ -455,8 +455,8 @@
 
     <string name="title_specification">新增規格</string>
     <string name="title_editSpecification">編輯規格</string>
-    <string name="txtview_category">新增商別類別<font color='red' size='10'><sub> * </sub></font></string>
-    <string name="txtview_addspecification">新增商別規格</string>
+    <string name="txtview_category">新增商品類別<font color='red' size='10'><sub> * </sub></font></string>
+    <string name="txtview_addspecification">新增商品規格</string>
     <string name="txtview_specification">商品規格</string>
     <string name="txtview_price">商品價格<font color='red' size='10'><sub> * </sub></font></string>
     <string name="txtview_quantity">商品數量<font color='red' size='10'><sub> * </sub></font></string>
@@ -485,7 +485,7 @@
     <string name="textView_setInventoryPrice">價格</string>
     <string name="textView_setInventoryQuantity">數量</string>
     <string name="textView_setInventorySoldQuantity">已賣出</string>
-    <string name="textView_title_spec">規格:</string>
+    <string name="textView_title_spec">規格</string>
     <string name="textView_clear_all_inventory"><u>全部清空</u></string>
 
     <!--    運費-->
@@ -551,4 +551,7 @@
     <string name="store_orders">請先完成進行中的訂單再申請刪除店鋪</string>
     <string name="store_restore">若是需要恢復店鋪，請前往幫助中心查看恢復方式。</string>
 
+    <!--    版本更新-->
+    <string name="version_update_title">更新通知</string>
+    <string name="version_update_note">有新的更新項目現在可供使用！透過行動網路下載可能產生額外費用。</string>
 </resources>
