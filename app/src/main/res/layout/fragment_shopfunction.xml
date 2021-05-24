@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="47dp"
                 android:layout_marginTop="8dp"
-                android:text="待發貨"
+                android:text="@string/tobedelivered"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="8dp"
-                android:text="待收貨" />
+                android:text="@string/tobereceived" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="8dp"
-                android:text="評價" />
+                android:text="@string/evaluate" />
         </LinearLayout>
 
     </LinearLayout>

@@ -32,6 +32,7 @@ class EmailAdd2Activity : BaseActivity(){
 
     private val VM = AuthVModel()
     var getstring : String? = null
+    var email_old: String = ""
     var email: String = ""
     var isEmailShow: String = ""
     var address_id:String = ""
@@ -40,6 +41,7 @@ class EmailAdd2Activity : BaseActivity(){
         binding = ActivityEmailadd2Binding.inflate(layoutInflater)
         setContentView(binding.root)
         address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
+        email_old = intent.getBundleExtra("bundle")!!.getString("email_old","")
         initView()
         initVM()
         initClick()
@@ -49,6 +51,7 @@ class EmailAdd2Activity : BaseActivity(){
 
 
     private fun initView() {
+        binding.etAddEmail.setText(email_old)
         binding.etAddEmail.doAfterTextChanged {
             email = binding.etAddEmail.text.toString()
         }

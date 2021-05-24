@@ -73,7 +73,7 @@ class BankListActivity : BaseActivity() {
         adapter.toPresetClick = {
             val intent = Intent(this, BankPresetActivity::class.java)
             startActivity(intent)
-            finish()
+
         }
     }
 
@@ -148,7 +148,6 @@ class BankListActivity : BaseActivity() {
         binding.tvAddbankaccount2.setOnClickListener {
             val intent = Intent(this, AddBankAccount2Activity::class.java)
             startActivity(intent)
-            finish()
         }
         binding.ivBack.setOnClickListener {
             finish()

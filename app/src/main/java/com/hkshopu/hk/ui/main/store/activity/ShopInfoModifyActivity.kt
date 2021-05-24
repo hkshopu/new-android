@@ -155,8 +155,12 @@ class ShopInfoModifyActivity : BaseActivity() {
 
         binding.ivChevronShopPhone.setOnClickListener {
             val addressId = addresslist[0].id
+            val phone_old = list[0].shop_phone
+            val phone_is_show = list[0].shop_is_phone_show
             var bundle = Bundle()
             bundle.putString("address_id",addressId)
+            bundle.putString("phone_old",phone_old)
+            bundle.putString("phone_is_show",phone_is_show)
             val intent = Intent(this, PhoneEditActivity::class.java)
             intent.putExtra("bundle",bundle)
             startActivity(intent)
@@ -164,8 +168,10 @@ class ShopInfoModifyActivity : BaseActivity() {
 
         binding.ivChevronUserEmail.setOnClickListener {
             val addressId = addresslist[0].id
+            val email_old = list[0].shop_email
             var bundle = Bundle()
             bundle.putString("address_id",addressId)
+            bundle.putString("email_old",email_old)
             val intent = Intent(this, EmailAdd1Activity::class.java)
             intent.putExtra("bundle",bundle)
             startActivity(intent)

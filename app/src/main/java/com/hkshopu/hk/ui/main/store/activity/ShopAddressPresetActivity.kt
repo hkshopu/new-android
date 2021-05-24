@@ -32,6 +32,8 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ShopAddressPresetActivity : BaseActivity() {
@@ -103,7 +105,12 @@ class ShopAddressPresetActivity : BaseActivity() {
                             val jsonObject: JSONObject = translations.getJSONObject(i)
                             val shopAddressListBean: ShopAddressListBean =
                                 Gson().fromJson(jsonObject.toString(), ShopAddressListBean::class.java)
-                            list.add(shopAddressListBean)
+                            if(shopAddressListBean.is_default.equals("Y")){
+                                list.add(0,shopAddressListBean)
+                            }else{
+                                list.add(shopAddressListBean)
+                            }
+
                         }
                         adapter.setData(list)
                         runOnUiThread {
