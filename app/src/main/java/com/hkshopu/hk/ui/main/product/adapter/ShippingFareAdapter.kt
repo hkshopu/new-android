@@ -1,20 +1,31 @@
 package com.hkshopu.hk.ui.main.adapter
 
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent.*
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.Base.BaseActivity
 
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.EventCheckInvenSpecEnableBtnOrNot
+import com.hkshopu.hk.component.EventCheckShipmentEnableBtnOrNot
+import com.hkshopu.hk.data.bean.ItemPics
 import com.hkshopu.hk.data.bean.ItemShippingFare
+import com.hkshopu.hk.ui.main.product.adapter.PicsAdapter
 import com.hkshopu.hk.ui.main.store.adapter.ITHelperInterface
+import com.hkshopu.hk.utils.rxjava.RxBus
+import com.hkshopu.hk.widget.view.disable
+import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
 import org.jetbrains.anko.singleLine
 import java.util.*
@@ -25,6 +36,9 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
     var mutableList_shipMethod = mutableListOf<ItemShippingFare>()
     var empty_item_num = 0
+    private var editStatus: Boolean = false
+
+    var MMKV_shop_id : Int =MMKV.mmkvWithID("http").getInt("ShopId", 0)
 
     inner class mViewHolder(itemView: View):RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -44,6 +58,21 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
         init {
 
+
+            Thread(Runnable {
+
+                activity.runOnUiThread {
+                    addEmptyItem()
+                }
+
+            }).start()
+
+            editText_shipping_name.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(false))
+                }
+            }
+
             //僅監控editText_shipping_name是否為空值而disable switchView
             val textWatcher_editText_shipping_name = object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -62,6 +91,12 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 }
                 override fun afterTextChanged(s: Editable?) {
+
+                    if(editText_shipping_fare.text.toString().length >= 2 && editText_shipping_fare.text.toString().startsWith("0")){
+                        editText_shipping_fare.setText(editText_shipping_fare.text.toString().replace("0", "", false))
+                        editText_shipping_fare.setSelection(editText_shipping_fare.text.toString().length)
+                    }
+
                     value_shipping_fare = editText_shipping_fare.text.toString()
                 }
             }
@@ -73,8 +108,8 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
 
-//                        storeStatus()
 
+//                        storeStatus()
                         value_shipping_name = editText_shipping_name.text.toString()
                         value_shipping_fare = editText_shipping_fare.text.toString()
                         if(switch_view.isOpened()){
@@ -83,30 +118,51 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                             value_shipping_isChecked = "off"
                         }
 
-
-                        //檢查名稱是否重複
-                        var check_duplicate = 0
-
-                        for (i in 0..mutableList_shipMethod.size - 1) {
-                            if (value_shipping_name == mutableList_shipMethod[i].shipment_desc) {
-                                check_duplicate = check_duplicate + 1
-                            } else {
-                                check_duplicate = check_duplicate + 0
-                            }
-                        }
-                        if (check_duplicate > 0) {
-                            editText_shipping_name.setText("")
-                            Toast.makeText(itemView.context, "貨運商不可重複", Toast.LENGTH_SHORT).show()
-
-                        } else {
+                        if(value_shipping_name.equals(mutableList_shipMethod.get(adapterPosition).shipment_desc)){
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
+                            Thread(Runnable {
+                                activity.runOnUiThread {
+                                    addEmptyItem()
+                                }
+                            }).start()
                             editText_shipping_name.clearFocus()
+                        }else{
+                            //檢查名稱是否重複
+                            var check_duplicate = 0
+
+                            for (i in 0..mutableList_shipMethod.size - 1) {
+                                if (value_shipping_name == mutableList_shipMethod[i].shipment_desc) {
+                                    check_duplicate = check_duplicate + 1
+                                } else {
+                                    check_duplicate = check_duplicate + 0
+                                }
+                            }
+
+                            if (check_duplicate > 0) {
+                                editText_shipping_name.setText("")
+                                Toast.makeText(itemView.context, "貨運商不可重複", Toast.LENGTH_SHORT).show()
+
+                            } else {
+                                onItemUpdate(
+                                    value_shipping_name,
+                                    value_shipping_fare.toString(),
+                                    value_shipping_isChecked,
+                                    adapterPosition
+                                )
+                                Thread(Runnable {
+                                    activity.runOnUiThread {
+                                        addEmptyItem()
+                                    }
+                                }).start()
+                                editText_shipping_name.clearFocus()
+                            }
                         }
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                         true
                     }
@@ -114,6 +170,12 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 }
             }
 
+
+            editText_shipping_fare.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(false))
+                }
+            }
             //editText_shipping_fare編輯鍵盤監聽
             editText_shipping_fare.singleLine = true
             editText_shipping_fare.setOnEditorActionListener() { v, actionId, event ->
@@ -128,27 +190,25 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                             value_shipping_isChecked = "off"
                         }
 
-
                         if (value_shipping_fare == "") {
-                            value_shipping_fare = "0"
+                            value_shipping_fare = ""
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
-
 
                         } else {
-
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
-
                         }
+
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
                         editText_shipping_fare.clearFocus()
 
                         true
@@ -176,17 +236,23 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
                             value_shipping_isChecked = "on"
 
+
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
 
-                            addEmptyItem()
+
+                            Thread(Runnable {
+                                activity.runOnUiThread {
+                                    addEmptyItem()
+                                }
+                            }).start()
 
                         }
-
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
                     } else {
 
                         value_shipping_name = editText_shipping_name.text.toString()
@@ -196,14 +262,25 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
                         onItemUpdate(
                             value_shipping_name,
-                            value_shipping_fare.toInt(),
+                            value_shipping_fare.toString(),
                             value_shipping_isChecked,
                             adapterPosition
                         )
 
-                        delEmptyItem()
+                        Thread(Runnable {
+
+                            activity.runOnUiThread {
+
+                                delEmptyItem()
+                            }
+
+                        }).start()
+
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                     }
+
+
                 }
             })
 
@@ -216,7 +293,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
         fun bind(item: ItemShippingFare){
 
             //綁定當地變數與dataModel中的每個值
-            imgv_delFare.setImageResource(item.btn_delete)
+            imgv_delFare.setImageResource(R.mipmap.btn_delete_fare)
             editText_shipping_name.setText(item.shipment_desc)
             editText_shipping_fare.setText(item.price.toString())
 
@@ -239,6 +316,19 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.gray_txt))
 
             }
+
+            var value_shipping_name_check = editText_shipping_name.text.toString()
+
+            if (editStatus) {
+                if (value_shipping_name_check.isNotEmpty()) {
+                    imgv_delFare.visibility = View.VISIBLE
+                }else{
+                    imgv_delFare.visibility = View.GONE
+                }
+            } else {
+                imgv_delFare.visibility = View.GONE
+            }
+
 
         }
 
@@ -273,27 +363,50 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
     fun addEmptyItem(){
 
         empty_item_num=0
-        for(i in 0..mutableList_shipMethod.size-1){
-            if (mutableList_shipMethod[i].shipment_desc == ""){
-                empty_item_num += 1
-            }else{
-                empty_item_num += 0
+        if(mutableList_shipMethod.size>0){
+            for(i in 0..mutableList_shipMethod.size-1){
+                if (mutableList_shipMethod[i].shipment_desc == ""){
+                    empty_item_num += 1
+                }else{
+                    empty_item_num += 0
+                }
             }
-        }
+            if(empty_item_num == 0 ){
+                mutableList_shipMethod.add(
+                    ItemShippingFare(
+                        "",
+                        "",
+                        "off",
+                        MMKV_shop_id
+                    )
+                )
+                try{
+                    Thread.sleep(300)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
 
-        if(empty_item_num == 0 ){
+                notifyDataSetChanged()
+            }
+        }else{
             mutableList_shipMethod.add(
                 ItemShippingFare(
                     "",
-                    0,
-                    R.drawable.custom_unit_transparent,
+                    "",
                     "off",
-                    0
+                    MMKV_shop_id
                 )
             )
-
+            try{
+                Thread.sleep(300)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
             notifyDataSetChanged()
         }
+
+
+
 
 
 //        storeStatus()
@@ -316,12 +429,17 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
             mutableList_shipMethod.remove(
                 ItemShippingFare(
                     "",
-                    0,
-                    R.drawable.custom_unit_transparent,
+                    "",
                     "off",
-                    0
+                    MMKV_shop_id
                 )
             )
+
+            try{
+                Thread.sleep(300)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
             notifyDataSetChanged()
         }
 
@@ -338,14 +456,13 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
     }
 
 
-    fun onItemUpdate(update_txt: String, update_fare: Int, is_checked: String, position: Int) {
+    fun onItemUpdate(update_txt: String, update_fare: String, is_checked: String, position: Int) {
 
         mutableList_shipMethod[position] = ItemShippingFare(
             update_txt,
             update_fare,
-            R.drawable.custom_unit_transparent,
             is_checked,
-            0
+            MMKV_shop_id
         )
 
         Thread(Runnable {
@@ -368,7 +485,6 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
         mutableList_shipMethod.removeAt(position)
         notifyItemRemoved(position)
 
-//        storeStatus()
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -381,7 +497,11 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
         return mutableList_shipMethod
     }
 
-
+    //更新資料用
+    fun onOff_editStatus(status: Boolean) {
+        editStatus = status
+        this.notifyDataSetChanged()
+    }
 
 }
 

@@ -10,13 +10,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.hkshopu.hk.Base.BaseActivity
@@ -26,7 +25,7 @@ import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
-import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogFragment
+import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogStoreProductsFragment
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -35,7 +34,7 @@ import java.io.*
 import java.util.*
 
 
-class AddShopActivity : BaseActivity(), TextWatcher {
+class AddShopActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddshopBinding
     val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
@@ -46,6 +45,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
     private val pickImage = 100
     private var imageUri: Uri? = null
     private var isSelectImage = false
+    private var isChecked = false
     var shopName: String = ""
     private var shop_category_id1: Int = 0
     private var shop_category_id2: Int = 0
@@ -71,13 +71,6 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
     }
 
-    //settings of textWatcher
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-    override fun afterTextChanged(s: Editable?) {
-        shopName = binding.etShopname.text.toString()
-    }
-
     private suspend fun doOnUiCode() {
         withContext(Dispatchers.Main) {
             // 更新你的UI
@@ -93,9 +86,11 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                         Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
                         binding.ivStep2.setImageResource(R.mipmap.ic_step2_check)
                         binding.ivStep2Check.visibility = View.VISIBLE
+                        isChecked = true
 
                     } else {
-
+                        binding.ivStep2Check.visibility = View.INVISIBLE
+                        isChecked = false
                         Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
 
                     }
@@ -166,6 +161,8 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                             )
 
                             binding.tvStoresort1.visibility = View.VISIBLE
+                            binding.tvStoresort2.visibility = View.INVISIBLE
+                            binding.tvStoresort3.visibility = View.INVISIBLE
 
                         } else if (list.size == 2) {
                             shop_category_id1 = list[0].id
@@ -188,6 +185,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                                 )
                             )
                             binding.tvStoresort2.visibility = View.VISIBLE
+                            binding.tvStoresort3.visibility = View.INVISIBLE
                         } else {
                             shop_category_id1 = list[0].id
                             shop_category_id2 = list[1].id
@@ -254,7 +252,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 //                }
 //                .show()
 
-            StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+            StoreOrNotDialogStoreProductsFragment(this).show(supportFragmentManager, "MyCustomFragment")
 
         }
 
@@ -273,23 +271,38 @@ class AddShopActivity : BaseActivity(), TextWatcher {
         var file: File? = null
         val editor = settings.edit()
         binding.tvForward.setOnClickListener {
-            if(isSelectImage){
+            if (isSelectImage) {
                 file = processImage()
             }
 //            var uri = Uri.fromFile(file);
+            if(isChecked){
+                editor.putString("shopname", shopName)
+            }
             editor.putString("image", encodeBitmapTobase64())
-            editor.putString("shopname", shopName)
             editor.putInt("shop_category_id1", shop_category_id1)
             editor.putInt("shop_category_id2", shop_category_id2)
             editor.putInt("shop_category_id3", shop_category_id3)
             editor.apply()
 
-            val intent = Intent(this, AddBankAccountActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(isChecked) {
+                val intent = Intent(this, AddBankAccountActivity::class.java)
+                startActivity(intent)
+//                finish()
+            }
         }
-        binding.tvMoreStoresort.setOnClickListener {
+        binding.layoutStoresortAct.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putBoolean("toShopFunction",false)
             val intent = Intent(this, ShopCategoryActivity::class.java)
+            intent.putExtra("bundle",bundle)
+            startActivity(intent)
+        }
+
+        binding.tvMoreStoresort.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putBoolean("toShopFunction",false)
+            val intent = Intent(this, ShopCategoryActivity::class.java)
+            intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
 
@@ -297,24 +310,28 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
 
     private fun initEditText() {
-        binding.etShopname.addTextChangedListener(this)
-        binding.etShopname.setOnEditorActionListener{ v, actionId, event ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
+        binding.etShopname.doAfterTextChanged {
+            shopName = binding.etShopname.text.toString()
 
-                    VM.shopnamecheck(this@AddShopActivity, shopName)
+            binding.etShopname.setOnEditorActionListener { v, actionId, event ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE -> {
 
-                    binding.etShopname.clearFocus()
+                        VM.shopnamecheck(this@AddShopActivity, shopName)
 
-                    KeyboardUtil.hideKeyboard(binding.etShopname)
+                        binding.etShopname.clearFocus()
 
-                    true
+                        KeyboardUtil.hideKeyboard(binding.etShopname)
+
+                        true
+                    }
+                    else -> false
                 }
-                else -> false
             }
         }
 //        password1.addTextChangedListener(this)
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun encodeBitmapTobase64(): String? {
         val drawable = binding.ivShopImg.drawable as BitmapDrawable
@@ -374,7 +391,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 //            }
 //            .show()
 
-        StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+        StoreOrNotDialogStoreProductsFragment(this).show(supportFragmentManager, "MyCustomFragment")
 
     }
 
@@ -386,7 +403,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
             try {
                 imageUri?.let {
-                    if(Build.VERSION.SDK_INT <= 28) {
+                    if (Build.VERSION.SDK_INT <= 28) {
                         val bitmap =
                             MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
                         if (bitmap != null) {
@@ -401,7 +418,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
                             binding!!.ivShopImg.setImageDrawable(getDrawable(R.mipmap.ic_no_image))
                             isSelectImage = false
                         }
-                    }else{
+                    } else {
                         val source = ImageDecoder.createSource(this.contentResolver, imageUri!!)
                         val bitmap = ImageDecoder.decodeBitmap(source)
                         if (bitmap != null) {
@@ -414,7 +431,7 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
                             isSelectImage = true
 
-                        }else{
+                        } else {
                             binding!!.ivShopImg.setImageDrawable(getDrawable(R.mipmap.ic_no_image))
                             isSelectImage = false
                         }
@@ -430,9 +447,6 @@ class AddShopActivity : BaseActivity(), TextWatcher {
 
         }
     }
-
-
-
 
 
 }
