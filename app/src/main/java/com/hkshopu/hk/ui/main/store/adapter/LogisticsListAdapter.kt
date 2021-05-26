@@ -243,7 +243,7 @@ class LogisticsListAdapter :
                 val shopLogisticBean = ShopLogisticBean()
                 shopLogisticBean.id = 0
                 shopLogisticBean.shipment_desc = ""
-                shopLogisticBean.shop_id = shop_id.toString()
+                shopLogisticBean.shop_id = shop_id.toInt()
                 shopLogisticBean.onoff = "off"
                 mData.add(shopLogisticBean)
 
@@ -259,7 +259,7 @@ class LogisticsListAdapter :
             val shopLogisticBean = ShopLogisticBean()
             shopLogisticBean.id = 0
             shopLogisticBean.shipment_desc = ""
-            shopLogisticBean.shop_id = shop_id.toString()
+            shopLogisticBean.shop_id = shop_id.toInt()
             shopLogisticBean.onoff = "off"
             mData.add(shopLogisticBean)
             try {
@@ -288,7 +288,7 @@ class LogisticsListAdapter :
             val shopLogisticBean = ShopLogisticBean()
             shopLogisticBean.id = 0
             shopLogisticBean.shipment_desc = ""
-            shopLogisticBean.shop_id = shop_id.toString()
+            shopLogisticBean.shop_id = shop_id.toInt()
             shopLogisticBean.onoff = "off"
 
             mData.remove(
@@ -314,7 +314,7 @@ class LogisticsListAdapter :
         Log.d("LogisticsListAdapter", "Content ＝ " + update_txt)
         mData[position].setID(0)
         mData[position].setShipmentDesc(update_txt)
-        mData[position].setShopID(shop_id.toString())
+        mData[position].setShopID(shop_id.toInt())
         mData[position].setOnOff(is_checked)
 
         Handler(Looper.getMainLooper()).post(Runnable {

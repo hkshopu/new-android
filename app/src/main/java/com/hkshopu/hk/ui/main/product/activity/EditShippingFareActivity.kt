@@ -38,7 +38,7 @@ class EditShippingFareActivity : AppCompatActivity(){
 
     val mAdapters_shippingFare = ShippingFareAdapter(this)
     var mutableList_itemShipingFare = mutableListOf<ItemShippingFare>()
-    var mutableList_itemShipingFare_filtered = mutableListOf<ItemShippingFare>()
+    var mutableList_itemShipingFare_filtered = mutableListOf<ItemShippingFare_Filtered>()
     var mutableList_itemShipingFare_certained = mutableListOf<ItemShippingFare_Certained>()
 
     var value_txtViewFareRange :String = ""
@@ -65,25 +65,16 @@ class EditShippingFareActivity : AppCompatActivity(){
         MMKV_product_id = MMKV.mmkvWithID("http").getInt("ProductId", 0)
 
 
-
-
-        try{
-            Thread.sleep(800)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-
-
         initVM()
         initView()
     }
 
     fun initView() {
 
-        MMKV_weight = MMKV.mmkvWithID("addPro").getString("datas_packagesWeights", "").toString()
-        MMKV_length = MMKV.mmkvWithID("addPro").getString("datas_length", "").toString()
-        MMKV_width = MMKV.mmkvWithID("addPro").getString("datas_width", "").toString()
-        MMKV_height = MMKV.mmkvWithID("addPro").getString("datas_height", "").toString()
+        MMKV_weight = MMKV.mmkvWithID("editPro").getString("datas_packagesWeights", "").toString()
+        MMKV_length = MMKV.mmkvWithID("editPro").getString("datas_length", "").toString()
+        MMKV_width = MMKV.mmkvWithID("editPro").getString("datas_width", "").toString()
+        MMKV_height = MMKV.mmkvWithID("editPro").getString("datas_height", "").toString()
         binding.editPackageWeight.setText(MMKV_weight)
         binding.editPackageLength.setText(MMKV_length)
         binding.editPackageWidth.setText(MMKV_width)
@@ -92,12 +83,16 @@ class EditShippingFareActivity : AppCompatActivity(){
         if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
 
             var check_onOff= 0
+            var empty_count= 0
             for (i in 0..mAdapters_shippingFare.get_shipping_method_datas().size-1){
                 if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).onoff.equals("on")){
                     check_onOff+=1
                 }
+                if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).price.equals("")){
+                    empty_count+=1
+                }
             }
-            if(check_onOff>1){
+            if(check_onOff>1 && empty_count.equals(0)){
                 binding.btnShippingFareStore.isEnabled = true
                 binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
             }else{
@@ -111,7 +106,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
         }
 
-        var fare_datas_size = MMKV.mmkvWithID("addPro").getString("fare_datas_size","0")
+        var fare_datas_size = MMKV.mmkvWithID("editPro").getString("fare_datas_size","0")
 
         if (fare_datas_size != null && fare_datas_size.toInt() >=1 ) {
 
@@ -181,9 +176,27 @@ class EditShippingFareActivity : AppCompatActivity(){
             binding.btnEditFareOff.isVisible = true
             binding.btnEditFareOff.isEnabled = true
 
-            mAdapters_shippingFare.onOff_editStatus(true)
+            Thread(Runnable {
 
-//            generateCustomFare_editable()
+                runOnUiThread {
+                    binding.progressBar6.visibility = View.VISIBLE
+                    mAdapters_shippingFare.onOff_editStatus(true)
+                }
+
+                try{
+                    Thread.sleep(200)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+
+                RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(false))
+
+                runOnUiThread {
+                    binding.progressBar6.visibility = View.GONE
+                }
+
+            }).start()
+
 
         }
 
@@ -197,49 +210,49 @@ class EditShippingFareActivity : AppCompatActivity(){
             MMKV_width = binding.editPackageWidth.text.toString()
             MMKV_height = binding.editPackageHeight.text.toString()
 
-            MMKV.mmkvWithID("addPro").putString("datas_packagesWeights", MMKV_weight.toString())
-            MMKV.mmkvWithID("addPro").putString("datas_length", MMKV_length)
-            MMKV.mmkvWithID("addPro").putString("datas_width", MMKV_width)
-            MMKV.mmkvWithID("addPro").putString("datas_height", MMKV_height)
+            MMKV.mmkvWithID("editPro").putString("datas_packagesWeights", MMKV_weight.toString())
+            MMKV.mmkvWithID("editPro").putString("datas_length", MMKV_length)
+            MMKV.mmkvWithID("editPro").putString("datas_width", MMKV_width)
+            MMKV.mmkvWithID("editPro").putString("datas_height", MMKV_height)
 
             if(datas_ship_method_and_fare.size.toString() != ""){
-                MMKV.mmkvWithID("addPro").putString("fare_datas_size", datas_ship_method_and_fare.size.toString())
+                MMKV.mmkvWithID("editPro").putString("fare_datas_size", datas_ship_method_and_fare.size.toString())
             }else{
-                MMKV.mmkvWithID("addPro").putString("fare_datas_size", "0")
+                MMKV.mmkvWithID("editPro").putString("fare_datas_size", "0")
             }
             Log.d("checkVariable", datas_ship_method_and_fare.size.toString())
 
             for (i in 0..datas_ship_method_and_fare.size-1!!) {
                 val jsonTutList_mutableList_itemShipingFare: String = GsonProvider.gson.toJson(datas_ship_method_and_fare[i])
-                MMKV.mmkvWithID("addPro").putString("value_fare_item${i}", jsonTutList_mutableList_itemShipingFare)
+                MMKV.mmkvWithID("editPro").putString("value_fare_item${i}", jsonTutList_mutableList_itemShipingFare)
             }
 
             //篩選所有已勾選的運費方式
             for (i in 0..datas_ship_method_and_fare.size-1!!) {
                 if(datas_ship_method_and_fare[i].onoff == "on" ){
                     mutableList_itemShipingFare_filtered.add(
-                        datas_ship_method_and_fare[i]
+                        ItemShippingFare_Filtered(datas_ship_method_and_fare[i].shipment_desc, datas_ship_method_and_fare[i].price.toInt(), datas_ship_method_and_fare[i].onoff, datas_ship_method_and_fare[i].shop_id)
                     )
                 }
             }
 
             //MMKV放入已經確定勾選的Fare Item Size
             if(mutableList_itemShipingFare_filtered.size.toString() != ""){
-                MMKV.mmkvWithID("addPro").putString("fare_datas_filtered_size", mutableList_itemShipingFare_filtered.size.toString())
+                MMKV.mmkvWithID("editPro").putString("fare_datas_filtered_size", mutableList_itemShipingFare_filtered.size.toString())
             }else{
-                MMKV.mmkvWithID("addPro").putString("fare_datas_filtered_size", "0")
+                MMKV.mmkvWithID("editPro").putString("fare_datas_filtered_size", "0")
 
             }
             Log.d("check_content","fare_datas_filtered_size : ${mutableList_itemShipingFare_filtered.size.toString()}")
 
             for (i in 0..mutableList_itemShipingFare_filtered.size-1!!) {
-            val jsonTutList_mutableList_itemShipingFare_filtered: String = GsonProvider.gson.toJson(mutableList_itemShipingFare_filtered[i])
-            MMKV.mmkvWithID("addPro").putString("value_fare_item_filtered${i}", jsonTutList_mutableList_itemShipingFare_filtered)
+                val jsonTutList_mutableList_itemShipingFare_filtered: String = GsonProvider.gson.toJson(mutableList_itemShipingFare_filtered[i])
+                MMKV.mmkvWithID("editPro").putString("value_fare_item_filtered${i}", jsonTutList_mutableList_itemShipingFare_filtered)
 
             }
 
             value_txtViewFareRange = fare_pick_max_and_min_num(mutableList_itemShipingFare_filtered.size)
-            MMKV.mmkvWithID("addPro").putString("value_txtViewFareRange", value_txtViewFareRange)
+            MMKV.mmkvWithID("editPro").putString("value_txtViewFareRange", value_txtViewFareRange)
 
             //取出所有Fare Item(拿掉btn_delete參數)
             for(i in 0..datas_ship_method_and_fare.size!!-1){
@@ -257,7 +270,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             val jsonTutListPretty_fare: String = gsonPretty.toJson(mutableList_itemShipingFare_certained)
             Log.d("AddNewProductActivity", mutableList_itemShipingFare_certained.toString())
 
-            MMKV.mmkvWithID("addPro").putString("jsonTutList_fare", jsonTutList_fare)
+            MMKV.mmkvWithID("editPro").putString("jsonTutList_fare", jsonTutList_fare)
 
 
             //sync prodcut fare settings to Shop fare setting
@@ -285,8 +298,8 @@ class EditShippingFareActivity : AppCompatActivity(){
 
                     MMKV_weight = binding.editPackageWeight.text.toString()
 
-                    v.hideKeyboard()
                     binding.editPackageWeight.clearFocus()
+                    v.hideKeyboard()
 
                     true
                 }
@@ -300,13 +313,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             }
             override fun afterTextChanged(s: Editable?) {
 
-                if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
-                    binding.btnShippingFareStore.isEnabled = true
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
-                }else{
-                    binding.btnShippingFareStore.isEnabled = false
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
-                }
+                RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                 if(binding.editPackageWeight.text.toString().length >= 2 && binding.editPackageWeight.text.toString().startsWith("0")){
                     binding.editPackageWeight.setText(binding.editPackageWeight.text.toString().replace("0", "", false))
@@ -339,13 +346,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             }
             override fun afterTextChanged(s: Editable?) {
 
-                if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
-                    binding.btnShippingFareStore.isEnabled = true
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
-                }else{
-                    binding.btnShippingFareStore.isEnabled = false
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
-                }
+                RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                 if(binding.editPackageLength.text.toString().length >= 2 && binding.editPackageLength.text.toString().startsWith("0")){
                     binding.editPackageLength.setText(binding.editPackageLength.text.toString().replace("0", "", false))
@@ -367,8 +368,9 @@ class EditShippingFareActivity : AppCompatActivity(){
 
                     MMKV_width = binding.editPackageWidth.text.toString()
 
+                    binding.editPackageWidth.clearFocus()
                     v.hideKeyboard()
-                    binding.editPackageWeight.clearFocus()
+
 
                     true
                 }
@@ -382,13 +384,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             }
             override fun afterTextChanged(s: Editable?) {
 
-                if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
-                    binding.btnShippingFareStore.isEnabled = true
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
-                }else{
-                    binding.btnShippingFareStore.isEnabled = false
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
-                }
+                RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                 if(binding.editPackageWidth.text.toString().length >= 2 && binding.editPackageWidth.text.toString().startsWith("0")){
                     binding.editPackageWidth.setText(binding.editPackageWidth.text.toString().replace("0", "", false))
@@ -406,8 +402,11 @@ class EditShippingFareActivity : AppCompatActivity(){
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     MMKV_height = binding.editPackageHeight.text.toString()
-                    v.hideKeyboard()
+
+
+
                     binding.editPackageHeight.clearFocus()
+                    v.hideKeyboard()
                     true
                 }
                 else -> false
@@ -420,13 +419,7 @@ class EditShippingFareActivity : AppCompatActivity(){
             }
             override fun afterTextChanged(s: Editable?) {
 
-                if( binding.editPackageWeight.text.isNotEmpty() && binding.editPackageLength.text.isNotEmpty() &&  binding.editPackageWidth.text.isNotEmpty() && binding.editPackageHeight.text.isNotEmpty() ){
-                    binding.btnShippingFareStore.isEnabled = true
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
-                }else{
-                    binding.btnShippingFareStore.isEnabled = false
-                    binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
-                }
+                RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                 if(binding.editPackageHeight.text.toString().length >= 2 && binding.editPackageHeight.text.toString().startsWith("0")){
                     binding.editPackageHeight.setText(binding.editPackageHeight.text.toString().replace("0", "", false))
@@ -471,28 +464,6 @@ class EditShippingFareActivity : AppCompatActivity(){
 
     }
 
-    //自訂費用項目(可編輯部分)
-    fun generateCustomFare_editable() {
-
-
-        Thread(Runnable {
-
-            //進入"可編輯模式"新增資料或重新新增資料
-            mutableList_itemShipingFare = mAdapters_shippingFare.get_shipping_method_datas()
-
-            var mutableList_size = mAdapters_shippingFare.get_shipping_method_datas().size
-
-            if(mutableList_size>=2){
-                for(i in 0..mutableList_size-2){
-                    mutableList_itemShipingFare[i] = ItemShippingFare(mutableList_itemShipingFare[i].shipment_desc, mutableList_itemShipingFare[i].price, mutableList_itemShipingFare[i].onoff,  mutableList_itemShipingFare[i].shop_id)
-                }
-                mAdapters_shippingFare.updateList(mutableList_itemShipingFare)
-                runOnUiThread {
-                    mAdapters_shippingFare.notifyDataSetChanged()
-                }
-            }
-        }).start()
-    }
 
     fun View.hideKeyboard() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -571,21 +542,33 @@ class EditShippingFareActivity : AppCompatActivity(){
 
                         boolean = it.boolean
 
-                        var check_onOff= 0
-                        for (i in 0..mAdapters_shippingFare.get_shipping_method_datas().size-1){
-                            if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).onoff.equals("on")){
-                                check_onOff=check_onOff+1
-                            }
-                        }
 
-                        if(check_onOff>0 && MMKV_weight.isNotEmpty() && MMKV_length.isNotEmpty() && MMKV_width.isNotEmpty() && MMKV_height.isNotEmpty()){
-                            binding.btnShippingFareStore.isEnabled = true
-                            binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
+                        if(boolean){
+
+                            var check_onOff= 0
+                            var empty_count= 0
+                            for (i in 0..mAdapters_shippingFare.get_shipping_method_datas().size-1){
+                                if(  mAdapters_shippingFare.get_shipping_method_datas().get(i).onoff.equals("on")){
+                                    check_onOff=check_onOff+1
+                                    if(mAdapters_shippingFare.get_shipping_method_datas().get(i).price.isNullOrEmpty()){
+                                        empty_count+=1
+                                    }
+                                }
+
+                            }
+
+                            if(check_onOff>0 && empty_count.equals(0) && MMKV_weight.isNotEmpty() && MMKV_length.isNotEmpty() && MMKV_width.isNotEmpty() && MMKV_height.isNotEmpty()){
+                                binding.btnShippingFareStore.isEnabled = true
+                                binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore)
+                            }else{
+                                binding.btnShippingFareStore.isEnabled = false
+                                binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
+                            }
                         }else{
                             binding.btnShippingFareStore.isEnabled = false
                             binding.btnShippingFareStore.setImageResource(R.mipmap.btn_shippingfarestore_disable)
-                        }
 
+                        }
                     }
                 }
             }, {

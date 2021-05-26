@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -117,7 +118,7 @@ class StoreDeleteApplyDialogFragment(var shop_Id:Int): DialogFragment(), View.On
                             dismiss()
                         }
 
-                    } else {
+                    } else if (status == -2){
                         val data = json.getJSONObject("data")
                         val order_count = data.getInt("order_count")
                         activity!!.runOnUiThread {
@@ -128,6 +129,8 @@ class StoreDeleteApplyDialogFragment(var shop_Id:Int): DialogFragment(), View.On
                             dismiss()
                         }
 
+                    }else{
+                        Toast.makeText(activity!!, ret_val.toString(), Toast.LENGTH_SHORT).show()
                     }
 //                        initRecyclerView()
 

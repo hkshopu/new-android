@@ -17,9 +17,7 @@ import com.hkshopu.hk.Base.BaseActivity
 import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.application.App
-import com.hkshopu.hk.component.CommonVariable
-import com.hkshopu.hk.component.EventGetBankAccountSuccess
-import com.hkshopu.hk.component.EventProductCatSelected
+import com.hkshopu.hk.component.*
 import com.hkshopu.hk.data.bean.ProductChildCategoryBean
 import com.hkshopu.hk.data.bean.ShopAddressBean
 import com.hkshopu.hk.data.bean.ShopBankAccountBean
@@ -73,7 +71,7 @@ class BankListActivity : BaseActivity() {
         adapter.toPresetClick = {
             val intent = Intent(this, BankPresetActivity::class.java)
             startActivity(intent)
-            finish()
+
         }
     }
 
@@ -87,8 +85,9 @@ class BankListActivity : BaseActivity() {
         RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
             .subscribe({
                 when (it) {
-
-
+                    is EventSyncBank -> {
+                        getShopBackList(url)
+                    }
                 }
             }, {
                 it.printStackTrace()
@@ -119,8 +118,8 @@ class BankListActivity : BaseActivity() {
                                 Gson().fromJson(jsonObject.toString(), ShopBankAccountBean::class.java)
                             list.add(shopBankAccountBean)
                         }
-                        adapter.setData(list)
                         runOnUiThread {
+                            adapter.setData(list)
                             binding.recyclerview.adapter = adapter
 
                         }
@@ -148,7 +147,6 @@ class BankListActivity : BaseActivity() {
         binding.tvAddbankaccount2.setOnClickListener {
             val intent = Intent(this, AddBankAccount2Activity::class.java)
             startActivity(intent)
-            finish()
         }
         binding.ivBack.setOnClickListener {
             finish()

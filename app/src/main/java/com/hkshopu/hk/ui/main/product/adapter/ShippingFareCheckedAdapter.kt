@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.hkshopu.hk.R
 import com.hkshopu.hk.data.bean.ItemShippingFare
+import com.hkshopu.hk.data.bean.ItemShippingFare_Certained
+import com.hkshopu.hk.data.bean.ItemShippingFare_Filtered
 import com.hkshopu.hk.ui.main.store.adapter.ITHelperInterface
 
 
 class ShippingFareCheckedAdapter: RecyclerView.Adapter<ShippingFareCheckedAdapter.mViewHolder>(),
     ITHelperInterface {
 
-    var mutableList_shipMethod: MutableList<ItemShippingFare> = mutableListOf()
+    var mutableList_shipMethod: MutableList<ItemShippingFare_Certained> = mutableListOf()
 
     inner class mViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -31,11 +34,18 @@ class ShippingFareCheckedAdapter: RecyclerView.Adapter<ShippingFareCheckedAdapte
 
         }
 
-        fun bind(item: ItemShippingFare) {
+        fun bind(item: ItemShippingFare_Certained) {
             Log.d("fdkodfkod", item.toString())
             //綁定當地變數與dataModel中的每個值
             editText_shipping_name.setText(item.shipment_desc)
             textView_shipping_fare.setText(item.price.toString())
+            if(item.price.equals("0")){
+                textView_shipping_fare.isVisible = false
+                textView_HKdolors.isVisible =false
+            }else{
+                textView_shipping_fare.isVisible = true
+                textView_HKdolors.isVisible = true
+            }
         }
 
         override fun onClick(v: View?) {
@@ -64,7 +74,7 @@ class ShippingFareCheckedAdapter: RecyclerView.Adapter<ShippingFareCheckedAdapte
     }
 
     //更新資料用
-    fun updateList(list: MutableList<ItemShippingFare>) {
+    fun updateList(list: MutableList<ItemShippingFare_Certained>) {
 
             mutableList_shipMethod =  list
 

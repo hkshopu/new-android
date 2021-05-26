@@ -90,7 +90,7 @@ class ShopProductAdapter(var fragment: Fragment) : RecyclerView.Adapter<ShopProd
 
 
 
-            if(bean.sold_quantity.toString().length>3){
+            if(bean.sold_quantity.toString().length>=3){
                 var one_thous = 1000
                 var float = bean.sold_quantity.toDouble()/one_thous.toDouble()
                 var bigDecimal = float.toBigDecimal()
@@ -99,7 +99,7 @@ class ShopProductAdapter(var fragment: Fragment) : RecyclerView.Adapter<ShopProd
                 sold.text = "${bean.sold_quantity.toString()}"
             }
 
-            if(bean.sum_quantity.toString().length>3){
+            if(bean.sum_quantity.toString().length>=3){
                 var one_thous = 1000
                 var float = bean.sum_quantity.toDouble()/one_thous.toDouble()
                 var bigDecimal = float.toBigDecimal()
@@ -108,9 +108,24 @@ class ShopProductAdapter(var fragment: Fragment) : RecyclerView.Adapter<ShopProd
                 amount.text =  "${bean.sum_quantity.toString()}"
             }
 
+            if(bean.like.toString().length>=3){
+                var one_thous = 1000
+                var float = bean.like.toDouble()/one_thous.toDouble()
+                var bigDecimal = float.toBigDecimal()
+                heart.text = "${bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toString()}k"
+            }else{
+                heart.text =  "${bean.like.toString()}"
+            }
 
-            heart.text = "${bean.like.toString()}"
-            eye.text = "${bean.seen.toString()}"
+            if(bean.seen.toString().length>=3){
+                var one_thous = 1000
+                var float = bean.seen.toDouble()/one_thous.toDouble()
+                var bigDecimal = float.toBigDecimal()
+                eye.text = "${bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toString()}k"
+            }else{
+                eye.text =  "${bean.seen.toString()}"
+            }
+
 
         }
     }

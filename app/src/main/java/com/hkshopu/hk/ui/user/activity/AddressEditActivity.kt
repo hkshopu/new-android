@@ -280,8 +280,8 @@ class AddressEditActivity : BaseActivity(), TextWatcher {
                     val ret_val = json.get("ret_val")
                     val status  = json.get("status")
                     if (status == 0) {
-                        var user_id: Int = json.getInt("user_id")
-                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
+//                        var user_id: Int = json.getInt("user_id")
+//                        MMKV.mmkvWithID("http").putInt("UserId", user_id)
 
                         runOnUiThread {
                             Toast.makeText(this@AddressEditActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()

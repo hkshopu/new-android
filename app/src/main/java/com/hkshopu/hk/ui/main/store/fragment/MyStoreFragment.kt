@@ -55,7 +55,6 @@ class MyStoreFragment : Fragment() {
     lateinit var addShopBrief:RelativeLayout
     lateinit var newProduct_null :RelativeLayout
     lateinit var newProduct :RecyclerView
-    lateinit var btn_addNewMerchant:ImageView
     private val adapter = ShopProductAdapter(this)
 
     override fun onCreateView(
@@ -67,6 +66,12 @@ class MyStoreFragment : Fragment() {
         val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
         var url = ApiConstants.API_HOST+"/product/"+shopId+"/shop_product/"
         getShopProduct(url)
+
+
+        //清掉 MMKV.mmkvWithID("addPro").clear() MMKV.mmkvWithID("editPro").clear()
+        MMKV.mmkvWithID("addPro").clear()
+        MMKV.mmkvWithID("editPro").clear()
+
 
 
         storeBrief = v.find<RelativeLayout>(R.id.layout_store_brief)
@@ -83,18 +88,8 @@ class MyStoreFragment : Fragment() {
             val intent = Intent(activity, AddShopBriefActivity::class.java)
             activity!!.startActivity(intent)
         }
-        val btn_addNewProduct = v.find<RelativeLayout>(R.id.layout_add_product)
-        btn_addNewProduct.setOnClickListener {
-            val intent = Intent(activity, AddNewProductActivity::class.java)
-            activity!!.startActivity(intent)
-        }
 
-        btn_addNewMerchant = v.find<ImageView>(R.id.iv_addmerchant)
 
-        btn_addNewMerchant.setOnClickListener {
-            val intent = Intent(activity, AddNewProductActivity::class.java)
-            activity!!.startActivity(intent)
-        }
         newProduct_null = v.find<RelativeLayout>(R.id.layout_new_product)
         newProduct = v.find<RecyclerView>(R.id.recyclerview_newproduct)
 
@@ -106,16 +101,25 @@ class MyStoreFragment : Fragment() {
 
     private fun initView(){
         val description = MMKV.mmkvWithID("http").getString("description","")
+
         Log.d(
             "MyStoreFragment",
             "資料 description：" + description
         )
-        if(description!!.length > 0 ){
+
+        if(description!!.length >0){
+
+            Log.d("fdjhfidjfidj", "簡介顯示")
             storeBrief.visibility = View.VISIBLE
+            shopBrief.visibility =View.VISIBLE
             shopBrief.text = description
 
         }else{
+            Log.d("fdjhfidjfidj", "沒有簡介")
             addShopBrief.visibility = View.VISIBLE
+            storeBrief.visibility = View.GONE
+            shopBrief.visibility =View.GONE
+
         }
     }
 
@@ -125,6 +129,7 @@ class MyStoreFragment : Fragment() {
             .subscribe({
                 when (it) {
                     is EventAddShopBriefSuccess -> {
+
                         addShopBrief.visibility = View.INVISIBLE
                         storeBrief.visibility = View.VISIBLE
                         shopBrief.text = it.description
@@ -185,7 +190,7 @@ class MyStoreFragment : Fragment() {
                         adapter.setData(list)
                         activity!!.runOnUiThread {
                             initRecyclerView()
-                            btn_addNewMerchant.visibility = View.VISIBLE
+
                             newProduct_null.visibility = View.GONE
 
                         }

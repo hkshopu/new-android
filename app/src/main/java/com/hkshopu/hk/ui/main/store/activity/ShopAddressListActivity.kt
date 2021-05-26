@@ -97,10 +97,15 @@ class ShopAddressListActivity : BaseActivity() {
                             val jsonObject: JSONObject = translations.getJSONObject(i)
                             val shopAddressListBean: ShopAddressListBean =
                                 Gson().fromJson(jsonObject.toString(), ShopAddressListBean::class.java)
-                            list.add(shopAddressListBean)
-                            if(list.get(i).is_default.equals("Y")){
+                            if(shopAddressListBean.is_default.equals("Y")){
+                                list.add(0,shopAddressListBean)
                                 binding.switchview.openSwitcher()
+                            }else{
+                                list.add(shopAddressListBean)
                             }
+
+
+
                         }
 
                         adapter.setData(list)
@@ -152,7 +157,7 @@ class ShopAddressListActivity : BaseActivity() {
         binding.tvAddshopaddress.setOnClickListener {
             val intent = Intent(this, AddShopAddress2Activity::class.java)
             startActivity(intent)
-            finish()
+
         }
         adapter.cancelClick = {
 
@@ -160,11 +165,8 @@ class ShopAddressListActivity : BaseActivity() {
 
         }
         adapter.intentClick = {
-
-
         val intent = Intent(this@ShopAddressListActivity, ShopAddressPresetActivity::class.java)
             startActivity(intent)
-            finish()
         }
         var isAddressShow: String = ""
         binding.switchview.setOnStateChangedListener(object :

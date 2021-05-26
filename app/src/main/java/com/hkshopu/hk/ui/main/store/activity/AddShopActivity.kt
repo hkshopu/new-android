@@ -10,8 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -27,7 +25,7 @@ import com.hkshopu.hk.component.EventAddShopSuccess
 import com.hkshopu.hk.component.EventShopCatSelected
 import com.hkshopu.hk.data.bean.ShopCategoryBean
 import com.hkshopu.hk.databinding.ActivityAddshopBinding
-import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogFragment
+import com.hkshopu.hk.ui.main.product.fragment.StoreOrNotDialogStoreProductsFragment
 import com.hkshopu.hk.ui.user.vm.ShopVModel
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.hkshopu.hk.widget.view.KeyboardUtil
@@ -254,7 +252,7 @@ class AddShopActivity : BaseActivity() {
 //                }
 //                .show()
 
-            StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+            StoreOrNotDialogStoreProductsFragment(this).show(supportFragmentManager, "MyCustomFragment")
 
         }
 
@@ -393,7 +391,7 @@ class AddShopActivity : BaseActivity() {
 //            }
 //            .show()
 
-        StoreOrNotDialogFragment(this).show(supportFragmentManager, "MyCustomFragment")
+        StoreOrNotDialogStoreProductsFragment(this).show(supportFragmentManager, "MyCustomFragment")
 
     }
 

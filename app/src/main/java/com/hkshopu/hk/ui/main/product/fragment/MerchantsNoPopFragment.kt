@@ -6,14 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.hkshopu.hk.Base.response.Status
 import com.hkshopu.hk.R
 import com.hkshopu.hk.component.*
 import com.hkshopu.hk.data.bean.MyProductBean
@@ -43,6 +43,7 @@ class MerchantsNoPopFragment : Fragment() {
     var shopId: Int = 0
 
     lateinit var recyclerview_myProducts: RecyclerView
+    lateinit var progressBar: ProgressBar
     private val adapter = MyProductsAdapter(this, "draft")
 
     override fun onCreateView(
@@ -53,12 +54,16 @@ class MerchantsNoPopFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_my_products, container, false)
 
         recyclerview_myProducts = v.findViewById<RecyclerView>(R.id.recyclerview_myProducts)
+        progressBar = v.findViewById(R.id.progressBar)
+        progressBar.isVisible = false
         initRecyclerView()
 
         shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
         Log.d("mkjgjs", shopId.toString())
 
         getMyProductsList(shopId.toString(), "none", "draft", "1")
+
+        adapter.onOff_editStatus(false)
 
         initEvent()
 
@@ -143,10 +148,10 @@ class MerchantsNoPopFragment : Fragment() {
         web.Get_Data(url)
     }
 
-
+    var keyword: String =""
     @SuppressLint("CheckResult")
     fun initEvent() {
-        var keyword: String
+
         RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
             .subscribe({
                 when (it) {
@@ -160,20 +165,51 @@ class MerchantsNoPopFragment : Fragment() {
                                 keyword = "none"
                             }
 
+
                             getMyProductsList(shopId.toString(), keyword, "draft", "1")
 
                             activity?.runOnUiThread {
-
+                                adapter.notifyDataSetChanged()
                             }
 
                         }).start()
 
                     }
+
                     is EventdeleverFragmentAfterUpdateStatus -> {
                         var action = it.action
 
-                        getMyProductsList(shopId.toString(), "none", "draft", "1")
-                        adapter.notifyDataSetChanged()
+
+
+                        Thread(Runnable {
+                            activity?.runOnUiThread {
+                                progressBar.isVisible = true
+                            }
+                            if(keyword.equals("")){
+                                keyword = "none"
+                            }
+                            try{
+                                Thread.sleep(300)
+                            } catch (e: InterruptedException) {
+                                e.printStackTrace()
+                            }
+
+                            getMyProductsList(shopId.toString(), keyword, "draft", "1")
+
+
+
+
+                            activity?.runOnUiThread {
+                                adapter.notifyDataSetChanged()
+                                progressBar.isVisible = false
+                            }
+
+                        }).start()
+                    }
+                    is EventProductDelete -> {
+                        var boolean = it.boolean
+
+                        adapter.onOff_editStatus(boolean)
 
                     }
 

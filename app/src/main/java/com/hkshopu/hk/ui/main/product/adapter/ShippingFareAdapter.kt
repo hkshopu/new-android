@@ -24,6 +24,7 @@ import com.hkshopu.hk.data.bean.ItemShippingFare
 import com.hkshopu.hk.ui.main.product.adapter.PicsAdapter
 import com.hkshopu.hk.ui.main.store.adapter.ITHelperInterface
 import com.hkshopu.hk.utils.rxjava.RxBus
+import com.hkshopu.hk.widget.view.disable
 import com.tencent.mmkv.MMKV
 import com.zilchzz.library.widgets.EasySwitcher
 import org.jetbrains.anko.singleLine
@@ -66,6 +67,11 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
             }).start()
 
+            editText_shipping_name.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(false))
+                }
+            }
 
             //僅監控editText_shipping_name是否為空值而disable switchView
             val textWatcher_editText_shipping_name = object : TextWatcher {
@@ -115,7 +121,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                         if(value_shipping_name.equals(mutableList_shipMethod.get(adapterPosition).shipment_desc)){
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
@@ -144,7 +150,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                             } else {
                                 onItemUpdate(
                                     value_shipping_name,
-                                    value_shipping_fare.toInt(),
+                                    value_shipping_fare.toString(),
                                     value_shipping_isChecked,
                                     adapterPosition
                                 )
@@ -156,7 +162,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                                 editText_shipping_name.clearFocus()
                             }
                         }
-
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                         true
                     }
@@ -164,6 +170,12 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 }
             }
 
+
+            editText_shipping_fare.setOnFocusChangeListener { v, hasFocus ->
+                if(hasFocus ){
+                    RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(false))
+                }
+            }
             //editText_shipping_fare編輯鍵盤監聽
             editText_shipping_fare.singleLine = true
             editText_shipping_fare.setOnEditorActionListener() { v, actionId, event ->
@@ -179,10 +191,10 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                         }
 
                         if (value_shipping_fare == "") {
-                            value_shipping_fare = "0"
+                            value_shipping_fare = ""
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
@@ -190,11 +202,13 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                         } else {
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
                         }
+
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
                         editText_shipping_fare.clearFocus()
 
                         true
@@ -225,7 +239,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
                             onItemUpdate(
                                 value_shipping_name,
-                                value_shipping_fare.toInt(),
+                                value_shipping_fare.toString(),
                                 value_shipping_isChecked,
                                 adapterPosition
                             )
@@ -238,7 +252,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                             }).start()
 
                         }
-
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
                     } else {
 
                         value_shipping_name = editText_shipping_name.text.toString()
@@ -248,7 +262,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
                         onItemUpdate(
                             value_shipping_name,
-                            value_shipping_fare.toInt(),
+                            value_shipping_fare.toString(),
                             value_shipping_isChecked,
                             adapterPosition
                         )
@@ -262,11 +276,11 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
                         }).start()
 
-
+                        RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
 
                     }
 
-                    RxBus.getInstance().post(EventCheckShipmentEnableBtnOrNot(true))
+
                 }
             })
 
@@ -291,9 +305,15 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
             if(item.onoff == "on"){
 
-                textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
-                editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
-                editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
+                if(editText_shipping_fare.text.toString().isNullOrEmpty()){
+                    textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                    editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                    editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                }else{
+                    textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
+                    editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
+                    editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
+                }
 
             }else{
 
@@ -361,7 +381,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
                 mutableList_shipMethod.add(
                     ItemShippingFare(
                         "",
-                        0,
+                        "",
                         "off",
                         MMKV_shop_id
                     )
@@ -378,7 +398,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
             mutableList_shipMethod.add(
                 ItemShippingFare(
                     "",
-                    0,
+                    "",
                     "off",
                     MMKV_shop_id
                 )
@@ -415,7 +435,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
             mutableList_shipMethod.remove(
                 ItemShippingFare(
                     "",
-                    0,
+                    "",
                     "off",
                     MMKV_shop_id
                 )
@@ -442,7 +462,7 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
     }
 
 
-    fun onItemUpdate(update_txt: String, update_fare: Int, is_checked: String, position: Int) {
+    fun onItemUpdate(update_txt: String, update_fare: String, is_checked: String, position: Int) {
 
         mutableList_shipMethod[position] = ItemShippingFare(
             update_txt,

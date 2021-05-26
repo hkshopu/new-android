@@ -8,7 +8,6 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="AddressEditActivity" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
@@ -35,9 +34,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abbb47f9-ec47-439e-b651-8674269caed4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddInventoryAndPriceOldActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditInventoryAndPriceOldActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_inventory_and_price_old.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ItemInvenFirstNestedLayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/data/bean/ItemInvenSecondNestedLayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/InventoryAndPriceSizeNestedAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/InventoryAndPriceSpecNestedAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/inventoryandprice_size_list_nested_item.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/inventoryandprice_spec_list_nested_item.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -49,43 +51,29 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/TestHKShopPu.HKShopU.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/TestHKShopPu.HKShopU.app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/net/Web.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/net/Web.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/component/Event.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/component/Event.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddInventoryAndPriceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddInventoryAndPriceActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddNewProductActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddProductSpecificationMainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddProductSpecificationMainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddShippingFareActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/AddShippingFareActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditInventoryAndPriceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditInventoryAndPriceActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductSpecificationMainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditProductSpecificationMainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareCheckedAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareCheckedAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditShippingFareActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/EditShippingFareActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MerchandiseActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MerchandiseActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MyMerchantsActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/activity/MyMerchantsActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/InventoryAndPriceSpecAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/InventoryAndPriceSpecAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/ShippingFareAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/SpecificationSizeAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/SpecificationSizeAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/SpecificationSpecAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/adapter/SpecificationSpecAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/EmailAdd2Activity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/EmailAdd2Activity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/ShopNameEditActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/activity/ShopNameEditActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/LogisticsListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/LogisticsListAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/ShopAddressListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/adapter/ShopAddressListAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/EditProductRemindForFragmentDialogFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/EditProductRemindForFragmentDialogFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/MerchantsOndeckFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/product/fragment/MerchantsOndeckFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MyStoreFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/MyStoreFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/ShopInfoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/ShopInfoFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/ShopListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/ShopListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/StoreDeleteDialogFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/main/store/fragment/StoreDeleteDialogFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/AddressEditActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/AddressEditActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/UserIofoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/UserIofoActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh-rHK/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/api-versions-0-31.0.2.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/appcompat/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/constraintlayout/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/core/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/legacy/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/lifecycle/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/recyclerview/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/test/espresso/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/test/ext/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/androidx/viewpager2/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/com/android/support/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/com/google/android/gms/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/com/google/android/material/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/master-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/org/jetbrains/kotlin/group-index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/sdk-registry.xml/sdk-registry.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_merchandise.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_merchandise.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_shipping_fare.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_shipping_fare.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mystore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mystore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_shopinfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_shopinfo.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +83,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@QV724N533A]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -129,6 +117,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -152,7 +147,7 @@
     <property name="android-custom-viewC:/Users/User/AppData/Local/Android/Sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
     <property name="android-custom-viewC:/Users/User/AppData/Local/Android/Sdk/sources/android-30/android/widget/TextView.java_SELECTED" value="TextView" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../new-android" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
     <property name="project.structure.last.edited" value="SDK Location" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -163,14 +158,15 @@
       <recent name="C:\new-android\app\src" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.hkshopu.hk.data.bean" />
+      <recent name="com.hkshopu.hk.ui.main.product.adapter" />
       <recent name="com.hkshopu.hk.ui.main.product.activity" />
       <recent name="com.hkshopu.hk.ui.main.product.fragment" />
       <recent name="com.hkshopu.hk.ui.main.store.activity" />
-      <recent name="com.hkshopu.hk.data.bean" />
-      <recent name="com.hkshopu.hk.ui.main.store.adapter" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.hkshopu.hk.ui.main.product.activity" />
+      <recent name="com.hkshopu.hk.ui.main.product.fragment" />
       <recent name="com.hkshopu.hk.ui" />
       <recent name="com.hkshopu.hk.ui.main" />
     </key>
@@ -212,7 +208,7 @@
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
         <option name="SHOW_STATIC_VARS" value="true" />
@@ -270,7 +266,7 @@
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
         <option name="SHOW_STATIC_VARS" value="true" />
@@ -328,7 +324,7 @@
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
         <option name="SHOW_STATIC_VARS" value="true" />
@@ -399,89 +395,101 @@
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="204" y="107" key="#PSD/93.0.1187.720@93.0.1187.720" timestamp="1620878364277" />
-    <state x="279" y="2" key="#Plugins" timestamp="1620874998685">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="379" y="3" key="#Plugins" timestamp="1621858655655">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="279" y="2" key="#Plugins/93.0.1187.720@93.0.1187.720" timestamp="1620874998685" />
+    <state x="379" y="3" key="#Plugins/93.0.1827.1080@93.0.1827.1080" timestamp="1621858655655" />
     <state x="417" y="116" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1621579684346">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="417" y="116" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/93.0.1187.720@93.0.1187.720" timestamp="1621579684346" />
-    <state x="473" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1621600686695">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="678" y="116" key="#com.intellij.ide.util.MemberChooser" timestamp="1621780311879">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="473" y="77" key="#com.intellij.ide.util.MemberChooser/93.0.1187.720@93.0.1187.720" timestamp="1621600686695" />
+    <state x="678" y="116" key="#com.intellij.ide.util.MemberChooser/93.0.1827.1080@93.0.1827.1080" timestamp="1621780311878" />
     <state x="367" y="96" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1620874496842">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="367" y="96" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/93.0.1187.720@93.0.1187.720" timestamp="1620874496842" />
-    <state x="525" y="190" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1621516515769">
+    <state x="525" y="190" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1621936368930">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state x="323" y="-777" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620789610925" />
-    <state x="525" y="190" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/93.0.1187.720@93.0.1187.720" timestamp="1621516515769" />
-    <state x="417" y="149" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1621517131054">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="525" y="190" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/93.0.1187.720@93.0.1187.720" timestamp="1621936368930" />
+    <state x="592" y="224" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1621852307927">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="149" y="-837" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621153251493" />
     <state x="417" y="149" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/93.0.1187.720@93.0.1187.720" timestamp="1621517131054" />
-    <state x="467" y="116" key="FileChooserDialogImpl" timestamp="1621612999119">
+    <state x="592" y="224" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/93.0.1827.1080@93.0.1827.1080" timestamp="1621852307927" />
+    <state x="266" y="115" key="AndroidCreateResourceFileDialog" timestamp="1621915525687">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
+    <state x="266" y="115" key="AndroidCreateResourceFileDialog/93.0.1187.720@93.0.1187.720" timestamp="1621915525687" />
+    <state x="669" y="174" key="FileChooserDialogImpl" timestamp="1622043885252">
+      <screen x="93" y="0" width="1828" height="1080" />
+    </state>
     <state x="467" y="116" key="FileChooserDialogImpl/93.0.1187.720@93.0.1187.720" timestamp="1621612999119" />
-    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1620778451371" />
-    <state width="1143" height="254" key="GridCell.Tab.0.bottom" timestamp="1621624969408">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1827.1080@93.0.1827.1080" timestamp="1621853371980" />
+    <state x="669" y="174" key="FileChooserDialogImpl/93.0.1828.1080@93.0.1828.1080" timestamp="1622043885252" />
+    <state width="1784" height="185" key="GridCell.Tab.0.bottom" timestamp="1622053145919">
+      <screen x="93" y="0" width="1828" height="1080" />
     </state>
     <state width="1876" height="251" key="GridCell.Tab.0.bottom/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621327412825" />
     <state width="1236" height="251" key="GridCell.Tab.0.bottom/0.25.1280.775@0.25.1280.775" timestamp="1620866813748" />
-    <state width="1143" height="254" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1621624969408" />
-    <state width="867" height="246" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107517" />
-    <state width="1143" height="254" key="GridCell.Tab.0.center" timestamp="1621624969408">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state width="1144" height="11" key="GridCell.Tab.0.bottom/93.0.1187.720@93.0.1187.720" timestamp="1621971546665" />
+    <state width="1784" height="118" key="GridCell.Tab.0.bottom/93.0.1827.1080@93.0.1827.1080" timestamp="1621857361158" />
+    <state width="1784" height="185" key="GridCell.Tab.0.bottom/93.0.1828.1080@93.0.1828.1080" timestamp="1622053145919" />
+    <state width="1784" height="185" key="GridCell.Tab.0.center" timestamp="1622053145919">
+      <screen x="93" y="0" width="1828" height="1080" />
     </state>
     <state width="1876" height="251" key="GridCell.Tab.0.center/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621327412824" />
     <state width="1236" height="251" key="GridCell.Tab.0.center/0.25.1280.775@0.25.1280.775" timestamp="1620866813747" />
-    <state width="1143" height="254" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1621624969408" />
-    <state width="867" height="246" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
-    <state width="1143" height="254" key="GridCell.Tab.0.left" timestamp="1621624969408">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state width="1144" height="11" key="GridCell.Tab.0.center/93.0.1187.720@93.0.1187.720" timestamp="1621971546665" />
+    <state width="1784" height="118" key="GridCell.Tab.0.center/93.0.1827.1080@93.0.1827.1080" timestamp="1621857361158" />
+    <state width="1784" height="185" key="GridCell.Tab.0.center/93.0.1828.1080@93.0.1828.1080" timestamp="1622053145919" />
+    <state width="1784" height="185" key="GridCell.Tab.0.left" timestamp="1622053145919">
+      <screen x="93" y="0" width="1828" height="1080" />
     </state>
     <state width="1876" height="251" key="GridCell.Tab.0.left/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621327412823" />
     <state width="1236" height="251" key="GridCell.Tab.0.left/0.25.1280.775@0.25.1280.775" timestamp="1620866813747" />
-    <state width="1143" height="254" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1621624969408" />
-    <state width="867" height="246" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
-    <state width="1143" height="254" key="GridCell.Tab.0.right" timestamp="1621624969408">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state width="1144" height="11" key="GridCell.Tab.0.left/93.0.1187.720@93.0.1187.720" timestamp="1621971546665" />
+    <state width="1784" height="118" key="GridCell.Tab.0.left/93.0.1827.1080@93.0.1827.1080" timestamp="1621857361158" />
+    <state width="1784" height="185" key="GridCell.Tab.0.left/93.0.1828.1080@93.0.1828.1080" timestamp="1622053145919" />
+    <state width="1784" height="185" key="GridCell.Tab.0.right" timestamp="1622053145919">
+      <screen x="93" y="0" width="1828" height="1080" />
     </state>
     <state width="1876" height="251" key="GridCell.Tab.0.right/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621327412825" />
     <state width="1236" height="251" key="GridCell.Tab.0.right/0.25.1280.775@0.25.1280.775" timestamp="1620866813748" />
-    <state width="1143" height="254" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1621624969408" />
-    <state width="867" height="246" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1620778107516" />
-    <state width="1143" height="254" key="GridCell.Tab.1.bottom" timestamp="1620907447227">
+    <state width="1144" height="11" key="GridCell.Tab.0.right/93.0.1187.720@93.0.1187.720" timestamp="1621971546665" />
+    <state width="1784" height="118" key="GridCell.Tab.0.right/93.0.1827.1080@93.0.1827.1080" timestamp="1621857361158" />
+    <state width="1784" height="185" key="GridCell.Tab.0.right/93.0.1828.1080@93.0.1828.1080" timestamp="1622053145919" />
+    <state width="1143" height="44" key="GridCell.Tab.1.bottom" timestamp="1621625903946">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state width="1876" height="279" key="GridCell.Tab.1.bottom/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620824411460" />
     <state width="1236" height="251" key="GridCell.Tab.1.bottom/0.25.1280.775@0.25.1280.775" timestamp="1620866813750" />
-    <state width="1143" height="254" key="GridCell.Tab.1.bottom/93.0.1187.720@93.0.1187.720" timestamp="1620907447227" />
-    <state width="1143" height="254" key="GridCell.Tab.1.center" timestamp="1620907447227">
+    <state width="1143" height="44" key="GridCell.Tab.1.bottom/93.0.1187.720@93.0.1187.720" timestamp="1621625903946" />
+    <state width="1143" height="44" key="GridCell.Tab.1.center" timestamp="1621625903946">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state width="1876" height="279" key="GridCell.Tab.1.center/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620824411458" />
     <state width="1236" height="251" key="GridCell.Tab.1.center/0.25.1280.775@0.25.1280.775" timestamp="1620866813749" />
-    <state width="1143" height="254" key="GridCell.Tab.1.center/93.0.1187.720@93.0.1187.720" timestamp="1620907447227" />
-    <state width="1143" height="254" key="GridCell.Tab.1.left" timestamp="1620907447227">
+    <state width="1143" height="44" key="GridCell.Tab.1.center/93.0.1187.720@93.0.1187.720" timestamp="1621625903946" />
+    <state width="1143" height="44" key="GridCell.Tab.1.left" timestamp="1621625903946">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state width="1876" height="279" key="GridCell.Tab.1.left/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620824411454" />
     <state width="1236" height="251" key="GridCell.Tab.1.left/0.25.1280.775@0.25.1280.775" timestamp="1620866813749" />
-    <state width="1143" height="254" key="GridCell.Tab.1.left/93.0.1187.720@93.0.1187.720" timestamp="1620907447227" />
-    <state width="1143" height="254" key="GridCell.Tab.1.right" timestamp="1620907447227">
+    <state width="1143" height="44" key="GridCell.Tab.1.left/93.0.1187.720@93.0.1187.720" timestamp="1621625903946" />
+    <state width="1143" height="44" key="GridCell.Tab.1.right" timestamp="1621625903946">
       <screen x="93" y="0" width="1187" height="720" />
     </state>
     <state width="1876" height="279" key="GridCell.Tab.1.right/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620824411460" />
     <state width="1236" height="251" key="GridCell.Tab.1.right/0.25.1280.775@0.25.1280.775" timestamp="1620866813750" />
-    <state width="1143" height="254" key="GridCell.Tab.1.right/93.0.1187.720@93.0.1187.720" timestamp="1620907447227" />
+    <state width="1143" height="44" key="GridCell.Tab.1.right/93.0.1187.720@93.0.1187.720" timestamp="1621625903946" />
     <state x="173" y="-781" key="IDE.errors.dialog" timestamp="1621325529952">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
@@ -494,6 +502,10 @@
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
     <state x="379" y="-746" key="chooseDestDirectoryDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1621330170609" />
+    <state x="496" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1621918135467">
+      <screen x="93" y="0" width="1187" height="720" />
+    </state>
+    <state x="496" y="273" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/93.0.1187.720@93.0.1187.720" timestamp="1621918135467" />
     <state width="300" height="36" key="javadoc.popup.new" timestamp="1621331407286">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
@@ -503,24 +515,16 @@
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
     <state x="415" y="-726" key="refactoring.ChangeSignatureDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1620790238711" />
-    <state x="343" y="161" key="run.anything.popup" timestamp="1621534154309">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="478" y="242" key="run.anything.popup" timestamp="1621788207114">
+      <screen x="93" y="0" width="1827" height="1080" />
     </state>
     <state x="343" y="161" key="run.anything.popup/93.0.1187.720@93.0.1187.720" timestamp="1621534154309" />
-    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1621576201464">
-      <screen x="93" y="0" width="1187" height="720" />
+    <state x="478" y="242" key="run.anything.popup/93.0.1827.1080@93.0.1827.1080" timestamp="1621788207114" />
+    <state x="487" y="62" width="1035" height="1017" key="search.everywhere.popup" timestamp="1622044116908">
+      <screen x="93" y="0" width="1828" height="1080" />
     </state>
-    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup/93.0.1187.720@93.0.1187.720" timestamp="1621576201464" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/hkshopu/hk/ui/user/activity/AddressEditActivity.kt</url>
-          <line>291</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="349" y="41" width="672" height="678" key="search.everywhere.popup/93.0.1187.720@93.0.1187.720" timestamp="1621961519813" />
+    <state x="487" y="62" width="1035" height="1017" key="search.everywhere.popup/93.0.1827.1080@93.0.1827.1080" timestamp="1621840693402" />
+    <state x="487" y="62" width="1035" height="1017" key="search.everywhere.popup/93.0.1828.1080@93.0.1828.1080" timestamp="1622044116908" />
   </component>
 </project>

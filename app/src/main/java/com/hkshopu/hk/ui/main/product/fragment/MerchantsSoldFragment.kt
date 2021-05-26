@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -13,12 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.hkshopu.hk.R
+import com.hkshopu.hk.component.EventProductDelete
 import com.hkshopu.hk.component.EventProductSearch
+import com.hkshopu.hk.component.EventRefreshShopList
 import com.hkshopu.hk.component.EventdeleverFragmentAfterUpdateStatus
 import com.hkshopu.hk.data.bean.MyProductBean
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
+import com.hkshopu.hk.ui.main.product.fragment.ProductDeleteApplyDialogFragment
 import com.hkshopu.hk.ui.main.store.adapter.MyProductsAdapter
 import com.hkshopu.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
@@ -28,20 +33,21 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
-class MerchantsOndeckFragment: Fragment() {
+class MerchantsSoldFragment : Fragment() {
 
     companion object {
-        fun newInstance(): MerchantsOndeckFragment {
+        fun newInstance(): MerchantsSoldFragment {
             val args = Bundle()
-            val fragment = MerchantsOndeckFragment()
+            val fragment = MerchantsSoldFragment()
             fragment.arguments = args
             return fragment
         }
     }
-    var shopId : Int = 0
 
+    var shopId: Int = 0
     lateinit var recyclerview_myProducts: RecyclerView
-    private val adapter = MyProductsAdapter(this,"active")
+    lateinit var progressBar: ProgressBar
+    private val adapter = MyProductsAdapter(this, "active")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,12 +56,16 @@ class MerchantsOndeckFragment: Fragment() {
         val v = inflater.inflate(R.layout.fragment_my_products, container, false)
 
         recyclerview_myProducts = v.findViewById<RecyclerView>(R.id.recyclerview_myProducts)
+        progressBar = v.findViewById(R.id.progressBar)
+        progressBar.isVisible = false
         initRecyclerView()
 
         shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
         Log.d("mkjgjs", shopId.toString())
 
-        getMyProductsList(shopId.toString(), "none", "active", "1")
+        getMyProductsList(shopId.toString(), "none", "actiive", "0")
+
+        adapter.onOff_editStatus(false)
 
         initEvent()
 
@@ -78,7 +88,6 @@ class MerchantsOndeckFragment: Fragment() {
             ft.replace(R.id.layout_shopInfo, newFragment, "ShopInfoFragment")
             ft.commit()
         }
-
 
     }
 
@@ -128,11 +137,9 @@ class MerchantsOndeckFragment: Fragment() {
 //                        initRecyclerView()
 
                 } catch (e: JSONException) {
-                    Log.d("getMyProductsList", "JSONException：" + e)
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("getMyProductsList", "IOException：" + e)
                 }
             }
 
@@ -143,9 +150,11 @@ class MerchantsOndeckFragment: Fragment() {
         web.Get_Data(url)
     }
 
+    var keyword: String=""
+
     @SuppressLint("CheckResult")
     fun initEvent() {
-        var keyword: String
+
         RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
             .subscribe({
                 when (it) {
@@ -153,19 +162,59 @@ class MerchantsOndeckFragment: Fragment() {
 
                         keyword = it.keyword
 
-                        if(keyword.equals("")){
-                            keyword = "none"
-                        }
+                        Thread(Runnable {
 
-                        getMyProductsList(shopId.toString(), keyword, "active", "1")
+                            if(keyword.equals("")){
+                                keyword = "none"
+                            }
+
+
+                            getMyProductsList(shopId.toString(), keyword, "active", "0")
+
+                            activity?.runOnUiThread {
+                                adapter.notifyDataSetChanged()
+                            }
+
+                        }).start()
 
                     }
 
                     is EventdeleverFragmentAfterUpdateStatus -> {
                         var action = it.action
 
-                        getMyProductsList(shopId.toString(), "none", "active", "1")
-                        adapter.notifyDataSetChanged()
+
+
+                        Thread(Runnable {
+
+                            activity?.runOnUiThread {
+                                progressBar.isVisible = true
+                            }
+                            if(keyword.equals("")){
+                                keyword = "none"
+                            }
+
+                            try{
+                                Thread.sleep(300)
+                            } catch (e: InterruptedException) {
+                                e.printStackTrace()
+                            }
+
+                            getMyProductsList(shopId.toString(), keyword, "active", "0")
+
+
+
+
+                            activity?.runOnUiThread {
+                                adapter.notifyDataSetChanged()
+                                progressBar.isVisible = false
+                            }
+
+                        }).start()
+                    }
+                    is EventProductDelete -> {
+                        var boolean = it.boolean
+
+                        adapter.onOff_editStatus(boolean)
 
                     }
 
@@ -176,6 +225,5 @@ class MerchantsOndeckFragment: Fragment() {
             })
 
     }
-
 
 }

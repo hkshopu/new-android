@@ -145,11 +145,23 @@ class AddShopAddressActivity : BaseActivity() {
 
         binding.tvCreateshop.setOnClickListener {
             var sErrorMsg = ""
+            if (companyName.isEmpty()) {
+                sErrorMsg = """
+            $sErrorMsg${getString(R.string.shopname_input)}
+            
+            """.trimMargin()
+            }
+            if (phone_number.isEmpty()) {
+                sErrorMsg = """
+            $sErrorMsg${getString(R.string.shopphone_input)}
+            
+            """.trimIndent()
+            }
             if (country.isEmpty()) {
                 sErrorMsg = """
             $sErrorMsg${getString(R.string.region_input)}
             
-            """.trimMargin()
+            """.trimIndent()
             }
             if (admin.isEmpty()) {
                 sErrorMsg = """

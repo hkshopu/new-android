@@ -75,7 +75,7 @@ class AddShopBriefActivity : BaseActivity() {
     private fun initView(){
         binding.tvAddshopbriefName.text = shoptitle
         binding.etAddshopbrief.doAfterTextChanged {
-            description =  binding.etAddshopbrief.text.toString()
+            description = binding.etAddshopbrief.text.toString().replace("\n", "", false)
         }
     }
     private fun initVM() {
@@ -246,8 +246,8 @@ class AddShopBriefActivity : BaseActivity() {
                         val bitmap =
                             MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
                         if (bitmap != null) {
-                            binding.ivNoimage.visibility = View.INVISIBLE
-                            binding!!.ivShopimage.setImageBitmap(bitmap)
+                            binding.ivNoimage.visibility = View.GONE
+                            binding.ivShopimage.setImageBitmap(bitmap)
 
                             isSelectImage = true
                             val file = processImage()
@@ -262,8 +262,8 @@ class AddShopBriefActivity : BaseActivity() {
                         val bitmap = ImageDecoder.decodeBitmap(source)
                         if (bitmap != null) {
                             runOnUiThread {
-                                binding.ivNoimage.visibility = View.INVISIBLE
-                                binding!!.ivShopimage.setImageBitmap(bitmap)
+                                binding.ivNoimage.visibility = View.GONE
+                                binding.ivShopimage.setImageBitmap(bitmap)
                                 val file = processImage()
                                 doShopBgUpdate(file!!)
                             }

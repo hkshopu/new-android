@@ -106,7 +106,7 @@
     <string name="countryinput">＋國碼</string>
     <string name="hk">＋852</string>
     <string name="logout">登出</string>
-    <string name="currency">HKD</string>
+    <string name="currency">HKD$</string>
     <string name="PLACES_API_KEY">AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw</string>
     <string name="nextstep">下一步</string>
     <string name="note">通知</string>
@@ -555,5 +555,15 @@
     <string name="store_delete">已確認刪除店鋪</string>
     <string name="store_orders">請先完成進行中的訂單再申請刪除店鋪</string>
     <string name="store_restore">若是需要恢復店鋪，請前往幫助中心查看恢復方式。</string>
+
+    <!--    刪除商品-->
+    <string name="product_delete_apply">刪除產品</string>
+    <string name="product_delete_apply_note">商品一旦刪除，即不會再恢復囉！ 確定要刪除此商品嗎？</string>
+
+    <!--    上下架商品-->
+    <string name="product_active_apply">確定要上架商品嗎？</string>
+    <string name="product_draft_apply">確定要下架商品嗎？</string>
+    <string name="product_draft_apply_note">下架商品後仍能在“未上架”中找到儲存的資訊。</string>
+
 
 </resources>

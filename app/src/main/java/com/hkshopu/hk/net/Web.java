@@ -91,6 +91,30 @@ public class Web {
         });
     }
 
+    public void Delete_Product(String url) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .build();
+        Request request = new Request.Builder().url(url).post(formBody).build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
+
 
     public void Do_SocialLogin(String url,String email , String facebook_account, String google_account,String apple_account) {
 

@@ -79,7 +79,7 @@ class ShopNameEditActivity : BaseActivity(){
         }
 
         binding.tvSave.setOnClickListener {
-            Log.d("hfdjdshfd", "shopName_old : ${shopName_old.toString()}" + " ; shopName : ${shopName.toString()}")
+//            Log.d("hfdjdshfd", "shopName_old : ${shopName_old}" + " ; shopName : ${shopName}")
             if(shopName.isEmpty()){
                 doShopTitleUpdate(shopName_old)
             }else{
