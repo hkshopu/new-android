@@ -30,6 +30,7 @@ import com.hkshopu.hk.databinding.ActivityOnboardBinding
 import com.hkshopu.hk.net.ApiConstants
 import com.hkshopu.hk.net.Web
 import com.hkshopu.hk.net.WebListener
+import com.hkshopu.hk.ui.main.product.activity.ProductDetailedPageBuyerViewActivity
 import com.hkshopu.hk.ui.user.activity.BuildAccountActivity
 import com.hkshopu.hk.ui.user.activity.LoginActivity
 import com.hkshopu.hk.ui.user.vm.AuthVModel
@@ -229,7 +230,7 @@ class OnBoardActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             val intent = Intent(this, ShopmenuActivity::class.java)
             startActivity(intent)
 
-//            val intent = Intent(this, AddNewProductActivity::class.java)
+//            val intent = Intent(this, ProductDetailedPageBuyerViewActivity::class.java)
 //            startActivity(intent)
 //            finish()
 

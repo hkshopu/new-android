@@ -132,6 +132,7 @@
                             android:layout_height="wrap_content"
                             android:text="我的店舖"
                             android:textColor="@color/black"
+                            android:maxLines="2"
                             android:textSize="18sp" />
 
                         <ImageView
@@ -292,7 +293,7 @@
                     app:tabTextAppearance="@style/CustomTabText"
                     android:elevation="10dp"
                     android:outlineSpotShadowColor="@color/hkshop_color"
-                    app:tabTextColor="@color/gray_txt" />
+                    app:tabTextColor="@color/bright_gray" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/mviewPager"

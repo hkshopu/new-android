@@ -64,14 +64,14 @@ class InventoryAndPriceSizeNestedAdapter(var unAssignList: MutableList<ItemInven
                 textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.black))
                 textView_value_price.setTextColor(itemView.context.resources.getColor(R.color.black))
             }else{
-                textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                textView_value_price.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                textView_value_price.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
             }
 
             if (!item.quantity.equals("")){
                 textView_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.black))
             }else{
-                textView_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                textView_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
             }
 
 

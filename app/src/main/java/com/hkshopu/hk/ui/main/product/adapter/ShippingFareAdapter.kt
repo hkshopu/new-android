@@ -306,9 +306,9 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
             if(item.onoff == "on"){
 
                 if(editText_shipping_fare.text.toString().isNullOrEmpty()){
-                    textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                    editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                    editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                    textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                    editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                    editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.bright_gray))
                 }else{
                     textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
                     editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.hkshop_color))
@@ -317,9 +317,9 @@ class ShippingFareAdapter(var activity: Activity): RecyclerView.Adapter<Shipping
 
             }else{
 
-                textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                textView_HKdolors.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                editText_shipping_fare.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                editText_shipping_fare.setHintTextColor(itemView.context.resources.getColor(R.color.bright_gray))
 
             }
 

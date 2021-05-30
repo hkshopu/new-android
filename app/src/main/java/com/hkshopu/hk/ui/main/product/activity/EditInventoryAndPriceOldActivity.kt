@@ -1157,8 +1157,8 @@ class EditInventoryAndPriceOldActivity : BaseActivity(), TextWatcher{
 
                 if(editText.text.toString() == "" ){
 //                    editText.setText("0")
-                    editText.setTextColor(resources.getColor(R.color.gray_txt))
-                    textView.setTextColor(resources.getColor(R.color.gray_txt))
+                    editText.setTextColor(resources.getColor(R.color.bright_gray))
+                    textView.setTextColor(resources.getColor(R.color.bright_gray))
 
                 }else{
                     editText.setTextColor(resources.getColor(R.color.black))
@@ -1181,8 +1181,8 @@ class EditInventoryAndPriceOldActivity : BaseActivity(), TextWatcher{
                     if(editText.text.toString() == "" ){
 
 //                        editText.setText("0")
-                        editText.setTextColor(resources.getColor(R.color.gray_txt))
-                        textView.setTextColor(resources.getColor(R.color.gray_txt))
+                        editText.setTextColor(resources.getColor(R.color.bright_gray))
+                        textView.setTextColor(resources.getColor(R.color.bright_gray))
 
                     }else{
                         editText.setTextColor(resources.getColor(R.color.black))
@@ -1247,7 +1247,7 @@ class EditInventoryAndPriceOldActivity : BaseActivity(), TextWatcher{
                 if(editText.text.toString() == "" ){
 
 //                    editText.setText("0")
-                    editText.setTextColor(resources.getColor(R.color.gray_txt))
+                    editText.setTextColor(resources.getColor(R.color.bright_gray))
 
                 }else{
                     editText.setTextColor(resources.getColor(R.color.black))
@@ -1268,7 +1268,7 @@ class EditInventoryAndPriceOldActivity : BaseActivity(), TextWatcher{
 
                     if(editText.text.toString() == "" ){
 //                        editText.setText("0")
-                        editText.setTextColor(resources.getColor(R.color.gray_txt))
+                        editText.setTextColor(resources.getColor(R.color.bright_gray))
                     }else{
                         editText.setTextColor(resources.getColor(R.color.black))
                     }

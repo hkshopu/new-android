@@ -311,7 +311,7 @@ class AddShopActivity : BaseActivity() {
 
 
     private fun initEditText() {
-        binding.etShopname.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(15)))
+        binding.etShopname.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(50)))
         binding.etShopname.doAfterTextChanged {
             shopName = binding.etShopname.text.toString()
 

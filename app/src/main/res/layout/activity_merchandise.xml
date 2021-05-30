@@ -53,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:weightSum="2"
+        android:elevation="10dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -336,13 +337,12 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:clipToPadding="false">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/r_view_inventory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:paddingBottom="8dp"
                     android:clipToPadding="false"/>
             </RelativeLayout>
 
@@ -1545,7 +1545,6 @@
                 android:paddingLeft="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-
                 android:paddingTop="10dp"
                 android:elevation="10dp"
                 android:outlineSpotShadowColor="@color/hkshop_color"
@@ -1723,7 +1722,7 @@
                 android:elevation="10dp"
                 android:outlineSpotShadowColor="@color/hkshop_color"
                 android:orientation="vertical">
-                textView_merchan_evaluation
+                textView_merchan_evaluationz
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1733,7 +1732,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text="@string/textView_merchan_evaluation"/>
                     <TextView
                         android:layout_width="wrap_content"

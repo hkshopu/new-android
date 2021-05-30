@@ -408,7 +408,7 @@ class MerchandiseActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
                             if(productInfoList.product_spec_on.equals("y")){
                                 runOnUiThread {
-                                    binding.textViewProductPriceRange.setText("HKD$${productInfoList.shipment_min_price}-HKD$${
+                                    binding.textViewProductPriceRange.setText("HKD$${productInfoList.shipment_min_price}-${
                                         productInfoList.shipment_max_price
                                     }")
                                 }

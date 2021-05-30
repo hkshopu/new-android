@@ -80,8 +80,8 @@ class InventoryAndPriceSpecAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder
                         textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.black))
                         editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.black))
                     }else{
-                        textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                        editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                        textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                        editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
                     }
 
                 }
@@ -98,7 +98,7 @@ class InventoryAndPriceSpecAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (!s.toString().equals("")){
                         editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.black))
                     }else{
-                        editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                        editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
                     }
 
 
@@ -198,14 +198,14 @@ class InventoryAndPriceSpecAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder
                 textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.black))
                 editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.black))
             }else{
-                textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
-                editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                textView_Hkdollars.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
+                editText_value_price.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
             }
 
             if (!item.quantity.equals("")){
                 editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.black))
             }else{
-                editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.gray_txt))
+                editText_value_quantity.setTextColor(itemView.context.resources.getColor(R.color.bright_gray))
             }
 
 

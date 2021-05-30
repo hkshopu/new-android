@@ -116,7 +116,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="top"
                 android:hint="@string/addbrief"
-                android:textColorHint="@color/gray_txt" />
+                android:textColorHint="@color/bright_gray" />
 
             <TextView
                 android:id="@+id/tv_addshopbrief_contact"

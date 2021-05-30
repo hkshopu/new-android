@@ -565,5 +565,8 @@
     <string name="product_draft_apply">確定要下架商品嗎？</string>
     <string name="product_draft_apply_note">下架商品後仍能在“未上架”中找到儲存的資訊。</string>
 
-
+<!--    商品(買家)-->
+    <string name="products_quantity">商品數量 : </string>
+    <string name="days_for_stocking">較長備貨天數 : </string>
+    <string name="quantity">數量</string>
 </resources>
