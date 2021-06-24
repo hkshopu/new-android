@@ -50,5 +50,6 @@
     <color name="selected_points_products">#8E8E93</color>
 <!--    商品(買家)-->
     <color name="bright_red">#FC4D3F</color>
-
+    <color name="light_gray_F6F6F6">#F6F6F6</color>
+    <color name="light_gray_E5E5EA">#E5E5EA</color>
 </resources>

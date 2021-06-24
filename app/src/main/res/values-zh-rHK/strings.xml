@@ -105,7 +105,7 @@
     <string name="shopphone_countryinput">＋請輸入國碼</string>
     <string name="shopphone_input">請輸入電話號碼</string>
     <string name="countryinput">＋國碼</string>
-    <string name="hk">852</string>
+    <string name="hk">+852</string>
     <string name="logout">登出</string>
     <string name="currency">HKD$</string>
     <string name="ad">廣告與行銷活動</string>
@@ -533,7 +533,7 @@
 
 
     <!--    我的商品-->
-    <string name="hkd_dollarSign">HKD$ </string>
+    <string name="hkd_dollarSign">HKD$</string>
 
     <!--    店舖地址-->
     <string name="region">地域</string>
@@ -564,4 +564,26 @@
     <string name="products_quantity">商品數量 : </string>
     <string name="days_for_stocking">較長備貨天數 : </string>
     <string name="quantity">數量</string>
+    <string name="products_specification_choosing">請選擇產品規格</string>
+    <string name="logistics_choosing">請選擇收件方式</string>
+    <string name="logistics_fare">運費 : </string>
+    <string name="following_count">人關注</string>
+
+    <!--    購物車-->
+    <string name="title_shoppingCart">購物車</string>
+    <string name="seleting_all">全選</string>
+    <string name="sum_price">總金額</string>
+    <string name="product_price_total">商品合計</string>
+    <string name="payment_detail">付款明細</string>
+    <string name="commdity_total">商品總計</string>
+    <string name="freight_total">運費總計</string>
+    <string name="select_payment_method_first_please">請先選擇付款方式</string>
+
+    <!--    應用程式更新-->
+    <string name="upadte_notify">更新通知</string>
+    <string name="upadte_notify_content">
+        有新的更新項目現在可供使用!\n
+        透過行動網路下載可能產生額外費用。</string>
+
+
 </resources>

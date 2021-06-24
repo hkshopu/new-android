@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_shopaddressEdit"
+    android:background="@color/color_shopbg"
     android:importantForAutofill="noExcludeDescendants">
 
     <RelativeLayout
         android:id="@+id/layout_shopaddressEditTitle"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp">
 
         <ImageView
@@ -17,14 +18,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:padding="8dp"
             android:layout_marginStart="18dp"
             android:src="@mipmap/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:gravity="center"
+            android:textColor="@color/dark_gray"
             android:text="@string/title_addaddress"
             android:textSize="18sp" />
 
@@ -84,6 +88,7 @@
             android:textColorHint="@color/colorTextlightGray"
             android:inputType="text"
             android:singleLine="true"
+            android:imeOptions="actionDone"
             android:paddingStart="20dp"
             android:paddingEnd="0dp"
             android:textSize="14sp"
@@ -129,7 +134,7 @@
                 android:background="@drawable/bg_edit_shopaddress"
                 android:text="@string/hk"
                 android:gravity="center"
-                android:textColor="@color/colorTextlightGray"
+                android:textColor="@color/hkshop_color"
                 android:textSize="14sp" />
 
             <EditText
@@ -138,10 +143,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:paddingStart="24dp"
                 android:paddingEnd="0dp"
                 android:hint="@string/shopphone_input"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:textSize="14sp" />
@@ -186,6 +195,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/region"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -198,12 +211,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:layout_marginStart="18dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/admin"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
-                android:paddingLeft="16dp"
                 android:textSize="14sp"/>
         </LinearLayout>
 
@@ -223,8 +239,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_weight="5"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/thoroughfare"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -236,9 +256,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_weight="7"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:layout_marginStart="18dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/feature"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -260,8 +284,12 @@
                 android:id="@+id/editsubaddress"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/subaddress"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -286,8 +314,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/floor"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -302,6 +334,8 @@
                 android:layout_marginStart="18dp"
                 android:background="@drawable/bg_edit_shopaddress"
                 android:hint="@string/room"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/colorTextlightGray"
                 android:inputType="text"
                 android:paddingStart="16dp"
@@ -310,16 +344,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_save"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:src="@mipmap/ic_save_en"
-        android:contentDescription="@string/empty"
-        android:layout_below="@id/layout_shopaddressHead"
-        android:layout_marginTop="176dp"/>
+        android:layout_marginBottom="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>
