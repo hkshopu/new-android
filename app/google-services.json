@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "349041949227-fghjd31kndfnt8k477ad5fmo4b2dvf5k.apps.googleusercontent.com",
+          "client_id": "349041949227-n4ognscte7k1juc5hhuhc7el8li3ihi9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hkshopu.hk",
-            "certificate_hash": "da0a23b8e31b2b118795ac9dab5a72d1cd213fa9"
+            "certificate_hash": "1c82ad4bb653e557950b00b3ea510d3b86701214"
           }
         },
         {
@@ -28,15 +28,22 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCaggzX2T2Jk2ef6ONP7Uox41NpGCzZ0Tw"
+          "current_key": "AIzaSyAAMNlG9iUWfW7sAB9XDjlCAmhOCcynYew"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "349041949227-s256gh6plcud15n64efuqddk8ngv5rcj.apps.googleusercontent.com",
+              "client_id": "349041949227-gra2seekpmkpol875513v9un25np2774.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "349041949227-2bp84a9l88678334ggb6dddfi5fnj447.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.times-transform.LaunchScreenTest"
+              }
             }
           ]
         }

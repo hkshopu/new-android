@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/color_shopbg"
     tools:context=".ui.main.product.activity.EditProductActivity">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
     <RelativeLayout
         android:id="@+id/titleBar"
         android:layout_alignParentTop="true"
@@ -27,6 +38,7 @@
             android:textSize="18sp"
             android:textColor="@color/dark_gray"
             android:layout_centerInParent="true"/>
+
 
     </RelativeLayout>
 
@@ -123,9 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtView_productdescription"
                     android:hint="@string/hint_editproductdescription"
+                    android:singleLine="false"
                     android:layout_marginTop="8dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:textSize="14sp"
                     android:background="@color/white"/>
             </RelativeLayout>
@@ -448,7 +459,7 @@
                         android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text=""/>
 
                     <ImageView
@@ -487,6 +498,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:visibility="gone"
                 android:background="@drawable/customborder_addproduct"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -516,6 +528,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:elevation="10dp"
                 android:outlineSpotShadowColor="@color/hkshop_color"
                 android:background="@drawable/customborder_addproduct"
@@ -554,6 +567,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:visibility="gone"
                 android:background="@drawable/customborder_addproduct"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -598,6 +612,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:visibility="gone"
                 android:background="@drawable/customborder_addproduct"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -660,7 +675,7 @@
             android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:layout_weight="1"
-            android:src="@mipmap/btn_store"/>
+            android:src="@mipmap/btn_store_product_coloful"/>
         <ImageView
             android:id="@+id/btn_on_shelf"
             android:layout_width="match_parent"

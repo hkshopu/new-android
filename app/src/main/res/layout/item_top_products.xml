@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_hotsaleproduct"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:layout_marginBottom="8dp"
+   >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/customborder_addproduct">
+
+    <RelativeLayout
+        android:id="@+id/layout_product"
+        android:layout_width="168dp"
+        android:layout_height="148dp"
+        android:background="@color/colordivideline">
+
+
+        <com.rishabhharit.roundedimageview.RoundedImageView
+            android:id="@+id/iv_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_no_image"
+            app:cornerRadius="8dp"
+            app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"/>
+
+        <ImageView
+            android:id="@+id/iv_product_like"
+            android:layout_width="20dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_heart_white" />
+
+        <ImageView
+            android:id="@+id/iv_product_like_click"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_productname"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_product"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="010 SOUL香水" />
+
+    <TextView
+        android:id="@+id/tv_shopname"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_productname"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="ONE DAY" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_shopname"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="HKD$ 1,905"
+        android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

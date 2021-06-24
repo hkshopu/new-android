@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.store.activity.ShopmenuActivity">
 
-    <com.hkshopu.hk.widget.view.CustomViewPager
+    <com.HKSHOPU.hk.widget.view.CustomViewPager
         android:id="@+id/view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"

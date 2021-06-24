@@ -43,20 +43,20 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
             android:src="@mipmap/ic_notification_white" />
 
         <TextView
             android:id="@+id/tv_notifycount"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/customborder_round_turquise"
             android:gravity="center"
-            android:text="1"
+            android:text="99"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
@@ -116,7 +116,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="top"
                 android:hint="@string/addbrief"
-                android:textColorHint="@color/gray_txt" />
+                android:textColorHint="@color/bright_gray" />
 
             <TextView
                 android:id="@+id/tv_addshopbrief_contact"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addshopbrief"
                 android:layout_marginStart="36dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/contact"
                 android:textSize="14sp"
                 android:visibility="gone" />

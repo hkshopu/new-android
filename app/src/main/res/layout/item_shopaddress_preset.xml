@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:orientation="vertical"
-    android:id="@+id/layout_shopaddresspreset">
+    android:id="@+id/layout_shopaddresspreset"
+    android:background="@drawable/customborder_onboard_8dp">
 
         <TextView
             android:id="@+id/tv_shopname"

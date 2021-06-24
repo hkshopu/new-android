@@ -3,8 +3,8 @@
              android:shape="oval">
 
     <size
-        android:width="12dp"
-        android:height="12dp" /> //設置圓形大小
+        android:width="16dp"
+        android:height="16dp" /> //設置圓形大小
 
     <corners android:radius="30dp"/>
 
