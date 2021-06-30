@@ -7,6 +7,6 @@ import com.HKSHOPU.hk.R
 class BuyerAddAddressMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_buyer_add_address_main)
+        setContentView(R.layout.activity_buyeraddaddress)
     }
 }

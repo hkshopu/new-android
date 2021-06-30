@@ -1,4 +1,4 @@
-package com.HKSHOPU.hk.ui.main.store.fragment
+package com.HKSHOPU.hk.ui.main.homepage.fragment
 
 
 import android.Manifest

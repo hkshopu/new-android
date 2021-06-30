@@ -1239,6 +1239,150 @@ public class Web {
         });
     }
 
+    public void Do_UserInfoUpdate(String url, final String user_id, String user_name,final String gender, String birthday,final String phone, String facebook_on_off,final String old_password, String new_password) {
+
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+
+                .addFormDataPart("user_id", user_id)
+                .addFormDataPart("user_name", user_name)
+                .addFormDataPart("gender", gender)
+                .addFormDataPart("birthday", birthday)
+                .addFormDataPart("phone", phone)
+                .addFormDataPart("facebook_on_off", facebook_on_off)
+                .addFormDataPart("old_password", old_password)
+                .addFormDataPart("new_password", new_password)
+                .build();
+//        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+//        Log.d(TAG, "Request ＝ " + requestBody);
+//        Log.d(TAG, "Content ＝ " + bodyToString(request));
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
+
+    public void Do_UserImgUpdate(String url,String userId,File postImg) {
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), postImg);
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user_id",userId)
+                .addFormDataPart("user_pic", postImg.getName(), fileBody)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
+    public void Do_UserAddAddress(String url, final String user_id, final String name, String country_code,final String phone,final String area, String district,final String road, String number,final String other, String floor , String room) {
+        Log.d(TAG, "Do_ShopAdd Url ＝ " + url);
+//        ArrayList<String> shop_category_id = new ArrayList<>();
+//        shop_category_id.add(shop_category_id1);
+//        shop_category_id.add(shop_category_id2);
+//        shop_category_id.add(shop_category_id3);
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user_id", user_id)
+                .addFormDataPart("name", name)
+                .addFormDataPart("country_code", country_code)
+                .addFormDataPart("phone", phone)
+                .addFormDataPart("area", area)
+                .addFormDataPart("district", district)
+                .addFormDataPart("road", road)
+                .addFormDataPart("number", number)
+                .addFormDataPart("other", other)
+                .addFormDataPart("floor", floor)
+                .addFormDataPart("room", room)
+                .build();
+//        RequestBody requestBody = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+//        Log.d(TAG, "Request ＝ " + requestBody);
+//        Log.d(TAG, "Content ＝ " + bodyToString(request));
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
+
+    public void Do_BuyerAddressPreset(String url,String userid,String presetid) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("user_id",userid)
+                .add("user_address_id", presetid)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
     private static String bodyToString(final Request request){
 
         try {

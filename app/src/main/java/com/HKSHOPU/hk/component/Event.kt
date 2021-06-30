@@ -44,13 +44,13 @@ class EventProductDelete(val boolean: Boolean)
 class EventdeleverFragmentAfterUpdateStatus(val action : String)
 class EventRefreshShopInfo
 //Other Events (Not Used)
-
+class EventRefreshUserInfo
 class EventPhoneShow(val show:Boolean,val phone: String? = null)
 
 
 class EventRefreshShopList
 class EventRefreshAddressList
-
+class EventRefreshUserAddressList
 
 class EventToUserProfile
 class EventToShopSearch

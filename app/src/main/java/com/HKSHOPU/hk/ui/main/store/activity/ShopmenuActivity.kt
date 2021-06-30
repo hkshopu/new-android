@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager
 import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.component.*
 import com.HKSHOPU.hk.databinding.ActivityMainBinding
+import com.HKSHOPU.hk.ui.main.buyer.fragment.BuyerProfileFragment
+import com.HKSHOPU.hk.ui.main.homepage.fragment.HomePageFragment
 import com.HKSHOPU.hk.ui.main.store.fragment.*
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 
@@ -42,7 +44,7 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //        if (fragments.isNotEmpty()) return
         val homePageFragment = HomePageFragment.newInstance()
 //        val FirstFragment = ShopInfoFragment.newInstance()
-        val SecondFragment = SecondFragment.newInstance()
+        val SecondFragment = BuyerProfileFragment.newInstance()
         val ShopListFragment = ShopListFragment.newInstance()
         fragments.add(homePageFragment)
         fragments.add(SecondFragment)

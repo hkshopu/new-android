@@ -71,7 +71,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_below="@id/tv_fpspay_title"
-                android:background="@drawable/customborder_onboard_16dp">
+                android:background="@drawable/customborder_onboard_16dp"
+                android:elevation="10dp"
+                android:outlineSpotShadowColor="@color/hkshop_color">
 
                 <ImageView
                     android:id="@+id/iv_company_icon"
@@ -158,7 +160,9 @@
                     android:text="+852"
                     android:textSize="14sp"
                     android:textColor="@color/turquoise"
-                    android:background="@drawable/customborder_onboard_f6_8dp"/>
+                    android:background="@drawable/customborder_onboard_f6_8dp"
+                    android:elevation="10dp"
+                    android:outlineSpotShadowColor="@color/hkshop_color"/>
 
                 <TextView
                     android:id="@+id/tv_phone"
@@ -176,7 +180,9 @@
                     android:text="69923830"
                     android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:background="@drawable/customborder_onboard_f6_8dp"/>
+                    android:background="@drawable/customborder_onboard_f6_8dp"
+                    android:elevation="10dp"
+                    android:outlineSpotShadowColor="@color/hkshop_color"/>
 
             </RelativeLayout>
 

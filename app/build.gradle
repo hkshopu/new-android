@@ -167,5 +167,8 @@ dependencies {
     implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
     implementation 'com.paypal.checkout:android-sdk:0.2.0'
 
+    //Imagepicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
 
 }

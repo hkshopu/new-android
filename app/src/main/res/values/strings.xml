@@ -642,4 +642,14 @@
     <!--   修改個人資訊-->
     <string name="userinfomodify">修改個人資訊</string>
     <string name="modify_immediately">立刻設定</string>
+
+    <!--   profile(買家)-->
+    <string name="order_total">訂單金額：</string>
+    <string name="buyeraddress_input">請輸入您的郵寄地址</string>
+    <string name="buyeraddress_preset">我的地址</string>
+
+    <!--   用戶帳號設定(買家)-->
+    <string name="buyer_info">個人資訊：</string>
+    <string name="buyer_payway">付款方式</string>
+
 </resources>

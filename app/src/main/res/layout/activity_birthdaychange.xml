@@ -61,10 +61,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/customborder_onboard_8dp"
-        >
+        android:elevation="10dp"
+        android:outlineSpotShadowColor="@color/hkshop_color">
 
         <EditText
-            android:id="@+id/edtView_birth"
+            android:id="@+id/etView_birth"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="#00000000"

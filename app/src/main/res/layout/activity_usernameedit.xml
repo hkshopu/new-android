@@ -57,7 +57,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_shopnameEditTitle"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:elevation="10dp"
+        android:outlineSpotShadowColor="@color/hkshop_color"
+
+        >
 
         <EditText
             android:id="@+id/et_usernameedit"

@@ -20,15 +20,13 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class UserSocialAccountSetActivity : BaseActivity() {
+class BuyerSocialAccountSetActivity : BaseActivity() {
     private lateinit var binding: ActivityUsersocialacntsetBinding
-    var address_id:String = ""
     var facebook_on:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUsersocialacntsetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        address_id = intent.getBundleExtra("bundle")!!.getString("address_id","")
         facebook_on= intent.getBundleExtra("bundle")!!.getString("facebook_on","")
         initVM()
         initClick()
@@ -67,12 +65,12 @@ class UserSocialAccountSetActivity : BaseActivity() {
             override fun onStateChanged(isOpen: Boolean) {
                 if(isOpen){
                     val facebook_on = "Y"
-                    AlertDialog.Builder(this@UserSocialAccountSetActivity)
+                    AlertDialog.Builder(this@BuyerSocialAccountSetActivity)
                         .setTitle("「HKSHOPU」想要使用「facebook.com」登入")
                         .setMessage("這會讓App和網路分享關於您的資訊。")
                         .setPositiveButton("繼續"){
                             // 此為 Lambda 寫法
-                                dialog, which ->doShopFaceBookOnOff(facebook_on)
+                                dialog, which ->doUserFaceBookOnOff(facebook_on)
                         }
                         .setNegativeButton("取消"){
                                 dialog, which -> dialog.cancel()
@@ -81,7 +79,7 @@ class UserSocialAccountSetActivity : BaseActivity() {
                         .show()
                 }else{
                     val facebook_on = "N"
-                    doShopFaceBookOnOff(facebook_on)
+                    doUserFaceBookOnOff(facebook_on)
                 }
             }
         })
@@ -109,9 +107,9 @@ class UserSocialAccountSetActivity : BaseActivity() {
 
     }
 
-    private fun doShopFaceBookOnOff(facebook_on: String) {
-        val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
-        var url = ApiConstants.API_HOST+"shop/"+shopId+"/update/"
+    private fun doUserFaceBookOnOff(facebook_on: String) {
+        var userId = MMKV.mmkvWithID("http").getString("UserId", "");
+        var url = ApiConstants.API_HOST + "user_detail/" + userId + "/show/"
 
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
@@ -126,13 +124,13 @@ class UserSocialAccountSetActivity : BaseActivity() {
                     if (status == 0) {
                         runOnUiThread {
 
-                            Toast.makeText(this@UserSocialAccountSetActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@BuyerSocialAccountSetActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
                         }
                         finish()
                     } else {
                         runOnUiThread {
 
-                            Toast.makeText(this@UserSocialAccountSetActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@BuyerSocialAccountSetActivity, ret_val.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -147,7 +145,7 @@ class UserSocialAccountSetActivity : BaseActivity() {
 
             }
         })
-        web.Do_ShopFaceBookOnOff(url, address_id,facebook_on)
+        web.Do_UserInfoUpdate(url, userId,"","","","",facebook_on,"","")
     }
 
 }
