@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.KaelLi1989:NiceRatingBar:1.0.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0ea00e73106e8280afcc04ecd025d2b4/jetified-NiceRatingBar-1.0.0/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0ea00e73106e8280afcc04ecd025d2b4/jetified-NiceRatingBar-1.0.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0ea00e73106e8280afcc04ecd025d2b4/jetified-NiceRatingBar-1.0.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4214dd6d8d5f14e976ddca1ac982b36/jetified-NiceRatingBar-1.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4214dd6d8d5f14e976ddca1ac982b36/jetified-NiceRatingBar-1.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4214dd6d8d5f14e976ddca1ac982b36/jetified-NiceRatingBar-1.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

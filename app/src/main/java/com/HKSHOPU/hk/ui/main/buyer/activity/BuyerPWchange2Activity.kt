@@ -28,14 +28,14 @@ import java.io.IOException
 
 class BuyerPWchange2Activity : BaseActivity() {
 
-    private lateinit var binding: ActivityUserpwchange2Binding
+    private lateinit var binding: ActivityBuyerpwchange2Binding
     var password_old = MMKV.mmkvWithID("http").getString("Password", "")
     var userId = MMKV.mmkvWithID("http").getString("UserId", "");
     val url = ApiConstants.API_HOST + "user_detail/update_detail/"
     var password_new =""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserpwchange2Binding.inflate(layoutInflater)
+        binding = ActivityBuyerpwchange2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()

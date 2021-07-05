@@ -27,14 +27,14 @@ import kotlin.concurrent.schedule
 
 class BuyerPWchange1Activity : BaseActivity() {
 
-    private lateinit var binding: ActivityUserpwchange1Binding
+    private lateinit var binding: ActivityBuyerpwchange1Binding
     var password_old = MMKV.mmkvWithID("http").getString("Password", "")
     var password_now = ""
     var email = MMKV.mmkvWithID("http").getString("Email", "")
     private val VM = AuthVModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserpwchange1Binding.inflate(layoutInflater)
+        binding = ActivityBuyerpwchange1Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()

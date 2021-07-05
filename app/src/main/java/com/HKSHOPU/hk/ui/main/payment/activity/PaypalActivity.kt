@@ -9,6 +9,17 @@ import android.widget.Toast
 import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.databinding.*
 import com.paypal.android.sdk.payments.*
+import com.paypal.checkout.approve.OnApprove
+import com.paypal.checkout.cancel.OnCancel
+import com.paypal.checkout.createorder.CreateOrder
+import com.paypal.checkout.createorder.CurrencyCode
+import com.paypal.checkout.createorder.OrderIntent
+import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.error.OnError
+import com.paypal.checkout.order.Amount
+import com.paypal.checkout.order.AppContext
+import com.paypal.checkout.order.Order
+import com.paypal.checkout.order.PurchaseUnit
 import org.json.JSONException
 import java.math.BigDecimal
 
@@ -88,6 +99,41 @@ class PaypalActivity : BaseActivity() {
     }
 
     private fun initClick() {
+
+        binding.payPalButton.setup(
+            createOrder = CreateOrder { createOrderActions ->
+                val order = Order(
+                    intent = OrderIntent.CAPTURE,
+                    appContext = AppContext(
+                        userAction = UserAction.PAY_NOW
+                    ),
+                    purchaseUnitList = listOf(
+                        PurchaseUnit(
+                            amount = Amount(
+                                currencyCode = CurrencyCode.HKD,
+                                value = "10.00"
+                            )
+                        )
+                    )
+                )
+
+                createOrderActions.create(order)
+
+            },
+            onApprove = OnApprove { approval ->
+                approval.orderActions.capture { captureOrderResult ->
+                    Log.d("CaptureOrder", "CaptureOrderResult: $captureOrderResult")
+                }
+            },
+            onCancel = OnCancel {
+                Log.d("OnCancel", "Buyer canceled the PayPal experience.")
+            },
+            onError = OnError { errorInfo ->
+                Log.d("OnError", "Error: $errorInfo")
+            }
+
+        )
+
 
         binding.titleBack.setOnClickListener {
 

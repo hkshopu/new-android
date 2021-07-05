@@ -1382,7 +1382,35 @@ public class Web {
             }
         });
     }
+    public void Do_GetBuyerRecordList(String url,String userId,String keyword) {
 
+        RequestBody formBody = new FormBody.Builder()
+                .add("user_id",userId)
+                .add("keyword", keyword)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
     private static String bodyToString(final Request request){
 
         try {

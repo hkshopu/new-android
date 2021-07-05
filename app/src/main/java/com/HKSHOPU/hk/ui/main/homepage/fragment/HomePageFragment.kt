@@ -217,8 +217,10 @@ class HomePageFragment : Fragment((R.layout.fragment_homepage)) {
         }
 
         binding!!.ivMic.setOnClickListener {
-            speak()
+//            speak()
+            KeyboardUtil.showKeyboard(it)
         }
+
     }
 
     private fun initRecyclerView() {

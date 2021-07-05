@@ -37,7 +37,7 @@ import java.io.OutputStream
 
 
 class BuyerInfoModifyActivity : BaseActivity() {
-    private lateinit var binding: ActivityUserinfomodifyBinding
+    private lateinit var binding: ActivityBuyerinfomodifyBinding
     var userId = MMKV.mmkvWithID("http").getString("UserId", "");
     var url = ApiConstants.API_HOST + "user_detail/" + userId + "/show/"
     private val PROFILE_IMAGE_REQ_CODE = 101
@@ -45,7 +45,7 @@ class BuyerInfoModifyActivity : BaseActivity() {
     private var isSelectImage = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserinfomodifyBinding.inflate(layoutInflater)
+        binding = ActivityBuyerinfomodifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getData(url)
         initVM()

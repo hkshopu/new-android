@@ -571,7 +571,7 @@
 
     <!--    買家資訊-->
     <string name="buyer_collect">收藏清單</string>
-    <string name="buyer_like">關注店舖</string>
+    <string name="buyer_follow">關注店舖</string>
     <string name="buyer_path">足跡</string>
     <string name="purchaselist">購買清單</string>
     <string name="tobedelivered">待發貨</string>

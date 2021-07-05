@@ -14,9 +14,11 @@ import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.component.*
 import com.HKSHOPU.hk.databinding.ActivityMainBinding
 import com.HKSHOPU.hk.ui.main.buyer.fragment.BuyerProfileFragment
+import com.HKSHOPU.hk.ui.main.buyer.fragment.LoginFirstDialogFragment
 import com.HKSHOPU.hk.ui.main.homepage.fragment.HomePageFragment
 import com.HKSHOPU.hk.ui.main.store.fragment.*
 import com.HKSHOPU.hk.utils.rxjava.RxBus
+import com.tencent.mmkv.MMKV
 
 
 class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
@@ -25,6 +27,7 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     lateinit var manager: FragmentManager
     var page_position = 0
     val REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124
+    var userId = MMKV.mmkvWithID("http").getString("UserId", "");
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -116,7 +119,17 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     override fun onPageSelected(position: Int) {
+        if(position == 1) {
+            if(userId!!.isEmpty()) {
+                runOnUiThread {
 
+                    LoginFirstDialogFragment().show(
+                        getSupportFragmentManager(),
+                        "MyCustomFragment"
+                    )
+                }
+            }
+        }
     }
 
     override fun onPageScrollStateChanged(state: Int) {

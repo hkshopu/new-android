@@ -22,13 +22,13 @@ import java.io.IOException
 
 class BuyerNameEditActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityUsernameeditBinding
+    private lateinit var binding: ActivityBuyernameeditBinding
     var userId = MMKV.mmkvWithID("http").getString("UserId", "");
     val url = ApiConstants.API_HOST + "user_detail/update_detail/"
     var name=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUsernameeditBinding.inflate(layoutInflater)
+        binding = ActivityBuyernameeditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()

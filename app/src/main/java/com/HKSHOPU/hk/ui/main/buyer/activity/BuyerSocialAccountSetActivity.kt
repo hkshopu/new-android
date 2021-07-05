@@ -21,11 +21,11 @@ import java.io.IOException
 
 
 class BuyerSocialAccountSetActivity : BaseActivity() {
-    private lateinit var binding: ActivityUsersocialacntsetBinding
+    private lateinit var binding: ActivityBuyersocialacntsetBinding
     var facebook_on:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUsersocialacntsetBinding.inflate(layoutInflater)
+        binding = ActivityBuyersocialacntsetBinding.inflate(layoutInflater)
         setContentView(binding.root)
         facebook_on= intent.getBundleExtra("bundle")!!.getString("facebook_on","")
         initVM()

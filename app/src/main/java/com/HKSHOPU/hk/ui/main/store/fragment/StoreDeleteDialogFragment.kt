@@ -52,7 +52,7 @@ class StoreDeleteDialogFragment(): DialogFragment(), View.OnClickListener {
         val v = inflater.inflate(R.layout.dialog_fragment_storedelete, container, false)
         val inset = InsetDrawable(
             ContextCompat.getDrawable(
-                activity!!,
+                requireActivity(),
                 R.drawable.dialog_fragment_background
             ), 0
         )

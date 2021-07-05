@@ -13,14 +13,13 @@ import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.component.EventRefreshUserAddressList
 import com.HKSHOPU.hk.data.bean.BuyerAddressListBean
 import com.HKSHOPU.hk.data.bean.ShopAddressListBean
+import com.HKSHOPU.hk.databinding.ActivityBuyeraddresspresetBinding
 
-import com.HKSHOPU.hk.databinding.ActivityShopaddresspresetBinding
-import com.HKSHOPU.hk.databinding.ActivityUseraddresspresetBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.buyer.adapter.BuyerAddressPresetAdapter
-import com.HKSHOPU.hk.ui.main.store.adapter.ShopAddressPresetAdapter
+
 
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import com.tencent.mmkv.MMKV
@@ -34,7 +33,7 @@ import kotlin.collections.ArrayList
 
 
 class BuyerAddressPresetActivity : BaseActivity() {
-    private lateinit var binding: ActivityUseraddresspresetBinding
+    private lateinit var binding: ActivityBuyeraddresspresetBinding
 
     private val adapter = BuyerAddressPresetAdapter()
     val userId = MMKV.mmkvWithID("http").getString("UserId", "");
@@ -42,7 +41,7 @@ class BuyerAddressPresetActivity : BaseActivity() {
     var presetid:String= ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUseraddresspresetBinding.inflate(layoutInflater)
+        binding = ActivityBuyeraddresspresetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()

@@ -1,6 +1,9 @@
 package com.HKSHOPU.hk.ui.main.buyer.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -8,19 +11,23 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.HKSHOPU.hk.R
+import com.HKSHOPU.hk.data.bean.BuyerAddressListBean
+import com.HKSHOPU.hk.data.bean.BuyerProfileBean
 import com.HKSHOPU.hk.databinding.FragmentBuyerprofileBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
-import com.HKSHOPU.hk.ui.main.buyer.activity.BuyerAccountSetupActivity
-import com.HKSHOPU.hk.ui.main.buyer.activity.BuyerAddressListActivity
-import com.HKSHOPU.hk.ui.main.buyer.activity.BuyerInfoModifyActivity
+import com.HKSHOPU.hk.ui.main.buyer.activity.*
 import com.HKSHOPU.hk.ui.main.store.activity.HelpCenterActivity
+import com.HKSHOPU.hk.utils.extension.load
+import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+
 
 class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
     companion object {
@@ -39,20 +46,15 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
         binding = FragmentBuyerprofileBinding.bind(view)
         fragmentBuyerprofileBinding = binding
 
-        binding!!.progressBar5.isVisible = true
-
-        var url_homeAd = ApiConstants.API_HOST + "shop/advertisement/"
-//        getHomeAd(url_homeAd)
-        var url = ApiConstants.API_HOST + "shop_category/index/"
-//        getShopCategory(url)
-
-//        getRecommendedStores(userId.toString())
 
         if (userId!!.isEmpty()) {
-
+            binding!!.tvProfiletitle.setText(R.string.guest)
+            binding!!.progressBar5.isVisible = false
         } else {
-            var url_UserLikedCount = ApiConstants.API_HOST + "user_detail/"+userId+"/liked_count/"
-            getUserLikedCount(url_UserLikedCount)
+            binding!!.progressBar5.isVisible = true
+            var url_UserPeofile = ApiConstants.API_HOST + "user_detail/"+userId+"/profile/"
+            getUserProfile(url_UserPeofile)
+
         }
 
 
@@ -79,14 +81,22 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
             val intent = Intent(requireActivity(), BuyerInfoModifyActivity::class.java)
             requireActivity().startActivity(intent)
         }
-        binding!!.layoutCollects.setOnClickListener {
+        binding!!.layoutProfileRate.setOnClickListener{
+            val intent = Intent(requireActivity(), BuyerEvaluationActivity::class.java)
+            requireActivity().startActivity(intent)
+        }
 
+        binding!!.layoutCollects.setOnClickListener {
+            val intent = Intent(requireActivity(), BuyerLikedListActivity::class.java)
+            requireActivity().startActivity(intent)
         }
         binding!!.layoutFavorites.setOnClickListener {
-
+            val intent = Intent(requireActivity(), BuyerFollowListActivity::class.java)
+            requireActivity().startActivity(intent)
         }
         binding!!.layoutPath.setOnClickListener {
-
+            val intent = Intent(requireActivity(), BuyerBrowsedListActivity::class.java)
+            requireActivity().startActivity(intent)
         }
         binding!!.layoutMyaddress.setOnClickListener {
             val intent = Intent(requireActivity(), BuyerAddressListActivity::class.java)
@@ -100,6 +110,55 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
             val intent = Intent(requireActivity(), HelpCenterActivity::class.java)
             requireActivity().startActivity(intent)
         }
+    }
+
+    private fun getUserProfile(url: String) {
+
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                val list = ArrayList<BuyerProfileBean>()
+                list.clear()
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    Log.d("BuyerProfileFragment", "返回資料 resStr：" + resStr)
+                    Log.d("BuyerProfileFragment", "返回資料 ret_val：" + json.get("ret_val"))
+                    val ret_val = json.get("ret_val")
+                    val status = json.get("status")
+                    if (status == 0) {
+                        val translations: JSONArray = json.getJSONArray("data")
+                        for (i in 0 until translations.length()) {
+                            val jsonObject: JSONObject = translations.getJSONObject(i)
+                            val buyerProfileBean: BuyerProfileBean =
+                                Gson().fromJson(jsonObject.toString(), BuyerProfileBean::class.java)
+
+                            list.add(buyerProfileBean)
+
+                        }
+
+                        requireActivity().runOnUiThread {
+                            binding!!.ivShopImg.load(list[0].pic)
+                            binding!!.tvProfiletitle.text = list[0].name
+                            binding!!.ratingBar.setRating(list[0].user_rating.toFloat())
+                            binding!!.tvRating.text = list[0].user_rating.toString()
+                            var url_UserLikedCount = ApiConstants.API_HOST + "user_detail/"+userId+"/liked_count/"
+                            getUserLikedCount(url_UserLikedCount)
+                        }
+
+                    }
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Get_Data(url)
     }
 
     private fun getUserLikedCount(url: String) {
@@ -207,4 +266,5 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
         })
         web.Get_Data(url)
     }
+
 }

@@ -14,8 +14,8 @@ import com.HKSHOPU.hk.component.EventRefreshAddressList
 import com.HKSHOPU.hk.component.EventRefreshUserAddressList
 
 import com.HKSHOPU.hk.data.bean.*
+import com.HKSHOPU.hk.databinding.ActivityBuyeraddresslistBinding
 
-import com.HKSHOPU.hk.databinding.ActivityUseraddresslistBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
@@ -32,7 +32,7 @@ import java.io.IOException
 
 
 class BuyerAddressListActivity : BaseActivity() {
-    private lateinit var binding: ActivityUseraddresslistBinding
+    private lateinit var binding: ActivityBuyeraddresslistBinding
 
     private val adapter = BuyerAddressListAdapter()
     var userId = MMKV.mmkvWithID("http").getString("UserId", "");
@@ -40,7 +40,7 @@ class BuyerAddressListActivity : BaseActivity() {
     var addressIds: ArrayList<String> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUseraddresslistBinding.inflate(layoutInflater)
+        binding = ActivityBuyeraddresslistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()
@@ -85,7 +85,6 @@ class BuyerAddressListActivity : BaseActivity() {
                 var resStr: String? = ""
                 val list = ArrayList<BuyerAddressListBean>()
                 list.clear()
-
                 try {
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
