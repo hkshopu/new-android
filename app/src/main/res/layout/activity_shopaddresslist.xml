@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/layout_Title"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp">
 
         <ImageView
@@ -18,13 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:padding="8dp"
             android:layout_marginStart="18dp"
             android:src="@mipmap/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:gravity="center"
             android:text="@string/shop_address"
             android:textColor="@color/dark_gray"
@@ -42,6 +44,7 @@
             android:textColor="@color/color_somegray"
             android:textSize="14sp"
             android:visibility="invisible"/>
+
     </RelativeLayout>
 
     <ScrollView
@@ -62,8 +65,6 @@
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_shopaddress"
                     tools:itemCount="3"
@@ -87,7 +88,7 @@
         android:textSize="14sp" />
 
     <com.zilchzz.library.widgets.EasySwitcher
-        android:id="@+id/switchview"
+        android:id="@+id/switchview_shop_address_status_on_shop_brief"
         android:layout_width="50dp"
         android:layout_height="32dp"
         android:layout_below="@id/scrollView"

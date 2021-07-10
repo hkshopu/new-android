@@ -1,4 +1,4 @@
-package com.hkshopu.hk.ui.user.activity
+package com.HKSHOPU.hk.ui.user.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -6,17 +6,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.hkshopu.hk.Base.BaseActivity
-import com.hkshopu.hk.Base.response.Status
-import com.hkshopu.hk.databinding.ActivityRetrieveBinding
-import com.hkshopu.hk.ui.user.fragmentdialog.BottomSheeFragment
-import com.hkshopu.hk.ui.user.vm.AuthVModel
-import java.nio.file.Watchable
+import com.HKSHOPU.hk.Base.BaseActivity
+import com.HKSHOPU.hk.Base.response.Status
+import com.HKSHOPU.hk.databinding.ActivityRetrieveBinding
+import com.HKSHOPU.hk.ui.user.vm.AuthVModel
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -39,6 +36,9 @@ class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
         binding = ActivityRetrieveBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.progressBarRetrieveEmail.visibility = View.GONE
+        binding.ivLoadingBackgroundRetrieveEmail.visibility = View.GONE
+
         //local資料存取
         settings = this.getSharedPreferences("DATA", 0)
         email = settings.getString("email", "").toString()
@@ -56,6 +56,9 @@ class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
         VM.verifycodeLiveData.observe(this, Observer {
             when (it?.status) {
                 Status.Success -> {
+
+                    binding.progressBarRetrieveEmail.visibility = View.GONE
+                    binding.ivLoadingBackgroundRetrieveEmail.visibility = View.GONE
 
                     if (it.ret_val.toString() == "已寄出驗證碼!") {
                         Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
@@ -75,9 +78,13 @@ class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
             when (it?.status) {
                 Status.Success -> {
 
+                    binding.progressBarRetrieveEmail.visibility = View.GONE
+                    binding.ivLoadingBackgroundRetrieveEmail.visibility = View.GONE
+
                     if (it.ret_val.toString() == "驗證成功!") {
 
                         Toast.makeText(this, it.ret_val.toString(), Toast.LENGTH_SHORT).show()
+
                         val intent = Intent(this, NewPasswordActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -111,13 +118,13 @@ class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
     private fun initClick() {
         binding.titleBack.setOnClickListener {
 
-            val intent = Intent(this, LoginPasswordActivity::class.java)
-            startActivity(intent)
-
             finish()
         }
 
         binding.btnResend.setOnClickListener {
+
+            binding.progressBarRetrieveEmail.visibility = View.VISIBLE
+            binding.ivLoadingBackgroundRetrieveEmail.visibility = View.VISIBLE
 
             binding.btnResend.setTextColor(Color.parseColor("#48484A"))
             binding.btnResend.isEnabled = false
@@ -131,6 +138,9 @@ class RetrieveEmailVerifyActivity : BaseActivity(), TextWatcher {
         }
 
         binding.btnAuthenticate.setOnClickListener {
+
+            binding.progressBarRetrieveEmail.visibility = View.VISIBLE
+            binding.ivLoadingBackgroundRetrieveEmail.visibility = View.VISIBLE
 
             number1 = binding.edtAuthenticate01.text.toString()
             number2 = binding.edtAuthenticate02.text.toString()

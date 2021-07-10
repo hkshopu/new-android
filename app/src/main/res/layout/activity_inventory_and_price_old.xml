@@ -6,26 +6,29 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.main.product.activity.AddInventoryAndPriceActivity">
+    tools:context=".ui.main.productSeller.activity.AddInventoryAndPriceActivity">
 
     <RelativeLayout
         android:id="@+id/titleBar"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:background="@color/white"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
 
         <ImageView
             android:id="@+id/titleBack_addshop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:padding="8dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_arrow_back" />
         <TextView
             android:id="@+id/title_inven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="@string/title_setInventoryAndPrice"
             android:textSize="18sp"
             android:textColor="@color/dark_gray"
@@ -71,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text="規格"/>
                     <TextView
                         android:id="@+id/textView_colon"
@@ -79,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text=" : "/>
                     <TextView
                         android:id="@+id/first_layer_title01"
@@ -166,14 +169,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price01"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -190,7 +193,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -256,7 +259,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price02"
@@ -264,7 +267,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -282,7 +285,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -347,7 +350,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price03"
@@ -356,7 +359,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/white"
                                 android:hint="0"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -372,7 +375,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -1041,14 +1044,14 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text="規格"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text=" : "/>
 
                     <TextView
@@ -1134,7 +1137,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price11"
@@ -1142,7 +1145,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -1158,7 +1161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -1224,7 +1227,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price12"
@@ -1232,7 +1235,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -1249,7 +1252,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -1314,7 +1317,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price13"
@@ -1322,7 +1325,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -1338,7 +1341,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -1999,14 +2002,14 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text="規格"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="12sp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/bright_gray"
                         android:text=" : "/>
                     <TextView
                         android:id="@+id/first_layer_title03"
@@ -2091,7 +2094,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price21"
@@ -2099,7 +2102,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -2115,7 +2118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -2181,7 +2184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price22"
@@ -2189,7 +2192,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -2205,7 +2208,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"
@@ -2272,7 +2275,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="HKD$"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:textSize="14sp"/>
                             <EditText
                                 android:id="@+id/second_layer_item_price23"
@@ -2280,7 +2283,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14sp"
-                                android:textColor="@color/gray_txt"
+                                android:textColor="@color/bright_gray"
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
@@ -2296,7 +2299,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_txt"
+                            android:textColor="@color/bright_gray"
                             android:inputType="number"
                             android:singleLine="true"
                             android:imeOptions="actionDone"

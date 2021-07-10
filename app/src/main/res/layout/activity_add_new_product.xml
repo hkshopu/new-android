@@ -4,38 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/color_shopbg"
-    tools:context=".ui.main.product.activity.AddNewProductActivity">
+    tools:context=".ui.main.productSeller.activity.AddNewProductActivity">
 
 
     <ProgressBar
-        android:id="@+id/progressBar4"
+        android:id="@+id/progressBar_new_product"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
+        android:elevation="20dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/iv_loading_background__new_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="18dp"
+        android:clickable="true"
+        android:src="@drawable/customview_loading_background" />
+
 
     <RelativeLayout
         android:id="@+id/titleBar"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:background="@color/white"
-        android:layout_height="50dp">
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
 
         <ImageView
             android:id="@+id/titleBack_addproduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:padding="8dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_arrow_back" />
         <TextView
             android:id="@+id/title_edit_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="@string/title_addproduct"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             android:textSize="18sp"
             android:textColor="@color/dark_gray"
             android:layout_centerInParent="true"/>
@@ -48,11 +65,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="96dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -60,6 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:paddingTop="12dp"
                 android:paddingRight="20dp"
                 android:paddingLeft="20dp"
@@ -84,6 +107,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:paddingLeft="30dp"
@@ -94,8 +119,11 @@
                 android:background="@drawable/customborder_addproduct">
                 <TextView
                     android:id="@+id/txtView_productname"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
                     android:text="@string/txtview_productname"/>
                 <EditText
@@ -104,6 +132,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:singleLine="true"
+                    android:textColor="@color/dark_gray"
+                    android:textColorHint="@color/bright_gray"
                     android:imeOptions="actionDone"
                     android:layout_below="@id/txtView_productname"
                     android:layout_marginTop="8dp"
@@ -114,6 +144,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="12dp"
@@ -124,6 +156,8 @@
                 android:background="@drawable/customborder_addproduct">
                 <TextView
                     android:id="@+id/txtView_productdescription"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -135,9 +169,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtView_productdescription"
                     android:hint="@string/hint_editproductdescription"
-                   android:layout_marginTop="8dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/dark_gray"
+                    android:textColorHint="@color/bright_gray"
+                    android:singleLine="false"
                     android:textSize="14sp"
                     android:background="@color/white"/>
             </RelativeLayout>
@@ -160,6 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
                     android:text="@string/txtview_category"/>
 
@@ -167,6 +203,8 @@
                     android:id="@+id/textView_seleted_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/dark_gray"
                     android:text=""/>
                 <ImageView
                     android:id="@+id/btn_addcategory"
@@ -178,6 +216,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:layout_height="60dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
@@ -234,6 +274,8 @@
 
             <LinearLayout
                 android:id="@+id/container_specification"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -244,6 +286,8 @@
 
                 <LinearLayout
                     android:id="@+id/container_product_spec_switch"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -255,9 +299,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_weight="1"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         android:text="@string/txtview_specification"/>
 
@@ -312,6 +359,8 @@
 
                 <LinearLayout
                     android:id="@+id/container_product_spec_price"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -324,7 +373,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_weight="1"
+                        android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
                         android:textColor="@color/black"
@@ -332,12 +384,13 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/textView_merchanPrice_range"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:textColor="@color/dark_gray"
                             android:text=""
                             android:layout_alignParentTop="true"
@@ -347,14 +400,16 @@
                         <EditText
                             android:id="@+id/editText_merchanPrice"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:background="@color/white"
                             android:hint="@string/txtview_priceinput"
-                            android:textAlignment="textEnd"
-                            android:inputType="number"
                             android:imeOptions="actionDone"
+                            android:inputType="number"
                             android:singleLine="true"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/dark_gray"
+                            android:textColorHint="@color/bright_gray"
                             android:textSize="14sp" />
 
                     </RelativeLayout>
@@ -362,6 +417,8 @@
 
                 <LinearLayout
                     android:id="@+id/container_product_spec_quant"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -374,7 +431,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_weight="1"
+                        android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
                         android:textColor="@color/black"
@@ -382,12 +442,13 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/textView_merchanQunt_range"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:textColor="@color/dark_gray"
                             android:text=""
                             android:layout_alignParentTop="true"
@@ -396,8 +457,10 @@
                         <EditText
                             android:id="@+id/editText_merchanQunt"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:hint="@string/txtview_quantityinput"
+                            android:textColor="@color/dark_gray"
+                            android:textColorHint="@color/bright_gray"
                             android:background="@color/white"
                             android:singleLine="true"
                             android:textAlignment="textEnd"
@@ -407,10 +470,7 @@
                             android:src="@mipmap/ic_chevron"/>
 
                     </RelativeLayout>
-
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -436,6 +496,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
                         android:textColor="@color/black"
@@ -447,7 +508,7 @@
                         android:textSize="14sp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
-                        android:textColor="@color/gray_txt"
+                        android:textColor="@color/dark_gray"
                         android:text=""/>
 
                     <ImageView
@@ -471,6 +532,8 @@
                     android:id="@+id/r_view_fare_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
                     android:paddingLeft="30dp"
@@ -485,6 +548,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/customborder_addproduct"
                 android:gravity="center_vertical"
@@ -514,7 +578,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:elevation="10dp"
                 android:outlineSpotShadowColor="@color/hkshop_color"
                 android:background="@drawable/customborder_addproduct"
@@ -529,8 +596,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
+                    android:buttonTint="@color/hkshop_color"
                     android:text="@string/textView_needMoreTimeToStockUp"
-                    android:textColor="@color/dark_gray"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
                 <EditText
                     android:id="@+id/edit_more_time_input"
@@ -538,12 +606,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
+                    android:inputType="number"
                     android:textAlignment="textEnd"
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:textSize="14sp"
                     android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:textColorHint="@color/bright_gray"
                     android:hint="@string/textView_more_days_to_stock"/>
 
             </LinearLayout>
@@ -647,6 +718,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="96dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         android:weightSum="2"
         android:elevation="10dp"
         android:layout_alignParentBottom="true"
@@ -661,7 +734,7 @@
             android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:layout_weight="1"
-            android:src="@mipmap/btn_store"/>
+            android:src="@mipmap/btn_store_product_coloful"/>
         <ImageView
             android:id="@+id/btn_on_shelf"
             android:layout_width="match_parent"

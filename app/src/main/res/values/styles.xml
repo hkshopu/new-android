@@ -67,6 +67,21 @@
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/hkshop_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="Theme.App.Dialog.ShrinkScreen" parent="Base.Theme.AppCompat.Dialog">
         <!-- (1)-->
         <item name="android:windowMinWidthMajor">60%</item>
@@ -94,5 +109,18 @@
         <item name="colorAccent">@color/dark_gray</item>
     </style>
     <style name="CustomTabText" parent="TextAppearance.Design.Tab"> 22sp bold </style>
+
+
+    <style name="BottomDialog" parent="@style/Base.V7.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomDialog.Animation" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/tranlate_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/tranlate_dialog_out</item>
+    </style>
+
+    <style name="CustomTabText2" parent="TextAppearance.Design.Tab">18sp</style>
 
 </resources>
