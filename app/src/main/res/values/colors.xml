@@ -54,4 +54,7 @@
     <!--首頁-->
     <color name="bg_backtotop">#66AEEEE0</color>
 
+    <!--購買清單-->
+    <color name="bg_detailbottom">#1A000000</color>
+
 </resources>

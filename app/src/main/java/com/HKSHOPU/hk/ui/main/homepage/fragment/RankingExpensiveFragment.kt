@@ -1,6 +1,7 @@
 package com.HKSHOPU.hk.ui.main.homepage.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -58,7 +59,7 @@ class RankingExpensiveFragment : Fragment() {
         progressBar = v.find<ProgressBar>(R.id.progressBar_product_expensive)
         progressBar.isVisible = true
         val activity: ShopPreviewActivity? = activity as ShopPreviewActivity?
-        val shopId: Int? = activity!!.getShopId()
+        val shopId: String? = activity!!.getShopId()
         val userId: String? = activity!!.getUserId()
         var url = ApiConstants.API_HOST+"/product/"+shopId+"/"+"higher_price"+"/shop_product_analytics/"
         expensiveProduct = v.find<RecyclerView>(R.id.recyclerview_expensive)
@@ -138,6 +139,10 @@ class RankingExpensiveFragment : Fragment() {
                         adapter.setData(list)
                         activity!!.runOnUiThread {
                             initRecyclerView()
+                            progressBar.isVisible = false
+                        }
+                    }else{
+                        activity!!.runOnUiThread {
                             progressBar.isVisible = false
                         }
                     }

@@ -147,7 +147,7 @@ class BuyerAddressListActivity : BaseActivity() {
                 binding.tvEdit.text = "編輯"
                 binding.tvEdit.textColor = Color.parseColor("#8E8E93")
                 adapter.updateData(false)
-                doUserAddressDel(addressIds)
+
             }
 
         }
@@ -160,6 +160,7 @@ class BuyerAddressListActivity : BaseActivity() {
         adapter.cancelClick = {
 
             addressIds.add(it)
+            doUserAddressDel(addressIds)
 
         }
         adapter.intentClick = {

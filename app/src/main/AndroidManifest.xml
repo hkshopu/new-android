@@ -456,6 +456,34 @@
             android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerEvaluationActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask" />
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPayMethodActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerFpsAccountActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerFpsAccountPresetActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerAddFpsAccountActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_deliverActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_recieveActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="com.google.android.gms.version"

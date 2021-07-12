@@ -98,13 +98,13 @@ class StoreRecommendAdapter : RecyclerView.Adapter<StoreRecommendAdapter.ShopRec
             if(shopRecommendBean.followed.equals("Y")){
                 shopCare.setImageResource(R.mipmap.ic_addtakecare_en)
                 shopCare.click {
-                    followClick?.invoke(shopRecommendBean.shop_id.toString(),"N")
+                    followClick?.invoke(shopRecommendBean.shop_id,"N")
                     shopCare.setImageResource(R.mipmap.ic_addtakecare)
                 }
             }else{
                 shopCare.setImageResource(R.mipmap.ic_addtakecare)
                 shopCare.click {
-                    followClick?.invoke(shopRecommendBean.shop_id.toString(),"Y")
+                    followClick?.invoke(shopRecommendBean.shop_id,"Y")
                     shopCare.setImageResource(R.mipmap.ic_addtakecare_en)
                 }
             }

@@ -1,6 +1,7 @@
 package com.HKSHOPU.hk.ui.main.homepage.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.homepage.activity.SearchActivity
 import com.HKSHOPU.hk.ui.main.homepage.adapter.StoreRecommendAdapter
+import com.HKSHOPU.hk.ui.main.store.activity.ShopPreviewActivity
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import com.HKSHOPU.hk.widget.view.KeyboardUtil
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -49,7 +51,7 @@ class StoreSearchAllFragment : Fragment() {
     lateinit var progressBar:ProgressBar
     private val adapter = StoreRecommendAdapter()
     var keyword = ""
-    var categoryId = 0
+    var categoryId = ""
     var userId = ""
     var max_seq = 0
     var mode = "overall"
@@ -74,7 +76,8 @@ class StoreSearchAllFragment : Fragment() {
         progressBar.isVisible = true
         val activity: SearchActivity? = activity as SearchActivity?
         userId = activity!!.getUserId()!!
-        categoryId = MMKV.mmkvWithID("http")!!.getInt("product_category_id",0)
+        categoryId = MMKV.mmkvWithID("http")!!.getString("product_category_id","").toString()
+        Log.d("StoreSearchAllFragment", "資料 categoryId：" + categoryId)
         val url = ApiConstants.API_HOST+"/shop/get_shop_analytics_with_keyword_in_pages/"
         getSearchStoreOverAll(url,userId!!,mode,max_seq.toString(),categoryId,keyword!!)
     }
@@ -92,7 +95,7 @@ class StoreSearchAllFragment : Fragment() {
             val url = ApiConstants.API_HOST+"/shop/get_shop_analytics_with_keyword_in_pages/"
             max_seq++
             if(keyword.isNotEmpty()){
-                categoryId = 0
+                categoryId = ""
             }else{
                 keyword =""
             }
@@ -133,12 +136,17 @@ class StoreSearchAllFragment : Fragment() {
 
         allStore.adapter = adapter
         adapter.itemClick = {
-
+            val bundle = Bundle()
+            bundle.putString("shopId",it)
+            bundle.putString("userId",userId)
+            val intent = Intent(requireActivity(), ShopPreviewActivity::class.java)
+            intent.putExtra("bundle",bundle)
+            requireActivity().startActivity(intent)
         }
 
     }
 
-    private fun getSearchStoreOverAll(url: String,userId:String,mode:String,max_seq:String,product_category_id:Int,keyword:String) {
+    private fun getSearchStoreOverAll(url: String,userId:String,mode:String,max_seq:String,product_category_id:String,keyword:String) {
 
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
@@ -197,7 +205,7 @@ class StoreSearchAllFragment : Fragment() {
         web.Do_GetSearchStore(url,userId,mode,max_seq,product_category_id,keyword)
     }
 
-    private fun getSearchStoreOverAllMore(url: String,userId:String,mode:String,max_seq:String,product_category_id:Int,keyword:String) {
+    private fun getSearchStoreOverAllMore(url: String,userId:String,mode:String,max_seq:String,product_category_id:String,keyword:String) {
 
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {

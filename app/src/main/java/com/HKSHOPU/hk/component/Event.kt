@@ -51,6 +51,7 @@ class EventPhoneShow(val show:Boolean,val phone: String? = null)
 class EventRefreshShopList
 class EventRefreshAddressList
 class EventRefreshUserAddressList
+class EventRefreshFpsAccountList
 
 class EventToUserProfile
 class EventToShopSearch
@@ -60,4 +61,4 @@ class EventEmailShow(val show:Boolean,val email: String? = null)
 
 class EventSyncBank
 
-class EventShopPreViewRankAll(val shopId: Int = 0)
+class EventShopPreViewRankAll(val shopId: String? = null)

@@ -1,6 +1,7 @@
 package com.HKSHOPU.hk.ui.main.homepage.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.homepage.activity.StoreRecommendActivity
 import com.HKSHOPU.hk.ui.main.homepage.adapter.StoreRecommendAdapter
+import com.HKSHOPU.hk.ui.main.store.activity.ShopPreviewActivity
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import com.HKSHOPU.hk.widget.view.KeyboardUtil
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -47,6 +49,7 @@ class StoreRankingTopFragment : Fragment() {
     lateinit var progressBar: ProgressBar
     private val adapter = StoreRecommendAdapter()
     var max_seq = 0
+    var userId = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +57,7 @@ class StoreRankingTopFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_ranking_hotsales_store, container, false)
         val activity: StoreRecommendActivity? = activity as StoreRecommendActivity?
-        val userId: String? = activity!!.getUserId()
+        userId = activity!!.getUserId().toString()
         val mode = "top_sale"
         var url = ApiConstants.API_HOST+"shop/get_shop_analytics_in_pages/"
         refreshLayout = v.find<SmartRefreshLayout>(R.id.refreshLayout)
@@ -117,7 +120,12 @@ class StoreRankingTopFragment : Fragment() {
 
         topStore.adapter = adapter
         adapter.itemClick = {
-
+            val bundle = Bundle()
+            bundle.putString("shopId",it)
+            bundle.putString("userId",userId)
+            val intent = Intent(requireActivity(), ShopPreviewActivity::class.java)
+            intent.putExtra("bundle",bundle)
+            requireActivity().startActivity(intent)
         }
 
     }

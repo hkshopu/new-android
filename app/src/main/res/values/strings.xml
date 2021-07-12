@@ -578,6 +578,7 @@
     <string name="buyer_follow">關注店舖</string>
     <string name="buyer_path">足跡</string>
     <string name="purchaselist">購買清單</string>
+    <string name="tobepaid">待付款</string>
     <string name="tobedelivered">待發貨</string>
     <string name="tobereceived">待收貨</string>
     <string name="evaluate">評價</string>
@@ -660,4 +661,37 @@
     <!--   評價(買家)-->
     <string name="evaluation">評價</string>
 
+    <!--   付款方式(買家)-->
+    <string name="paymethod">付款方式</string>
+    <string name="fps">轉數快</string>
+    <string name="fps_account">轉數快帳號</string>
+    <string name="fps_phone">電話</string>
+    <string name="fps_email">電郵</string>
+    <string name="fps_addbankaccount"> + 新增銀行帳號</string>
+    <string name="add_fpsaccount">新增轉數快帳號</string>
+    <string name="add_fpsaccount_remind">*請擇一輸入個人資訊</string>
+    <string name="email_input_fps">請輸入電郵</string>
+    <string name="phone_input">請輸入流動電話號碼</string>
+    <string name="fpsaccount_preset">預設轉數快帳號</string>
+
+    <!--   購買清單-->
+    <string name="purchase_list">購買清單</string>
+    <string name="purchase_tab1">待付款</string>
+    <string name="purchase_tab2">待發貨</string>
+    <string name="purchase_tab3">待收貨</string>
+    <string name="purchase_tab4">訂單已完成</string>
+    <string name="purchase_tab5">已取消</string>
+    <string name="purchase_tab6">退貨/退款</string>
+    <string name="items">樣商品</string>
+    <string name="completed">已完成</string>
+
+    <!--   訂單詳情-->
+    <string name="orderdetail">訂單詳情</string>
+    <string name="logistic_info">運送資訊</string>
+    <string name="deliver_address">收件地址</string>
+    <string name="product_amount">商品小計</string>
+    <string name="product_subtotal">訂單金額</string>
+    <string name="order_number">訂單編號</string>
+    <string name="paid_time">付款時間</string>
+    <string name="ship_number">寄件編號 -</string>
 </resources>

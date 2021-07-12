@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_buyerprofile"
     android:background="@color/color_shopbg">
 
 
@@ -305,7 +306,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-
+                        android:id="@+id/layout_purchaselist"
                         android:layout_width="match_parent"
                         android:layout_height="52dp">
 
@@ -347,9 +348,11 @@
                     </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_pending_pay"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="4">
 
                         <LinearLayout
 
@@ -361,20 +364,45 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="68dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/ic_wallet" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/tobepaid"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/layout_pending_delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
                                 android:src="@mipmap/ic_product" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="60dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="8dp"
-                                android:text="待發貨"
-                                android:textSize="14sp" />
+                                android:text="@string/tobedelivered"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-
+                            android:id="@+id/layout_pending_receive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -383,19 +411,21 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
+                                android:layout_gravity="center_horizontal"
                                 android:src="@mipmap/ic_delivered" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="8dp"
-                                android:text="待收貨" />
+                                android:textSize="14sp"
+                                android:text="@string/tobereceived"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
-
+                            android:id="@+id/layout_evaluate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -404,15 +434,17 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="20dp"
+                                android:layout_gravity="center_horizontal"
                                 android:src="@mipmap/ic_rating" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="8dp"
-                                android:text="評價" />
+                                android:text="@string/evaluate"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -423,7 +455,8 @@
                         android:src="@mipmap/ic_progress"
                         android:contentDescription="@string/empty"
                         android:layout_marginTop="16dp"
-                        android:scaleType="center"/>
+                        android:scaleType="center"
+                        android:visibility="invisible"/>
 
                     <include layout="@layout/item_order_userprofile"/>
 

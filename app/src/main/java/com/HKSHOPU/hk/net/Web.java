@@ -115,11 +115,11 @@ public class Web {
         });
     }
 
-    public void Do_GetSearchProduct(String url,String userId,int category_id,String sub_category_id,String max_seq,String keyword) {
+    public void Do_GetSearchProduct(String url,String userId,String category_id,String sub_category_id,String max_seq,String keyword) {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("user_id", userId)
-                .add("category_id", String.valueOf(category_id))
+                .add("category_id", category_id)
                 .add("sub_category_id", sub_category_id)
                 .add("max_seq", max_seq)
                 .add("key_word", keyword)
@@ -145,13 +145,13 @@ public class Web {
     }
 
 
-    public void Do_GetSearchStore(String url,String userId,String mode,String max_seq,int product_category_id,String keyword) {
+    public void Do_GetSearchStore(String url,String userId,String mode,String max_seq,String product_category_id,String keyword) {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("user_id", userId)
                 .add("mode", mode)
                 .add("max_seq", max_seq)
-                .add("product_category_id", String.valueOf(product_category_id))
+                .add("product_category_id", product_category_id)
                 .add("keyword", keyword)
                 .build();
         Request request = new Request.Builder().url(url).post(formBody).build();
@@ -730,7 +730,31 @@ public class Web {
         });
     }
 
+    public void Do_GetOrderList(String url,String userId,String status) {
 
+        RequestBody formBody = new FormBody.Builder()
+                .add("user_id", userId)
+                .add("status", status)
+                .build();
+        Request request = new Request.Builder().url(url).post(formBody).build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+                response.close();
+                call.cancel();
+            }
+        });
+    }
 
 
     private MultipartBody.Part prepareFilePart(String partName, File file){
@@ -1392,6 +1416,70 @@ public class Web {
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+    public void Do_addBuyerPayment(String url,String user_id,String payment_type,String bank_code,String bank_name,String bank_account_name,String contact_type,String phone_country_code,String phone_number,String contact_email) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("user_id",user_id)
+                .add("payment_type",payment_type)
+                .add("bank_code",bank_code)
+                .add("bank_name",bank_name)
+                .add("bank_account_name",bank_account_name)
+                .add("contact_type",contact_type)
+                .add("phone_country_code",phone_country_code)
+                .add("phone_number",phone_number)
+                .add("contact_email",contact_email)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onErrorResponse(e);
+                Log.d(TAG, "Return error ＝ " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                listener.onResponse(response);
+//                response.close();
+//                Log.d(TAG, "Return Content ＝ " + response.body().string());
+            }
+        });
+    }
+
+    public void Do_BuyerPaymentPreset(String url,String id,String is_default) {
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("id",id)
+                .add("is_default",is_default)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .patch(formBody)
                 .build();
 
 

@@ -72,6 +72,11 @@ class BuyerAccountSetupActivity : BaseActivity() {
         binding.ivChevronSetupNotify.setOnClickListener {
 
         }
+        binding.layoutPayment.setOnClickListener {
+            val intent = Intent(this, BuyerPayMethodActivity::class.java)
+            startActivity(intent)
+
+        }
         binding.ivChevronSetupLan.setOnClickListener {
 
         }

@@ -52,7 +52,7 @@ class RankingExpensiveSearchFragment : Fragment() {
     var currency: Currency = Currency.getInstance(defaultLocale)
     private val adapter = ProductSearchAdapter(currency)
     var keyword = ""
-    var categoryId = 0
+    var categoryId = ""
     var sub_categoryId = ""
     var max_seq = 0
     var userId= ""
@@ -79,7 +79,7 @@ class RankingExpensiveSearchFragment : Fragment() {
     private fun initView(){
         progressBar.isVisible = true
 //        keyword = MMKV.mmkvWithID("http").getString("c_product_sub_category_selected","").toString()
-        categoryId = MMKV.mmkvWithID("http").getInt("product_category_id",0)
+        categoryId = MMKV.mmkvWithID("http").getString("product_category_id","").toString()
 //        sub_categoryId = MMKV.mmkvWithID("http").getInt("sub_product_category_id",0)
         val url = ApiConstants.API_HOST+"/product/"+mode +"/product_analytics_pages_keyword/"
         getSearchProductOverAll(url,userId,categoryId,sub_categoryId.toString(),max_seq.toString(),keyword!!)
@@ -98,7 +98,7 @@ class RankingExpensiveSearchFragment : Fragment() {
             var url = ApiConstants.API_HOST+"product/"+mode+"/product_analytics_pages_keyword"
             max_seq ++
             if(keyword.isNotEmpty()){
-                categoryId = 0
+                categoryId = ""
             }else{
                 keyword =""
             }
@@ -115,7 +115,7 @@ class RankingExpensiveSearchFragment : Fragment() {
                         progressBar.isVisible = true
                         keyword = MMKV.mmkvWithID("http").getString("keyword","").toString()
                         Log.d("RankingExpensiveSearchFragment", "返回資料 Event：" + keyword)
-                        categoryId = 0
+                        categoryId = ""
 //                        sub_categoryId = MMKV.mmkvWithID("http").getInt("sub_product_category_id",0)
                         val url = ApiConstants.API_HOST+"/product/"+mode +"/product_analytics_pages_keyword/"
                         getSearchProductOverAll(url,userId,categoryId,sub_categoryId.toString(),max_seq.toString(),keyword!!)
@@ -138,7 +138,7 @@ class RankingExpensiveSearchFragment : Fragment() {
 
     }
 
-    private fun getSearchProductOverAll(url: String,user_id:String,category_id:Int,sub_category_id:String,max_seq:String,keyword:String) {
+    private fun getSearchProductOverAll(url: String,user_id:String,category_id:String,sub_category_id:String,max_seq:String,keyword:String) {
 
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
@@ -194,7 +194,7 @@ class RankingExpensiveSearchFragment : Fragment() {
         web.Do_GetSearchProduct(url,user_id,category_id,sub_category_id,max_seq,keyword)
     }
 
-    private fun getSearchProductOverAllMore(url: String,user_id:String,category_id:Int,sub_category_id:String,max_seq:String,keyword:String) {
+    private fun getSearchProductOverAllMore(url: String,user_id:String,category_id:String,sub_category_id:String,max_seq:String,keyword:String) {
         val web = Web(object : WebListener {
             override fun onResponse(response: Response) {
                 var resStr: String? = ""

@@ -33,7 +33,7 @@ import java.io.IOException
 class ShopBriefActivity : BaseActivity() {
     private lateinit var binding: ActivityShopbriefUserBinding
 
-    var shopId: Int = 0
+    var shopId: String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class ShopBriefActivity : BaseActivity() {
         initView()
         initVM()
         initClick()
-        shopId = intent.getBundleExtra("bundle")!!.getInt("shopId", 0)
+        shopId = intent.getBundleExtra("bundle")!!.getString("shopId", "")
         var url =
             ApiConstants.API_HOST + "shop/" + shopId + "/get_simple_info_of_specific_shop_for_buyer/"
         getShopBrief(url)

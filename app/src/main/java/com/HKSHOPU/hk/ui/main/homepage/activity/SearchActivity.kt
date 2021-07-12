@@ -23,14 +23,14 @@ class SearchActivity : BaseActivity() {
     private lateinit var binding: ActivitySearchBinding
     var keyword:String =""
     var keyword_catrgory:String =""
-    var category_id = 0
+    var category_id = ""
     val userId = MMKV.mmkvWithID("http")!!.getString("UserId", "");
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         keyword_catrgory = MMKV.mmkvWithID("http")!!.getString("c_product_sub_category_selected","").toString()
-        category_id = MMKV.mmkvWithID("http")!!.getInt("product_category_id",0)
+        category_id = MMKV.mmkvWithID("http")!!.getString("product_category_id","").toString()
         initVM()
         initView()
         initFragment()

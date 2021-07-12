@@ -47,7 +47,7 @@ class StoreSearchExpensiveFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_ranking_expansive_store, container, false)
-        val shopId = MMKV.mmkvWithID("http").getInt("ShopId",0)
+        val shopId = MMKV.mmkvWithID("http").getString("ShopId","").toString()
         var url = ApiConstants.API_HOST+"/product/"+shopId+"/shop_product/"
         expensiveStore = v.find<RecyclerView>(R.id.recyclerview_expensive_store)
         getShopProduct(url)

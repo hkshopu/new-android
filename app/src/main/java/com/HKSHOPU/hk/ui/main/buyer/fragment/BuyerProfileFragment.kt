@@ -10,6 +10,7 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.HKSHOPU.hk.R
 import com.HKSHOPU.hk.data.bean.BuyerAddressListBean
 import com.HKSHOPU.hk.data.bean.BuyerProfileBean
@@ -19,8 +20,10 @@ import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.buyer.activity.*
 import com.HKSHOPU.hk.ui.main.store.activity.HelpCenterActivity
+import com.HKSHOPU.hk.ui.main.store.fragment.ShopInfoFragment
 import com.HKSHOPU.hk.utils.extension.load
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
 import org.json.JSONArray
@@ -85,7 +88,46 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
             val intent = Intent(requireActivity(), BuyerEvaluationActivity::class.java)
             requireActivity().startActivity(intent)
         }
+        binding!!.layoutPurchaselist.setOnClickListener {
+            val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            val newFragment: PurchaseListFragment = PurchaseListFragment.newInstance()
+            val args = Bundle()
+//            args.putString("shop_id", it)
+            newFragment.arguments = args
+            ft.replace(R.id.layout_buyerprofile, newFragment, "PurchaseListFragment")
+            ft.commit()
+        }
+        binding!!.layoutPendingPay.setOnClickListener {
+            val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            val newFragment: PurchaseListFragment = PurchaseListFragment.newInstance()
+            val args = Bundle()
+            args.putString("page_id", "0")
+            newFragment.arguments = args
+            ft.replace(R.id.layout_buyerprofile, newFragment, "PurchaseListFragment")
+            ft.commit()
+        }
 
+        binding!!.layoutPendingDelivery.setOnClickListener {
+            val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            val newFragment: PurchaseListFragment = PurchaseListFragment.newInstance()
+            val args = Bundle()
+            args.putString("page_id", "1")
+            newFragment.arguments = args
+            ft.replace(R.id.layout_buyerprofile, newFragment, "PurchaseListFragment")
+            ft.commit()
+        }
+        binding!!.layoutPendingReceive.setOnClickListener {
+            val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            val newFragment: PurchaseListFragment = PurchaseListFragment.newInstance()
+            val args = Bundle()
+            args.putString("page_id", "2")
+            newFragment.arguments = args
+            ft.replace(R.id.layout_buyerprofile, newFragment, "PurchaseListFragment")
+            ft.commit()
+        }
+        binding!!.layoutEvaluate.setOnClickListener {
+
+        }
         binding!!.layoutCollects.setOnClickListener {
             val intent = Intent(requireActivity(), BuyerLikedListActivity::class.java)
             requireActivity().startActivity(intent)
@@ -127,15 +169,12 @@ class BuyerProfileFragment : Fragment((R.layout.fragment_buyerprofile)) {
                     val ret_val = json.get("ret_val")
                     val status = json.get("status")
                     if (status == 0) {
-                        val translations: JSONArray = json.getJSONArray("data")
-                        for (i in 0 until translations.length()) {
-                            val jsonObject: JSONObject = translations.getJSONObject(i)
+                        val jsonObject: JSONObject = json.getJSONObject("data")
+
                             val buyerProfileBean: BuyerProfileBean =
                                 Gson().fromJson(jsonObject.toString(), BuyerProfileBean::class.java)
 
                             list.add(buyerProfileBean)
-
-                        }
 
                         requireActivity().runOnUiThread {
                             binding!!.ivShopImg.load(list[0].pic)

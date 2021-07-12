@@ -1,5 +1,6 @@
 package com.HKSHOPU.hk.ui.main.homepage.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,7 +55,7 @@ class RankingAllFragment : Fragment() {
         progressBar = v.find<ProgressBar>(R.id.progressBar_product_all)
         progressBar.isVisible = true
         val activity: ShopPreviewActivity? = activity as ShopPreviewActivity?
-        val shopId: Int? = activity!!.getShopId()
+        val shopId: String? = activity!!.getShopId()
         val userId: String? = activity!!.getUserId()
         Log.d("RankingAllFragment", "返回資料 shopId：" + shopId)
         val url = ApiConstants.API_HOST+"/product/"+shopId+"/"+"overall"+"/shop_product_analytics/"
@@ -115,6 +116,10 @@ class RankingAllFragment : Fragment() {
                         adapter.setData(list)
                         activity!!.runOnUiThread {
                             initRecyclerView()
+                            progressBar.isVisible = false
+                        }
+                    }else{
+                        activity!!.runOnUiThread {
                             progressBar.isVisible = false
                         }
                     }

@@ -117,7 +117,7 @@ class StoreRankingAllFragment : Fragment() {
         allStore.adapter = adapter
         adapter.itemClick = {
             val bundle = Bundle()
-            bundle.putInt("shopId",it.toInt())
+            bundle.putString("shopId",it)
             bundle.putString("userId",userId)
             val intent = Intent(requireActivity(), ShopPreviewActivity::class.java)
             intent.putExtra("bundle",bundle)

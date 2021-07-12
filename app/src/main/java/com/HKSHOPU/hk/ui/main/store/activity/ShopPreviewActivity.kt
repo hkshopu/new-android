@@ -20,6 +20,7 @@ import com.HKSHOPU.hk.ui.main.homepage.activity.GoShopActivity
 import com.HKSHOPU.hk.ui.main.homepage.activity.ShopBriefActivity
 import com.HKSHOPU.hk.utils.extension.loadNovelCover
 import com.HKSHOPU.hk.utils.rxjava.RxBus
+import com.tencent.mmkv.MMKV
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,13 +30,13 @@ import java.io.IOException
 
 class ShopPreviewActivity : BaseActivity() {
     private lateinit var binding: ActivityShoppreviewBinding
-    var shopId: Int = 0
+    var shopId: String = ""
     var userId: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShoppreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        shopId = intent.getBundleExtra("bundle")!!.getInt("shopId",0)
+        shopId = intent.getBundleExtra("bundle")!!.getString("shopId","")
         userId = intent.getBundleExtra("bundle")!!.getString("userId","")
         val url = ApiConstants.API_HOST+"/shop/"+shopId+"/get_specific_recommended_shop/"
         do_ShopPreviewData(url,userId.toString())
@@ -75,7 +76,7 @@ class ShopPreviewActivity : BaseActivity() {
 
         binding.tvShopBriefMore.setOnClickListener {
             var bundle = Bundle()
-            bundle.putInt("shopId",shopId)
+            bundle.putString("shopId",shopId)
             val intent = Intent(this@ShopPreviewActivity, ShopBriefActivity::class.java)
             intent.putExtra("bundle",bundle)
             startActivity(intent)
@@ -119,8 +120,16 @@ class ShopPreviewActivity : BaseActivity() {
                             binding.mySold.text = list[0].sum_of_sales.toString()
                             binding.tvRating.text = list[0].average_of_shop_ratings.toString()
                             binding.ratingBar.setRating(list[0].average_of_shop_ratings.toFloat())
-                            val description = list[0].long_description.replace("\n", "")
-                            binding.tvShopBrief.text = description
+                            list[0].long_description ?. let {
+                                if (list[0].long_description.isNotEmpty()) {
+                                    val description = list[0].long_description.replace("\n", "")
+                                    binding.tvShopBrief.text = description
+                                }
+                                null // finally returns null
+                            } ?: let {
+
+                            }
+
 
                         }
 
@@ -146,7 +155,8 @@ class ShopPreviewActivity : BaseActivity() {
         web.Do_GetRecommendedShops(url,userId)
     }
 
-    fun getShopId(): Int? {
+    @JvmName("getShopId1")
+    fun getShopId(): String?{
         return shopId
     }
     @JvmName("getUserId1")
