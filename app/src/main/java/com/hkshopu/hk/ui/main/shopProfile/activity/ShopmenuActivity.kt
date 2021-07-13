@@ -20,6 +20,8 @@ import com.HKSHOPU.hk.databinding.ActivityMainBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
+import com.HKSHOPU.hk.ui.main.buyer.fragment.BuyerProfileFragment
+import com.HKSHOPU.hk.ui.main.homepage.fragment.HomePageFragment
 import com.HKSHOPU.hk.ui.main.shopProfile.fragment.*
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import okhttp3.Response
@@ -57,11 +59,16 @@ class ShopmenuActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private fun initFragment() {
         manager = supportFragmentManager
         if (fragments.isNotEmpty()) return
-        val FirstFragment = FirstFragment.newInstance()
+
+        val homePageFragment = HomePageFragment.newInstance()
 //        val FirstFragment = ShopInfoFragment.newInstance()
-        val SecondFragment = SecondFragment.newInstance()
+//        val FirstFragment = FirstFragment.newInstance()
+        val SecondFragment = BuyerProfileFragment.newInstance()
+//        val SecondFragment = SecondFragment.newInstance()
         val ShopListFragment = ShopListFragment.newInstance()
-        fragments.add(FirstFragment)
+
+        fragments.add(homePageFragment)
+//        fragments.add(FirstFragment)
         fragments.add(SecondFragment)
         fragments.add(ShopListFragment)
         binding.viewPager.adapter =

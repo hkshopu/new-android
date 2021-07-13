@@ -3,6 +3,7 @@ package com.HKSHOPU.hk.ui.main.shoppingCart.activity
 import MyLinearLayoutManager
 import android.R
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -14,31 +15,45 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import com.HKSHOPU.hk.Base.BaseActivity
+import com.HKSHOPU.hk.application.App
 import com.HKSHOPU.hk.component.EventUpdateShoppingCartItemForConfirmed
 import com.HKSHOPU.hk.data.bean.*
 import com.HKSHOPU.hk.databinding.ActivityShoppingCartConfirmedBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
+import com.HKSHOPU.hk.ui.main.payment.activity.PaypalActivity
 import com.HKSHOPU.hk.ui.main.shoppingCart.adapter.ShoppingCartShopsNestedAdapter
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import com.facebook.FacebookSdk
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import com.paypal.android.sdk.payments.*
+import com.paypal.checkout.approve.OnApprove
+import com.paypal.checkout.cancel.OnCancel
+import com.paypal.checkout.createorder.CreateOrder
+import com.paypal.checkout.createorder.CurrencyCode
+import com.paypal.checkout.createorder.OrderIntent
+import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.error.OnError
+import com.paypal.checkout.order.Amount
+import com.paypal.checkout.order.AppContext
+import com.paypal.checkout.order.Order
+import com.paypal.checkout.order.PurchaseUnit
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.math.BigDecimal
 import java.util.*
 
 
 class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
 
     private lateinit var binding : ActivityShoppingCartConfirmedBinding
-
 
     //宣告頁面資料變數
     var MMKV_user_id: String = ""
@@ -47,22 +62,81 @@ class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
 
     var address_less = false
 
+//    var PAYPAL_REQUEST_CODE = 7171
+//    private val config = PayPalConfiguration()
+//        .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+//        .clientId("AdBCLHocOrbf94O5WAIkLVi3OAjuwWseJfwNtX6uHSm96tV5gqB_e1g4uBvfvS6TlQeAs9mjT90b-Ok3")
 
     var mutableList_shoppingCartShopItems: MutableList<ShoppingCartShopItemNestedLayer> = mutableListOf()
     var mAdapter_ShoppingCartItems = ShoppingCartShopsNestedAdapter(this)
     var mutablelist_paymentBean : MutableList<PaymentBean> = mutableListOf()
     var mutableList_userAddressBean: MutableList<UserAddressBean> = mutableListOf()
 
+    override fun onDestroy() {
+        stopService(Intent(this, PayPalService::class.java))
+        super.onDestroy()
+    }
+
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == PAYPAL_REQUEST_CODE) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                val confirm = data?.getParcelableExtra<PaymentConfirmation>(PaymentActivity.EXTRA_RESULT_CONFIRMATION)
+//                if (confirm != null) {
+//                    try {
+//
+//                        Log.i("Paypal", confirm.toJSONObject().toString(4))
+//                        Log.i("Paypal", confirm.payment.toJSONObject().toString(4))
+//                        /**
+//                         * TODO: send 'confirm' (and possibly confirm.getPayment() to your server for verification
+//                         * or consent completion.
+//                         * See https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+//                         * for more details.
+//                         * For sample mobile backend interactions, see
+//                         * https://github.com/paypal/rest-api-sdk-python/tree/master/samples/mobile_backend
+//                         */
+//                        displayResultText("PaymentConfirmation info received from PayPal")
+//
+//
+//                    } catch (e: JSONException) {
+//                        Log.e("Paypal_error", "an extremely unlikely failure occurred: ", e)
+//                    }
+//
+//                }
+//            } else if (resultCode == Activity.RESULT_CANCELED) {
+//                Log.i("Paypal_error", "The user canceled.")
+//            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+//                Log.i(
+//                    "Paypal_error",
+//                    "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.")
+//            }
+//        }
+//    }
+
+//    protected fun displayResultText(result: String) {
+////        var resultView: TextView = findViewById(R.id.txtResult)
+////        resultView.text = "Result : " + result
+//        Toast.makeText(
+//            applicationContext,
+//            result, Toast.LENGTH_LONG).show()
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Start Paypal Service
+//        var  intent = Intent(this, PayPalService::class.java)
+//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
+//        startService(intent)
 
         binding = ActivityShoppingCartConfirmedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        doGetPaymentMethodList("25")
-        doGetUserAddressList("25")
+        MMKV_user_id = MMKV.mmkvWithID("http").getString("UserId", "").toString()
 
-
+        doGetPaymentMethodList(MMKV_user_id)
+        doGetUserAddressList(MMKV_user_id)
 
         initMMKV()
         initView()
@@ -85,17 +159,62 @@ class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
 
         binding.titleBackAddshop.setOnClickListener {
 
-
             val intent = Intent(this, ShoppingCartEditActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        binding.btnShoppingCartPaypal.setOnClickListener {
+//        binding.btnShoppingCartPaypalTest.setOnClickListener {
+//            processPayment()
+//        }
 
-        }
+        binding.btnShoppingCartPaypal.setup(
+
+            createOrder = CreateOrder { createOrderActions ->
+                val order = Order(
+                    intent = OrderIntent.CAPTURE,
+                    appContext = AppContext(
+                        userAction = UserAction.PAY_NOW
+                    ),
+                    purchaseUnitList = listOf(
+                        PurchaseUnit(
+                            amount = Amount(
+                                currencyCode = CurrencyCode.HKD,
+                                value = "10.00"
+//                                value = binding.textViewSumPrice.text.toString()
+                            )
+                        )
+                    )
+                )
+
+                createOrderActions.create(order)
+
+            },
+            onApprove = OnApprove { approval ->
+                approval.orderActions.capture { captureOrderResult ->
+                    Log.d("Papal_CaptureOrder", "CaptureOrderResult: $captureOrderResult")
+                }
+            },
+            onCancel = OnCancel {
+                Log.d("Papal_OnCancel", "Buyer canceled the PayPal experience.")
+            },
+            onError = OnError { errorInfo ->
+                Log.d("Papal_OnError", "Error: $errorInfo")
+            }
+
+        )
 
     }
+
+//    private fun processPayment() {
+//        var amount = "10"
+//        var paypalPayment = PayPalPayment(BigDecimal(amount), "HKD", "Sandbox Test", PayPalPayment.PAYMENT_INTENT_SALE)
+//
+//        var intent = Intent(this, PaymentActivity::class.java)
+//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
+//        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, paypalPayment)
+//        startActivityForResult(intent, PAYPAL_REQUEST_CODE)
+//    }
 
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -144,7 +263,7 @@ class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
                             }
                         }
 
-                        mAdapter_ShoppingCartItems.setDatas(mutableList_shoppingCartShopItems, true, address_less)
+                        mAdapter_ShoppingCartItems.setDatas(mutableList_shoppingCartShopItems, address_less)
 
                         Log.d("check_upadte_buyer_address", "specId_json: ${specId_json.toString()}\n" +
                                 "id:　${id.toString()}")
@@ -370,7 +489,7 @@ class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
                                 binding.rViewShoppingCartItems.setLayoutManager(MyLinearLayoutManager(this@ShoppingCartConfirmedActivity,false))
                                 binding.rViewShoppingCartItems.adapter = mAdapter_ShoppingCartItems
 
-                                mAdapter_ShoppingCartItems.setDatas(mutableList_shoppingCartShopItems, false , address_less)
+                                mAdapter_ShoppingCartItems.setDatas(mutableList_shoppingCartShopItems , address_less)
                                 mAdapter_ShoppingCartItems.set_edit_mode(false)
 
                                 var final_total_prodcut_price = 0
@@ -388,7 +507,7 @@ class ShoppingCartConfirmedActivity : BaseActivity(), TextWatcher{
                                 for(i in 0 until mutableList_shoppingCartShopItems.size){
                                     if(mutableList_shoppingCartShopItems.get(i).shop_checked){
                                         for(j in 0 until mutableList_shoppingCartShopItems.get(i).productList.size ){
-                                            final_total_shipent_price += mutableList_shoppingCartShopItems.get(i).productList.get(j).shipmentSelected.shipment_price.toInt()
+                                            final_total_shipent_price += mutableList_shoppingCartShopItems.get(i).productList.get(j).selected_shipment.shipment_price.toInt()
                                         }
                                     }
                                 }

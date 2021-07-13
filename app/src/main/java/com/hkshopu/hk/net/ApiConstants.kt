@@ -16,7 +16,6 @@ class ApiConstants private constructor() {
 //        var API_HOST = "https://hkshopu-20700.df.r.appspot.com/"
 //        var API_HOST = "https://peppy-booth-311912.df.r.appspot.com/"
 
-
         var IMG_HOST = "https://hkshopu.df.r.appspot.com"
         //        var API_HOST = ""
         const val API_PATH = "https://hkshopu.df.r.appspot.com/"

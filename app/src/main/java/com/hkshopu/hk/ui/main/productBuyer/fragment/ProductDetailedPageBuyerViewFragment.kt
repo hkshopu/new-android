@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +22,8 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import com.HKSHOPU.hk.R
+import com.HKSHOPU.hk.component.*
 
-import com.HKSHOPU.hk.component.EventBuyerDetailedProductBtnStatusFirst
-import com.HKSHOPU.hk.component.EventBuyerDetailedProductBtnStatusSecond
-import com.HKSHOPU.hk.component.EventBuyerDetailedProductRemoveProDetailedFragment
 import com.HKSHOPU.hk.data.bean.*
 import com.HKSHOPU.hk.databinding.FragmentProductDetailedPageBinding
 import com.HKSHOPU.hk.net.ApiConstants
@@ -33,6 +32,9 @@ import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.productBuyer.adapter.*
 import com.HKSHOPU.hk.ui.main.shoppingCart.activity.ShoppingCartEditActivity
 import com.HKSHOPU.hk.utils.rxjava.RxBus
+import com.google.android.flexbox.*
+import com.google.gson.annotations.SerializedName
+import com.paypal.pyplcheckout.sca.runOnUiThread
 import com.squareup.picasso.Picasso
 import com.tencent.mmkv.MMKV
 import okhttp3.Response
@@ -65,8 +67,8 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
     //MMKV
     var MMKV_user_id : String = ""
-    var MMKV_shop_id : String = ""
-    var MMKV_product_id: String = ""
+    var api_shop_id : String = ""
+    var frag_args_product_id : String = ""
 
     var product_status : String = ""
     var shoppingCartItemCount: ShoppingCartItemCountBean = ShoppingCartItemCountBean()
@@ -82,12 +84,11 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
     var detailed_product_specification_bean: DetailedProductSpecificationBean = DetailedProductSpecificationBean()
     var mutableList_first_specifications: MutableList<ItemSpecificationSeleting> = mutableListOf()
-    var mAdapter_first_specifications = SpecificationFirstSelectingAdapter()
+//    var mAdapter_first_specifications = SpecificationFirstSelectingAdapter()
     var mutableList_second_specifications: MutableList<ItemSpecificationSeleting> = mutableListOf()
-    var mAdapter_second_specifications = SpecificationSecondSelectingAdapter(false)
+//    var mAdapter_second_specifications = SpecificationSecondSelectingAdapter(false)
 
     var specGroup_count = 0
-    var shop_follow_status = false
     var max_quantity = 0
 
     var first_layer_clicked = false
@@ -100,11 +101,13 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
     var product_spec_on = ""
 
     //specification selecting
+    var product_name:String = ""
+    var timeForStocking:Int = 0
+    var tvTitleSpecsFirst = ""
+    var tvTitleSpecsSecond = ""
     var boolean: Boolean = false
     var position: Int = 0
     var spec_id: String = ""
-    var first_spec_name = ""
-    var second_spec_name = ""
     var price_range: String = ""
     var quant_range: String = ""
     var total_quantity: Int = 0
@@ -119,27 +122,23 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
         binding = FragmentProductDetailedPageBinding.bind(view)
         fragmentProductDetailedPageBinding = binding
 
-        MMKV_user_id = MMKV.mmkvWithID("http").getString("UserId", "25").toString()
-        MMKV_shop_id = MMKV.mmkvWithID("http").getString("ShopId", "0").toString()
-//        MMKV_product_id = MMKV.mmkvWithID("http").getString("ProductId", "9a139db5-4650-4866-b6f1-c3da85d5519b").toString()
+        MMKV_user_id = MMKV.mmkvWithID("http").getString("UserId", "").toString()
+        frag_args_product_id = arguments!!.getString("product_id", "").toString()
 
-        var productId = arguments!!.getString("product_id", "").toString()
-        MMKV.mmkvWithID("http").putString(
-            "ProductId",
-            productId
-        )
-        MMKV_product_id= productId
+        Log.d("ProductDetailedPageBuyerViewFragment", "MMKV_user_id: ${MMKV_user_id.toString()} ;\n" +
+                "frag_args_product_id : ${frag_args_product_id.toString()} ; ")
 
-        Log.d("MMKV_product_id_inspect_value", "MMKV_user_id: ${MMKV_user_id.toString()} ;\n" +
-                "productId : ${productId.toString()} ; ")
+        if(MMKV_user_id.isNullOrEmpty()){
+            binding!!.tvCartItemCount.visibility = View.GONE
+        }else{
+            GetShoppingCartItemCountForBuyer (MMKV_user_id)
+        }
 
-
-        GetShoppingCartItemCountForBuyer (MMKV_user_id)
-        getProductDetailedInfo(MMKV_user_id,MMKV_product_id)
-        getSimilarProducts(MMKV_user_id, MMKV_product_id)
-        getSameShopProducts(MMKV_user_id, MMKV_product_id)
-        GetDetailedProductSpecification(MMKV_product_id)
-        getProductRatingDetails(MMKV_product_id)
+        getProductDetailedInfo(MMKV_user_id,frag_args_product_id)
+        getSimilarProducts(MMKV_user_id, frag_args_product_id)
+        getSameShopProducts(MMKV_user_id, frag_args_product_id)
+        GetDetailedProductSpecification(frag_args_product_id)
+        getProductRatingDetails(frag_args_product_id)
 
 
         initView()
@@ -148,23 +147,34 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
     fun initView() {
 
-        binding!!.bottomSheetDlgOderInfoSetting.visibility = View.GONE
-        binding!!.imgViewDialogShowBackground.visibility = View.GONE
-
-        binding!!.rViewItemSpecFirst.visibility = View.VISIBLE
-        binding!!.rViewItemSpecSecond.visibility = View.VISIBLE
-
-
-        binding!!.rViewItemSpecFirst.layoutManager =
-            GridLayoutManager(activity,4)
-        binding!!.rViewItemSpecFirst.adapter = mAdapter_first_specifications
+//        binding!!.bottomSheetDlgOderInfoSetting.visibility = View.GONE
+//        binding!!.imgViewDialogShowBackground.visibility = View.GONE
+//
+//        binding!!.rViewItemSpecFirst.visibility = View.VISIBLE
+//        binding!!.rViewItemSpecSecond.visibility = View.VISIBLE
 
 
-        binding!!.rViewItemSpecSecond.layoutManager =
-            GridLayoutManager(activity,4)
-        binding!!.rViewItemSpecSecond.adapter = mAdapter_second_specifications
+        val layoutManager_forFirst = FlexboxLayoutManager(requireActivity())
+        layoutManager_forFirst.flexDirection = FlexDirection.ROW
+        layoutManager_forFirst.flexWrap = FlexWrap.NOWRAP
+        layoutManager_forFirst.justifyContent = JustifyContent.FLEX_START
+        layoutManager_forFirst.alignItems = AlignItems.FLEX_START
 
+//        binding!!.rViewItemSpecFirst.setLayoutManager(layoutManager_forFirst)
+//        binding.rViewItemSpecFirst.layoutManager =
+//            FlexboxLayoutManager(this)
+//        binding!!.rViewItemSpecFirst.adapter = mAdapter_first_specifications
 
+        val layoutManager_forSecond = FlexboxLayoutManager(requireActivity())
+        layoutManager_forSecond.flexDirection = FlexDirection.ROW
+        layoutManager_forSecond.flexWrap = FlexWrap.NOWRAP
+        layoutManager_forSecond.justifyContent = JustifyContent.FLEX_START
+        layoutManager_forSecond.alignItems = AlignItems.FLEX_START
+
+//        binding!!.rViewItemSpecSecond.setLayoutManager(layoutManager_forSecond)
+//        binding.rViewItemSpecSecond.layoutManager =
+//            FlexboxLayoutManager(this)
+//        binding!!.rViewItemSpecSecond.adapter = mAdapter_second_specifications
 
         initEvent()
         initClick()
@@ -175,9 +185,18 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
         binding!!.icCart.setOnClickListener {
 
-            val intent = Intent(activity, ShoppingCartEditActivity::class.java)
-            startActivity(intent)
-            activity!!.finish()
+
+            if(MMKV_user_id.isNullOrEmpty()){
+
+                Log.d("btnAddToShoppingCart", "UserID為空值")
+                Toast.makeText(requireActivity(), "請先登入", Toast.LENGTH_SHORT).show()
+
+            }else{
+                val intent = Intent(activity, ShoppingCartEditActivity::class.java)
+                startActivity(intent)
+
+            }
+
         }
 
         binding!!.titleBackAddshop.setOnClickListener {
@@ -187,158 +206,112 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
         binding!!.btnAddToShoppingCart.setOnClickListener {
 
             Selected_product_quantity = 1
-            Selected_product_spec_id = spec_id.toString()
 
-            if(product_spec_on.equals("y")){
+            if(MMKV_user_id.isNullOrEmpty()){
+                Log.d("btnAddToShoppingCart", "UserID為空值")
+                Toast.makeText(requireActivity(), "請先登入", Toast.LENGTH_SHORT).show()
+            }else{
+                if(product_spec_on.equals("y")){
 
-                if(Selected_product_spec_id.equals("")){
-                    Toast.makeText(activity, "請選取產品規格", Toast.LENGTH_SHORT).show()
+                    if(Selected_product_spec_id.equals("")){
+
+
+                        RxBus.getInstance().post(EventBuyerDetailedProductBottomSheetShowHide(
+                            "show",
+                            frag_args_product_id,
+                            product_name.toString(),
+                            timeForStocking.toInt(),
+                            detailed_product_specification_bean))
+
+                    }else{
+
+
+                        doAddItemsToShoppingCart(
+                            MMKV_user_id,
+                            frag_args_product_id,
+                            Selected_product_spec_id,
+                            Selected_product_quantity,
+                            api_shop_id
+                        )
+
+                    }
+
                 }else{
 
                     doAddItemsToShoppingCart(
                         MMKV_user_id,
-                        MMKV_product_id,
-                        Selected_product_spec_id,
-                        Selected_product_quantity
+                        frag_args_product_id,
+                        "",
+                        Selected_product_quantity,
+                        api_shop_id
                     )
 
                 }
-
-            }else{
-
-                doAddItemsToShoppingCart(
-                    MMKV_user_id,
-                    MMKV_product_id,
-                    "",
-                    Selected_product_quantity
-                )
-
             }
-
         }
 
         binding!!.btnDirectPurchase.setOnClickListener {
 
-
             Selected_product_quantity = 1
             Selected_product_spec_id = spec_id.toString()
 
-            if(product_spec_on.equals("y")){
+            if(MMKV_user_id.isNullOrEmpty()){
+                Log.d("btnAddToShoppingCart", "UserID為空值")
+                Toast.makeText(requireActivity(), "請先登入", Toast.LENGTH_SHORT).show()
+            }else{
+                if(product_spec_on.equals("y")){
 
-                if(Selected_product_spec_id.equals("")){
-                    Toast.makeText(activity, "請選取產品規格", Toast.LENGTH_SHORT).show()
+                    if(Selected_product_spec_id.equals("")){
+
+                        RxBus.getInstance().post(EventBuyerDetailedProductBottomSheetShowHide(
+                            "show",
+                            frag_args_product_id,
+                            product_name.toString(),
+                            timeForStocking.toInt(),
+                            detailed_product_specification_bean))
+
+                    }else{
+
+                        doAddItemsToShoppingCart(
+                            MMKV_user_id,
+                            frag_args_product_id,
+                            Selected_product_spec_id,
+                            Selected_product_quantity,
+                            api_shop_id
+                        )
+                        val intent = Intent(activity, ShoppingCartEditActivity::class.java)
+                        startActivity(intent)
+                        activity!!.finish()
+                    }
+
                 }else{
 
                     doAddItemsToShoppingCart(
                         MMKV_user_id,
-                        MMKV_product_id,
-                        Selected_product_spec_id,
-                        Selected_product_quantity
+                        frag_args_product_id,
+                        "",
+                        Selected_product_quantity,
+                        api_shop_id
                     )
                     val intent = Intent(activity, ShoppingCartEditActivity::class.java)
                     startActivity(intent)
                     activity!!.finish()
                 }
-
-            }else{
-
-                doAddItemsToShoppingCart(
-                    MMKV_user_id,
-                    MMKV_product_id,
-                    "0",
-                    Selected_product_quantity
-                )
-                val intent = Intent(activity, ShoppingCartEditActivity::class.java)
-                startActivity(intent)
-                activity!!.finish()
             }
-
-
         }
 
 
         //ButtomSheetDialog Settings
         binding!!.btnProductSpecsSelecting.setOnClickListener {
-
-            if (  binding!!.bottomSheetDlgOderInfoSetting.visibility == View.GONE){
-                binding!!.bottomSheetDlgOderInfoSetting.visibility = View.VISIBLE
-                binding!!.imgViewDialogShowBackground.visibility = View.VISIBLE
-
-                binding!!.bottomSheetDlgOderInfoSetting.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.tranlate_dialog_in))
-                binding!!.imgViewDialogShowBackground.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_alpha_in_slowly))
-
-            }
+            
+            RxBus.getInstance().post(EventBuyerDetailedProductBottomSheetShowHide(
+                "show",
+                frag_args_product_id,
+                product_name.toString(),
+                timeForStocking.toInt(),
+                detailed_product_specification_bean))
 
         }
-        binding!!.btnCancelDialog.setOnClickListener {
-            if(binding!!.bottomSheetDlgOderInfoSetting.visibility == View.VISIBLE){
-                binding!!.bottomSheetDlgOderInfoSetting.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.tranlate_dialog_out))
-                binding!!.imgViewDialogShowBackground.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_alpha_out_slowly))
-
-                binding!!.bottomSheetDlgOderInfoSetting.visibility = View.GONE
-                binding!!.imgViewDialogShowBackground.visibility = View.GONE
-            }
-        }
-
-        binding!!.btnConfirmSpecsSelecting.setOnClickListener {
-
-            binding!!.bottomSheetDlgOderInfoSetting.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.tranlate_dialog_out))
-            binding!!.imgViewDialogShowBackground.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_alpha_out_slowly))
-
-            binding!!.bottomSheetDlgOderInfoSetting.visibility = View.GONE
-            binding!!.imgViewDialogShowBackground.visibility = View.GONE
-
-            var tvTitleSpecsFirst = binding!!.tvTitleSpecsFirst.text.toString()
-            var tvTitleSpecsSecond = binding!!.tvTitleSpecsSecond.text.toString()
-
-            binding!!.textViewProductPriceRange.setText(price_range.toString())
-
-            if(!tvTitleSpecsFirst.isNullOrEmpty() && !tvTitleSpecsSecond.isNullOrEmpty()){
-                binding!!.txtViewSpinnerContent.setText("${tvTitleSpecsFirst} : ${first_spec_name}"
-                        + "\n"+ "${tvTitleSpecsSecond} : ${second_spec_name}")
-            }else{
-                binding!!.txtViewSpinnerContent.setText("${tvTitleSpecsFirst} : ${first_spec_name}")
-            }
-
-
-        }
-
-//        binding.icMathAdd.setOnClickListener {
-//
-//            if(first_layer_clicked && second_layer_clicked){
-//                var quant =  binding.tvValueQuantitiy.text.toString().toInt()
-//
-//                if(max_quantity>quant){
-//                    quant += 1
-//                }
-//
-//                binding.tvValueQuantitiy.text = quant.toString()
-//
-//                var total_price_abacus_setting = price_range.toInt()*quant
-//                binding.buttomSheetTextViewProductPriceRange.setText(total_price_abacus_setting.toString())
-//
-//            }else{
-//                Toast.makeText(this, "請先選取規格", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        }
-//        binding.icMathSubtract.setOnClickListener {
-//            if(first_layer_clicked && second_layer_clicked){
-//                var quant =  binding.tvValueQuantitiy.text.toString().toInt()
-//
-//                if(quant>1){
-//                    quant -= 1
-//                }
-//                binding.tvValueQuantitiy.text = quant.toString()
-//
-//                var total_price_abacus_setting = price_range.toInt()*quant
-//                binding.buttomSheetTextViewProductPriceRange.setText(total_price_abacus_setting.toString())
-//
-//            }else{
-//                Toast.makeText(this, "請先選取規格", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        }
 
     }
 
@@ -549,6 +522,8 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                         setBoardingData()
 
+                        api_shop_id = ShopDetailedProductForBuyerBean.shop_id.toString()
+
                         binding!!.txtViewAverageRating.setText(ShopDetailedProductForBuyerBean.average_rating.toString())
                         if(ShopDetailedProductForBuyerBean.average_rating>4.25){
                             activity!!.runOnUiThread {
@@ -724,7 +699,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                         var min_quantity = ""
                         var max_quantity = ""
                         var quantity_range = ""
-                        if(ShopDetailedProductForBuyerBean.min_quantity.toString().length>=3){
+                        if(ShopDetailedProductForBuyerBean.min_quantity.toString().length>3){
                             var one_thous = 1000
                             var float = ShopDetailedProductForBuyerBean.min_quantity.toDouble()/one_thous.toDouble()
                             var bigDecimal = float.toBigDecimal()
@@ -733,20 +708,20 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                         }else{
 
-                            min_quantity =  "${ShopDetailedProductForBuyerBean.selling_count.toString()}"
+                            min_quantity =  "${ShopDetailedProductForBuyerBean.min_quantity.toString()}"
 
                         }
 
-                        if(ShopDetailedProductForBuyerBean.max_quantity.toString().length>=3){
+                        if(ShopDetailedProductForBuyerBean.max_quantity.toString().length>3){
                             var one_thous = 1000
-                            var float = ShopDetailedProductForBuyerBean.selling_count.toDouble()/one_thous.toDouble()
+                            var float = ShopDetailedProductForBuyerBean.max_quantity.toDouble()/one_thous.toDouble()
                             var bigDecimal = float.toBigDecimal()
 
                             max_quantity = "${bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toString()}k"
 
                         }else{
 
-                            max_quantity =  "${ShopDetailedProductForBuyerBean.selling_count.toString()}"
+                            max_quantity =  "${ShopDetailedProductForBuyerBean.max_quantity.toString()}"
 
                         }
 
@@ -769,7 +744,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                         }
 
 
-                        if(ShopDetailedProductForBuyerBean.selling_count.toString().length>=3){
+                        if(ShopDetailedProductForBuyerBean.selling_count.toString().length>3){
                             var one_thous = 1000
                             var float = ShopDetailedProductForBuyerBean.selling_count.toDouble()/one_thous.toDouble()
                             var bigDecimal = float.toBigDecimal()
@@ -783,7 +758,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                             }
                         }
 
-                        if(ShopDetailedProductForBuyerBean.liked_count.toString().length>=3){
+                        if(ShopDetailedProductForBuyerBean.liked_count.toString().length>3){
                             var one_thous = 1000
                             var float = ShopDetailedProductForBuyerBean.liked_count.toDouble()/one_thous.toDouble()
                             var bigDecimal = float.toBigDecimal()
@@ -822,7 +797,6 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                             }
                         }
 
-                        binding!!.tvValueTimeForStocking.setText(ShopDetailedProductForBuyerBean.longterm_stock_up.toString())
 
                         activity!!.runOnUiThread {
                             binding!!.textViewProductName.setText(ShopDetailedProductForBuyerBean.product_title.toString())
@@ -831,7 +805,13 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                             binding!!.textViewSeletedCategory.setText(
                                 ShopDetailedProductForBuyerBean.category
                             )
+
+//                            binding!!.bottomSheetTextViewProductName.setText(ShopDetailedProductForBuyerBean.product_title.toString())
+                            //                        binding!!.tvValueTimeForStocking.setText(ShopDetailedProductForBuyerBean.longterm_stock_up.toString())
+
                         }
+                        product_name = ShopDetailedProductForBuyerBean.product_title.toString()
+                        timeForStocking = ShopDetailedProductForBuyerBean.longterm_stock_up.toInt()
 
                         initViewPager()
 
@@ -851,17 +831,14 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                             binding!!.btnDetailedProductForBuyerLike.setOnClickListener {
 
-                                if(like.equals("Y")){
-                                    binding!!.btnDetailedProductForBuyerLike.setImageResource(R.mipmap.btn_detailed_product_for_buyer_like_colorless)
-                                    like = "N"
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.VISIBLE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.VISIBLE
+
+                                if(ShopDetailedProductForBuyerBean.liked.equals("Y")){
+                                    doLikeProductForBuyer(MMKV_user_id, frag_args_product_id, "N")
                                 }else{
-                                    binding!!.btnDetailedProductForBuyerLike.setImageResource(R.mipmap.btn_detailed_product_for_buyer_like_colorful)
-                                    like = "Y"
+                                    doLikeProductForBuyer(MMKV_user_id, frag_args_product_id, "Y")
                                 }
-
-                                var MMKV_user_id = MMKV.mmkvWithID("http").getString("UserId", "")
-
-                                doLikeProductForBuyer("25", "269", like)
 
                             }
                         }
@@ -894,7 +871,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                     }
 
                 } catch (e: JSONException) {
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
+                    Log.d("getDetailedProductInfo", "getDetailedProductInfo: JSONException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -904,7 +881,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "IOException: "+ e.toString())
+                    Log.d("getDetailedProductInfo", "getDetailedProductInfo: IOException: "+ e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -915,7 +892,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
+                Log.d("getDetailedProductInfo", "getDetailedProductInfo: ErrorResponse: " + ErrorResponse.toString())
                 activity!!.runOnUiThread {
                     Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -947,44 +924,48 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                         val jsonArray: JSONArray = json.getJSONArray("data")
                         Log.d("getSimilarProducts", "返回資料 jsonArray：" + jsonArray.toString())
 
-                        if( jsonArray.length()>2 ){
-                            //只取前三項"推薦"產品
-                            for (i in 0 until 3) {
+                        if( jsonArray.length()>0 ){
+                            if( jsonArray.length()>2 ){
+                                //只取前三項"推薦"產品
+                                for (i in 0 until 3) {
 
-                                val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                                mutablelist_similarProduct.add(Gson().fromJson(
-                                    jsonObject.toString(),
-                                    ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
-                                ))
+                                    val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                                    mutablelist_similarProduct.add(Gson().fromJson(
+                                        jsonObject.toString(),
+                                        ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
+                                    ))
+
+                                }
+                            }else{
+                                for (i in 0 until jsonArray.length()) {
+
+                                    val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                                    mutablelist_similarProduct.add(Gson().fromJson(
+                                        jsonObject.toString(),
+                                        ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
+                                    ))
+
+                                }
+                            }
+
+                            Log.d("getSimilarProducts", "返回資料 mutablelist_recommendedProduct：" + mutablelist_similarProduct.toString())
+
+                            activity!!.runOnUiThread {
+
+                                var mAdapter_likeProduct_forRecommendPro = LikeProductForFragmentAdapter("recommended", activity!!)
+
+                                binding!!.recyclerviewRecommendedProducts.layoutManager =
+                                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                                binding!!.recyclerviewRecommendedProducts.adapter = mAdapter_likeProduct_forRecommendPro
+
+                                mAdapter_likeProduct_forRecommendPro.setData(mutablelist_similarProduct)
+
 
                             }
+
                         }else{
-                            for (i in 0 until jsonArray.length()) {
-
-                                val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                                mutablelist_similarProduct.add(Gson().fromJson(
-                                    jsonObject.toString(),
-                                    ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
-                                ))
-
-                            }
-                        }
-
-                        Log.d("getSimilarProducts", "返回資料 mutablelist_recommendedProduct：" + mutablelist_similarProduct.toString())
-
-                        activity!!.runOnUiThread {
-
-                            var mAdapter_likeProduct_forRecommendPro = LikeProductForFragmentAdapter("recommended", activity!!)
-
-                            binding!!.recyclerviewRecommendedProducts.layoutManager =
-                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            binding!!.recyclerviewRecommendedProducts.adapter = mAdapter_likeProduct_forRecommendPro
-
-                            mAdapter_likeProduct_forRecommendPro.setData(mutablelist_similarProduct)
-
 
                         }
-
 
                     }else{
 
@@ -1049,172 +1030,173 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                         val jsonArray: JSONArray = json.getJSONArray("data")
                         Log.d("getSameShopProducts", "返回資料 jsonArray：" + jsonArray.toString())
+                        if( jsonArray.length()>0 ){
+                            if( jsonArray.length()>2 ){
+                                //只取前三項"推薦"產品
+                                for (i in 0 until 3) {
 
-                        if( jsonArray.length()>2 ){
-                            //只取前三項"推薦"產品
-                            for (i in 0 until 3) {
+                                    val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                                    mutablelist_otherShopProduct.add(Gson().fromJson(
+                                        jsonObject.toString(),
+                                        ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
+                                    ))
 
-                                val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                                mutablelist_otherShopProduct.add(Gson().fromJson(
-                                    jsonObject.toString(),
-                                    ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
-                                ))
+                                }
+                            }else{
+                                for (i in 0 until jsonArray.length()) {
 
+                                    val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                                    mutablelist_otherShopProduct.add(Gson().fromJson(
+                                        jsonObject.toString(),
+                                        ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
+                                    ))
+
+                                }
                             }
-                        }else{
-                            for (i in 0 until jsonArray.length()) {
 
-                                val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                                mutablelist_otherShopProduct.add(Gson().fromJson(
-                                    jsonObject.toString(),
-                                    ProductDetailedPageForBuyer_RecommendedProductsBean::class.java
-                                ))
-
-                            }
-                        }
-
-                        activity!!.runOnUiThread {
-
-                            Picasso.with(activity).load(mutablelist_otherShopProduct.get(0).shop_icon).into(binding!!.ivSameShopIcon)
-
-                            binding!!.tvSameShopTitle.setText(
-                                mutablelist_otherShopProduct.get(0).shop_title
-                            )
-                            binding!!.tvSameShopRating.setText(
-                                mutablelist_otherShopProduct.get(0).shop_rating.toString()
-                            )
-                            binding!!.tvSameShopFollowCount.setText(
-                                mutablelist_otherShopProduct.get(0).follow_count.toString()
-                            )
-
-                        }
-
-                        if(mutablelist_otherShopProduct.get(0).shop_rating>4.25){
                             activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star_half)
-                            }
-                        }else if (mutablelist_otherShopProduct.get(0).shop_rating>3.75){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>3.25){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_half)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>2.75){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>2.25){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_half)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>1.75){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>1.25){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_half)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>0.75){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else if(mutablelist_otherShopProduct.get(0).shop_rating>0.25){
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_half)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }else{
-                            activity!!.runOnUiThread {
-                                binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
-                                binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
-                            }
-                        }
 
-                        Log.d("getSameShopProducts", "返回資料 mutablelist_otherShopProduct：" + mutablelist_otherShopProduct.toString())
+                                Picasso.get().load(mutablelist_otherShopProduct.get(0).shop_icon).into(binding!!.ivSameShopIcon)
 
-
-                        if(mutablelist_otherShopProduct.get(0).followed.equals("Y")){
-                            shop_follow_status = true
-                            activity!!.runOnUiThread {
-                                binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribed)
+                                binding!!.tvSameShopTitle.setText(
+                                    mutablelist_otherShopProduct.get(0).shop_title
+                                )
+                                binding!!.tvSameShopRating.setText(
+                                    mutablelist_otherShopProduct.get(0).shop_rating.toString()
+                                )
+                                binding!!.tvSameShopFollowCount.setText(
+                                    mutablelist_otherShopProduct.get(0).follow_count.toString()
+                                )
 
                             }
 
-                        }else{
-                            shop_follow_status = false
-                            activity!!.runOnUiThread {
-                                binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribing)
-                            }
-                        }
-                        binding!!.btnShopSubscribing.setOnClickListener {
-
-                            if(shop_follow_status){
-                                doFollowShopForBuyer("25", "127", "N")
-                                shop_follow_status = false
+                            if(mutablelist_otherShopProduct.get(0).shop_rating>4.25){
                                 activity!!.runOnUiThread {
-                                    binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribing)
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star_half)
+                                }
+                            }else if (mutablelist_otherShopProduct.get(0).shop_rating>3.75){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>3.25){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star_half)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>2.75){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>2.25){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star_half)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>1.75){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>1.25){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star_half)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>0.75){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_fill)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else if(mutablelist_otherShopProduct.get(0).shop_rating>0.25){
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star_half)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }else{
+                                activity!!.runOnUiThread {
+                                    binding!!.ivSameShopRating01.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating02.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating03.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating04.setImageResource(R.mipmap.ic_star)
+                                    binding!!.ivSameShopRating05.setImageResource(R.mipmap.ic_star)
+                                }
+                            }
+
+                            Log.d("getSameShopProducts", "返回資料 mutablelist_otherShopProduct：" + mutablelist_otherShopProduct.toString())
+
+
+                            if(mutablelist_otherShopProduct.get(0).followed.equals("Y")){
+                                activity!!.runOnUiThread {
+                                    binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribed)
+
                                 }
 
                             }else{
-                                doFollowShopForBuyer("25", "127", "Y")
-                                shop_follow_status = true
                                 activity!!.runOnUiThread {
-                                    binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribed)
+                                    binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribing)
                                 }
+                            }
+                            activity!!.runOnUiThread {
+                                binding!!.btnShopSubscribing.setOnClickListener {
+
+                                    Log.d("doFollowShopForBuyer", "MMKV_user_id: ${MMKV_user_id}\n " +
+                                            "shop_id: ${mutablelist_otherShopProduct.get(0).shop_id}\n " )
+
+                                    binding!!.progressBarDetailedProductForBuyer.visibility = View.VISIBLE
+                                    binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.VISIBLE
+
+                                    if(mutablelist_otherShopProduct.get(0).followed.equals("Y")){
+                                        doFollowShopForBuyer(MMKV_user_id, mutablelist_otherShopProduct.get(0).shop_id, "N")
+                                    }else{
+                                        doFollowShopForBuyer(MMKV_user_id, mutablelist_otherShopProduct.get(0).shop_id, "Y")
+                                    }
+
+                                }
+                            }
+
+
+                            activity!!.runOnUiThread {
+                                var mAdapter_likeProduct_forOtherShop = LikeProductForFragmentAdapter("otherShop", activity!!)
+
+                                binding!!.recyclerviewOhtersShopProducts.layoutManager =
+                                    LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                                binding!!.recyclerviewOhtersShopProducts.adapter = mAdapter_likeProduct_forOtherShop
+
+                                mAdapter_likeProduct_forOtherShop.setData(mutablelist_otherShopProduct)
 
                             }
 
-                        }
-
-                        activity!!.runOnUiThread {
-                            var mAdapter_likeProduct_forOtherShop = LikeProductForFragmentAdapter("otherShop", activity!!)
-
-                            binding!!.recyclerviewOhtersShopProducts.layoutManager =
-                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            binding!!.recyclerviewOhtersShopProducts.adapter = mAdapter_likeProduct_forOtherShop
-
-                            mAdapter_likeProduct_forOtherShop.setData(mutablelist_otherShopProduct)
+                        }else{
 
                         }
 
@@ -1231,7 +1213,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
 
                 } catch (e: JSONException) {
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
+                    Log.d("errormessage", "getSameShopProducts: JSONException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1241,7 +1223,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "IOException: " + e.toString())
+                    Log.d("errormessage", "getSameShopProducts: IOException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1252,7 +1234,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
+                Log.d("errormessage", "getSameShopProducts: ErrorResponse: " + ErrorResponse.toString())
                 activity!!.runOnUiThread {
                     Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1282,61 +1264,91 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
     private fun doFollowShopForBuyer (user_id: String , shop_id: String, follow: String) {
 
-        val url = ApiConstants.API_HOST+"user/${user_id}/followShop/${shop_id}/"
-        val web = Web(object : WebListener {
-            override fun onResponse(response: Response) {
-                var resStr: String? = ""
-                try {
+        if(user_id.isNullOrEmpty()){
 
-                    resStr = response.body()!!.string()
-                    val json = JSONObject(resStr)
-                    Log.d("doFollowShopForBuyer", "返回資料 resStr：" + resStr)
-                    Log.d("doFollowShopForBuyer", "返回資料 ret_val：" + json.get("ret_val"))
-                    val ret_val = json.get("ret_val")
-                    if (ret_val.equals("收藏成功")) {
+            Log.d("doFollowShopForBuyer", "UserID為空值")
+            Toast.makeText(requireActivity(), "請先登入", Toast.LENGTH_SHORT).show()
 
-                        val jsonArray: JSONArray = json.getJSONArray("data")
-                        Log.d("doFollowShopForBuyer", "返回資料 jsonArray：" + jsonArray.toString())
+        }else{
+            val url = ApiConstants.API_HOST+"user/${user_id}/followShop/${shop_id}/"
+            val web = Web(object : WebListener {
+                override fun onResponse(response: Response) {
+                    var resStr: String? = ""
+                    try {
+
+                        resStr = response.body()!!.string()
+                        val json = JSONObject(resStr)
+                        Log.d("doFollowShopForBuyer", "返回資料 resStr：" + resStr)
+                        Log.d("doFollowShopForBuyer", "返回資料 ret_val：" + json.get("ret_val"))
+                        val ret_val = json.get("ret_val")
+
+                        if (ret_val.equals("收藏成功")) {
+
+                            val jsonArray: JSONArray = json.getJSONArray("data")
+                            Log.d("doFollowShopForBuyer", "返回資料 jsonArray：" + jsonArray.toString())
+
+                            mutablelist_otherShopProduct.get(0).followed = "Y"
+                            requireActivity().runOnUiThread {
+                                binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribed)
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
+                            }
+
+                        }else if(ret_val.equals("取消收藏成功")){
+
+                            mutablelist_otherShopProduct.get(0).followed = "N"
+
+                            requireActivity().runOnUiThread {
+                                binding!!.btnShopSubscribing.setImageResource(R.mipmap.btn_shop_subscribing)
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
+                            }
+                        }else{
+                            requireActivity().runOnUiThread {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
+                            }
+                        }
 
 
+
+                    } catch (e: JSONException) {
+                        Log.d("errormessage", "getDetailedProductInfo: JSONException: " + e.toString())
                         activity!!.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                ret_val.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
                             binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
                             binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                         }
 
-                    }else{
-
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Log.d("errormessage", "getDetailedProductInfo: IOException: " + e.toString())
                         activity!!.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                ret_val.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
                             binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
                             binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                         }
-
                     }
+                }
 
-
-
-                } catch (e: JSONException) {
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
-                    activity!!.runOnUiThread {
-                        Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
-
-                        binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
-                        binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
-                    }
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "IOException: " + e.toString())
+                override fun onErrorResponse(ErrorResponse: IOException?) {
+                    Log.d("errormessage", "getDetailedProductInfo: ErrorResponse: " + ErrorResponse.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1344,79 +1356,104 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                         binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                     }
                 }
-            }
-
-            override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
-                activity!!.runOnUiThread {
-                    Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
-
-                    binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
-                    binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
-                }
-            }
-        })
-        web.doFollowShopForBuyer(url, user_id, shop_id, follow)
+            })
+            web.doFollowShopForBuyer(url, user_id, shop_id, follow)
+        }
     }
 
 
     private fun doLikeProductForBuyer (user_id: String , product_id: String, like: String) {
 
-        val url = ApiConstants.API_HOST+"product/like_product/"
-        val web = Web(object : WebListener {
-            override fun onResponse(response: Response) {
-                var resStr: String? = ""
-                try {
+        if(user_id.isNullOrEmpty()){
+
+            Log.d("doLikeProductForBuyer", "UserID為空值")
+            Toast.makeText(requireActivity(), "請先登入", Toast.LENGTH_SHORT).show()
+
+        }else{
+            val url = ApiConstants.API_HOST+"product/like_product/"
+            val web = Web(object : WebListener {
+                override fun onResponse(response: Response) {
+                    var resStr: String? = ""
+                    try {
+                        resStr = response.body()!!.string()
+                        val json = JSONObject(resStr)
+                        Log.d("doLikeProductForBuyer", "返回資料 resStr：" + resStr)
+                        Log.d("doLikeProductForBuyer", "返回資料 ret_val：" + json.get("ret_val"))
+                        val ret_val = json.get("ret_val")
+                        if (ret_val.equals("商品收藏成功!")) {
+                            val jsonArray: JSONArray = json.getJSONArray("data")
+                            Log.d("doLikeProductForBuyer", "返回資料 jsonArray：" + jsonArray.toString())
+                            Log.d("doLikeProductForBuyer", "ret_val: ${ret_val.toString()}")
+
+                            ShopDetailedProductForBuyerBean.liked = "Y"
+                            requireActivity().runOnUiThread {
+                                binding!!.btnDetailedProductForBuyerLike.setImageResource(R.mipmap.btn_detailed_product_for_buyer_like_colorful)
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
+
+                            }
 
 
-                    resStr = response.body()!!.string()
-                    val json = JSONObject(resStr)
-                    Log.d("doLikeProductForBuyer", "返回資料 resStr：" + resStr)
-                    Log.d("doLikeProductForBuyer", "返回資料 ret_val：" + json.get("ret_val"))
-                    val ret_val = json.get("ret_val")
-                    if (ret_val.equals("商品收藏成功!")) {
+                        }else if(ret_val.equals("取消收藏成功")){
 
-                        val jsonArray: JSONArray = json.getJSONArray("data")
-                        Log.d("doLikeProductForBuyer", "返回資料 jsonArray：" + jsonArray.toString())
+                            ShopDetailedProductForBuyerBean.liked = "N"
+                            requireActivity().runOnUiThread {
+                                Log.d("doLikeProductForBuyer", "ret_val: ${ret_val.toString()}")
+                                binding!!.btnDetailedProductForBuyerLike.setImageResource(R.mipmap.btn_detailed_product_for_buyer_like_colorless)
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
 
+                            }
+                        }else{
+
+                            requireActivity().runOnUiThread {
+
+                                Log.d("doLikeProductForBuyer", "ret_val: ${ret_val.toString()}")
+                                Toast.makeText(
+                                    requireActivity(),
+                                    ret_val.toString(),
+                                    Toast.LENGTH_SHORT).show()
+                                binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
+                                binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
+
+
+                            }
+                        }
+
+
+
+
+                    } catch (e: JSONException) {
+                        Log.d("errormessage", "doLikeProductForBuyer: JSONException: " + e.toString())
                         activity!!.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                ret_val.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
                             binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
                             binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                         }
 
-                    }else{
-
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Log.d("errormessage", "doLikeProductForBuyer: printStackTrace: " + e.toString())
                         activity!!.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                ret_val.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
                             binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
                             binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                         }
-
                     }
+                }
 
-
-
-                } catch (e: JSONException) {
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
-                    activity!!.runOnUiThread {
-                        Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
-
-                        binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
-                        binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
-                    }
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "printStackTrace: " + e.toString())
+                override fun onErrorResponse(ErrorResponse: IOException?) {
+                    Log.d("errormessage", "doLikeProductForBuyer: ErrorResponse: " + ErrorResponse.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1424,19 +1461,9 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                         binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
                     }
                 }
-            }
-
-            override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
-                activity!!.runOnUiThread {
-                    Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
-
-                    binding!!.progressBarDetailedProductForBuyer.visibility = View.GONE
-                    binding!!.imgViewLoadingBackgroundDetailedProductForBuyer.visibility = View.GONE
-                }
-            }
-        })
-        web.doLikeProductForBuyer(url, user_id, product_id, like)
+            })
+            web.doLikeProductForBuyer(url, user_id, product_id, like)
+        }
     }
 
     private fun GetDetailedProductSpecification (product_id: String) {
@@ -1446,7 +1473,6 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             override fun onResponse(response: Response) {
                 var resStr: String? = ""
                 try {
-
 
                     resStr = response.body()!!.string()
                     val json = JSONObject(resStr)
@@ -1466,11 +1492,13 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                             DetailedProductSpecificationBean::class.java
                         )
 
-                        activity!!.runOnUiThread {
-                            binding!!.tvTitleSpecsFirst.setText(detailed_product_specification_bean.spec_desc_1.toString())
-                            binding!!.tvTitleSpecsSecond.setText(detailed_product_specification_bean.spec_desc_2.toString())
-                        }
 
+                        activity!!.runOnUiThread {
+//                            binding!!.tvTitleSpecsFirst.setText(detailed_product_specification_bean.spec_desc_1.toString())
+//                            binding!!.tvTitleSpecsSecond.setText(detailed_product_specification_bean.spec_desc_2.toString())
+                        }
+                        tvTitleSpecsFirst = detailed_product_specification_bean.spec_desc_1.toString()
+                        tvTitleSpecsSecond = detailed_product_specification_bean.spec_desc_2.toString()
 
                         var total_quantity = {first_position:Int,second_layer_size:Int->
                             var total:Int = 0
@@ -1556,28 +1584,28 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
 
 
-                        activity!!.runOnUiThread {
-                            mAdapter_first_specifications.setDatas(
-                                mutableList_first_specifications
-                            )
-                            mAdapter_second_specifications.setDatas(
-                                mutableList_second_specifications
-                            )
-                        }
+//                        activity!!.runOnUiThread {
+//                            mAdapter_first_specifications.setDatas(
+//                                mutableList_first_specifications
+//                            )
+//                            mAdapter_second_specifications.setDatas(
+//                                mutableList_second_specifications
+//                            )
+//                        }
 
                         if (mutableList_first_specifications.size > 0 && mutableList_second_specifications.size==1 &&  mutableList_second_specifications.get(0).spec_name.isNullOrEmpty()) {
 
-                            activity!!.runOnUiThread {
-                                binding!!.containerSpecsSecondSelectingLayer.visibility = View.GONE
-                            }
+//                            activity!!.runOnUiThread {
+//                                binding!!.containerSpecsSecondSelectingLayer.visibility = View.GONE
+//                            }
 
                             specGroup_count = 1
 
                         } else {
-
-                            activity!!.runOnUiThread {
-                                binding!!.containerSpecsSecondSelectingLayer.visibility = View.VISIBLE
-                            }
+//
+//                            activity!!.runOnUiThread {
+//                                binding!!.containerSpecsSecondSelectingLayer.visibility = View.VISIBLE
+//                            }
 
                             specGroup_count = 2
                         }
@@ -1595,7 +1623,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: JSONException) {
 
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
+                    Log.d("errormessage", "GetDetailedProductSpecification:　JSONException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1604,7 +1632,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "IOException: " + e.toString())
+                    Log.d("errormessage", "GetDetailedProductSpecificationIOException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1615,7 +1643,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
+                Log.d("errormessage", "：　GetDetailedProductSpecification: ErrorResponse: " + ErrorResponse.toString())
                 activity!!.runOnUiThread {
                     Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1659,6 +1687,17 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                             ShoppingCartItemCountBean::class.java
                         )
 
+                        requireActivity().runOnUiThread {
+                            binding!!.tvCartItemCount.setText(shoppingCartItemCount.cartCount.toString())
+
+                            if(shoppingCartItemCount.cartCount > 0){
+                                binding!!.tvCartItemCount.visibility = View.VISIBLE
+                            }else{
+                                binding!!.tvCartItemCount.visibility = View.GONE
+                            }
+
+                        }
+
                     }else{
 
                         activity!!.runOnUiThread {
@@ -1675,7 +1714,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    Log.d("GetShoppingCartItemCountForBuyer", "JSONException: ${e.toString()}")
+                    Log.d("errormessage", "GetShoppingCartItemCountForBuyer: JSONException: ${e.toString()}")
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1685,7 +1724,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("GetShoppingCartItemCountForBuyer", "IOException: ${e.toString()}")
+                    Log.d("errormessage", "GetShoppingCartItemCountForBuyer: IOException: ${e.toString()}")
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1696,7 +1735,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("GetShoppingCartItemCountForBuyer", "ErrorResponse: ${ErrorResponse.toString()}")
+                Log.d("errormessage", "GetShoppingCartItemCountForBuyer: ErrorResponse: ${ErrorResponse.toString()}")
                 activity!!.runOnUiThread {
                     Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1765,7 +1804,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                         if( jsonArray.length()>0 ){
 
-                            for (i in 0 until 3) {
+                            for (i in 0 until jsonArray.length()) {
 
                                 val jsonObject: JSONObject = jsonArray.getJSONObject(i)
                                 mutableList_ProductRatingDetails.add(Gson().fromJson(
@@ -1801,7 +1840,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
                     }
 
                 } catch (e: JSONException) {
-                    Log.d("getDetailedProductInfo", "JSONException: " + e.toString())
+                    Log.d("errormessage", "getProductRatingDetails: JSONException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1811,7 +1850,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Log.d("getDetailedProductInfo", "IOException: " + e.toString())
+                    Log.d("errormessage", "getProductRatingDetails: IOException: " + e.toString())
                     activity!!.runOnUiThread {
                         Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1822,7 +1861,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
-                Log.d("getDetailedProductInfo", "ErrorResponse: " + ErrorResponse.toString())
+                Log.d("errormessage", "getProductRatingDetails: ErrorResponse: " + ErrorResponse.toString())
                 activity!!.runOnUiThread {
                     Toast.makeText(activity, "網路異常", Toast.LENGTH_SHORT).show()
 
@@ -1834,7 +1873,7 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
         web.Get_Data(url)
     }
 
-    private fun doAddItemsToShoppingCart (user_id: String ,product_id: String, product_spec_id: String, quantity: Int) {
+    private fun doAddItemsToShoppingCart (user_id: String ,product_id: String, product_spec_id: String, quantity: Int, shop_id: String) {
 
         val url = ApiConstants.API_HOST+"shopping_cart/add/"
 
@@ -1861,6 +1900,8 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
                         }
 
+                        RxBus.getInstance().post(EventRefreshShoppingCartItemCount())
+
                     }else{
 
                         activity!!.runOnUiThread {
@@ -1876,20 +1917,23 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
 
 
                 } catch (e: JSONException) {
+                    Log.d("errormessage", "doAddItemsToShoppingCart: JSONException：" + e.toString())
 
 
                 } catch (e: IOException) {
                     e.printStackTrace()
+                    Log.d("errormessage", "doAddItemsToShoppingCart: IOException：" + e.toString())
 
                 }
             }
 
             override fun onErrorResponse(ErrorResponse: IOException?) {
+                Log.d("errormessage", "doAddItemsToShoppingCart: ErrorResponse：" + ErrorResponse.toString())
 
             }
         })
 
-        web.doAddItemsToShoppingCart(url, user_id , product_id, product_spec_id, quantity)
+        web.doAddItemsToShoppingCart(url, user_id , product_id, product_spec_id, quantity, shop_id)
     }
 
 
@@ -1901,152 +1945,26 @@ class ProductDetailedPageBuyerViewFragment : Fragment(R.layout.fragment_product_
         RxBus.getInstance().toMainThreadObservable(this, Lifecycle.Event.ON_DESTROY)
             .subscribe({
                 when (it) {
-                    is EventBuyerDetailedProductBtnStatusFirst -> {
-
-                        first_layer_clicked = true
-
-                        boolean = it.boolean
-                        position = it.position
-                        spec_id = it.spec_id
-                        first_spec_name = it.spec_name
+                    is EventRefreshShoppingCartItemCount -> {
+                        GetShoppingCartItemCountForBuyer(MMKV_user_id)
+                    }
+                    is EventBuyerDetailedProductBottomSheetConfirmToOtherProduct->{
+                        var spec_first_title = it.spec_spinner_content_value
                         price_range = it.price_range
-                        quant_range = it.quant_range
-                        total_quantity = it.total_quant
+                        Selected_product_spec_id = it.spec_id
 
-                        mAdapter_second_specifications = SpecificationSecondSelectingAdapter(first_layer_clicked)
-
-                        activity!!.runOnUiThread {
-
-                            binding!!.rViewItemSpecSecond.layoutManager =
-                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            binding!!.rViewItemSpecSecond.adapter = mAdapter_second_specifications
-
-                        }
-
-                        mAdapter_second_specifications.setDatas(
-                            getSecondLayerSpecs(position)
-                        )
-
-
-                        activity!!.runOnUiThread {
-                            binding!!.buttomSheetTextViewProductPriceRange.setText(price_range)
-                            binding!!.tvValueProductQuantity.setText(quant_range)
-                            max_quantity = total_quantity
-                        }
-
-
-                        if(boolean){
-
-                            if (specGroup_count.equals(1)){
-
-                                var first_layer_selected_count = false
-
-                                for(i in 0..mAdapter_first_specifications.get_spec_list().size-1){
-                                    if(  mAdapter_first_specifications.get_spec_list().get(i).seleted_status){
-                                        first_layer_selected_count = true
-                                    }
-                                }
-
-                                if(first_layer_selected_count){
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = true
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_enable)
-
-                                }else{
-
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = false
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_disable)
-
-                                }
-
-                            }else{
-
-                                var first_layer_selected_count = false
-                                var second_layer_selected_count = false
-
-                                for(i in 0..mAdapter_first_specifications.get_spec_list().size-1){
-                                    if(  mAdapter_first_specifications.get_spec_list().get(i).seleted_status){
-                                        first_layer_selected_count = true
-                                    }
-                                }
-
-                                for(i in 0..mAdapter_second_specifications.get_spec_list().size-1){
-                                    if(  mAdapter_second_specifications.get_spec_list().get(i).seleted_status){
-                                        second_layer_selected_count = true
-                                    }
-                                }
-
-                                if(first_layer_selected_count&&second_layer_selected_count){
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = true
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_enable)
-
-                                }else{
-
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = false
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_disable)
-
-                                }
-
-                            }
-
-                        }
+                        binding!!.txtViewSpinnerContent.setText(spec_first_title)
+                        binding!!.textViewProductPriceRange.setText(price_range.toString())
 
                     }
-                    is EventBuyerDetailedProductBtnStatusSecond-> {
-                        second_layer_clicked = true
 
-                        if(first_layer_clicked){
-
-                            boolean = it.boolean
-                            position = it.position
-                            spec_id = it.spec_id
-                            second_spec_name = it.spec_name
-                            price_range = it.price_range
-                            quant_range = it.quant_range
-                            total_quantity = it.total_quant
-
-
-                            activity!!.runOnUiThread {
-                                binding!!.buttomSheetTextViewProductPriceRange.setText(price_range)
-                                binding!!.tvValueProductQuantity.setText(quant_range)
-                                max_quantity = total_quantity
-                            }
-
-                            if(boolean){
-                                var first_layer_selected_count = false
-                                var second_layer_selected_count = false
-
-                                for(i in 0..mAdapter_first_specifications.get_spec_list().size-1){
-                                    if(  mAdapter_first_specifications.get_spec_list().get(i).seleted_status){
-                                        first_layer_selected_count = true
-                                    }
-                                }
-
-                                for(i in 0..mAdapter_second_specifications.get_spec_list().size-1){
-                                    if(  mAdapter_second_specifications.get_spec_list().get(i).seleted_status){
-                                        second_layer_selected_count = true
-                                    }
-                                }
-
-                                if(first_layer_selected_count && second_layer_selected_count){
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = true
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_enable)
-
-                                }else{
-
-                                    binding!!.btnConfirmSpecsSelecting.isEnabled = false
-                                    binding!!.btnConfirmSpecsSelecting.setImageResource(R.mipmap.btn_confirm_specs_selecting_disable)
-
-                                }
-                            }
-                        }
-
-                    }
                 }
             }, {
                 it.printStackTrace()
             })
 
     }
+
 
 
 }
