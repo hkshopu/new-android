@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HKShopU</string>
+    <string name="app_name">HKSHOPU</string>
     <string name="menu_title">HKShop</string>
     <string name="empty"></string>
     <string name="sign_up">SIGN-UP</string>
@@ -694,4 +694,6 @@
     <string name="order_number">訂單編號</string>
     <string name="paid_time">付款時間</string>
     <string name="ship_number">寄件編號 -</string>
+    <string name="hello_guest">你好,訪客</string>
+    <string name="hello">你好,</string>
 </resources>

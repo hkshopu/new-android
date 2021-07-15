@@ -28,11 +28,12 @@ class App : Application(), LifecycleOwner {
             application = this,
             clientId = "AdBCLHocOrbf94O5WAIkLVi3OAjuwWseJfwNtX6uHSm96tV5gqB_e1g4uBvfvS6TlQeAs9mjT90b-Ok3",
             environment = Environment.SANDBOX,
-            returnUrl = "${BuildConfig.APPLICATION_ID}://paypalpay",
+            returnUrl = "com.hkshopu.paypaltest://paypalpay",
             currencyCode = CurrencyCode.HKD,
             userAction = UserAction.PAY_NOW,
             settingsConfig = SettingsConfig(
-                loggingEnabled = true
+                loggingEnabled = true,
+                shouldFailEligibility = false
             )
         )
         PayPalCheckout.setConfig(config)

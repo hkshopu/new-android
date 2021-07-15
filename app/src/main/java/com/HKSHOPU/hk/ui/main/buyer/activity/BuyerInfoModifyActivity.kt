@@ -153,36 +153,35 @@ class BuyerInfoModifyActivity : BaseActivity() {
                     val ret_val = json.get("ret_val")
                     val status = json.get("status")
                     if (status == 0) {
-                        val translations: JSONArray = json.getJSONArray("data")
+                        val translations: JSONObject = json.getJSONObject("data")
                         Log.d("UserInfoModifyActivity", "返回資料 List：" + translations.toString())
-                        for (i in 0 until translations.length()) {
-                            val jsonObject: JSONObject = translations.getJSONObject(i)
-                            val userInfoBean: UserInfoBean =
-                                Gson().fromJson(jsonObject.toString(), UserInfoBean::class.java)
-                            runOnUiThread {
-                                binding.tvUserName.text = userInfoBean.name
-                                if (userInfoBean.gender.equals("M")) {
-                                    binding.tvUserGender.text = "男性"
 
-                                } else if (userInfoBean.gender.equals("F")) {
-                                    binding.tvUserGender.text = "女性"
-                                } else if (userInfoBean.gender.equals("O")){
-                                    binding.tvUserGender.text = "其他"
+                        val userInfoBean: UserInfoBean =
+                            Gson().fromJson(translations.toString(), UserInfoBean::class.java)
+                        runOnUiThread {
+                            binding.tvUserName.text = userInfoBean.name
+                            if (userInfoBean.gender.equals("M")) {
+                                binding.tvUserGender.text = "男性"
 
-                                }
-                                binding.tvBirthday.text = userInfoBean.birthday
-                                binding.tvUserPhone.text = userInfoBean.phone
-                                binding.tvUserEmail.text = userInfoBean.email
-                                binding.ivChevronUserEmail.visibility = View.GONE
-                                userInfoBean.pic ?. let {
-                                    if (userInfoBean.pic.isNotEmpty()) {
-                                       binding.ivShopImg.load(userInfoBean.pic)
-                                    }
-                                    null // finally returns null
-                                } ?: let {
+                            } else if (userInfoBean.gender.equals("F")) {
+                                binding.tvUserGender.text = "女性"
+                            } else if (userInfoBean.gender.equals("O")) {
+                                binding.tvUserGender.text = "其他"
 
-                                }
                             }
+                            binding.tvBirthday.text = userInfoBean.birthday
+                            binding.tvUserPhone.text = userInfoBean.phone
+                            binding.tvUserEmail.text = userInfoBean.email
+                            binding.ivChevronUserEmail.visibility = View.GONE
+                            userInfoBean.pic?.let {
+                                if (userInfoBean.pic.isNotEmpty()) {
+                                    binding.ivShopImg.load(userInfoBean.pic)
+                                }
+                                null // finally returns null
+                            } ?: let {
+
+                            }
+
 
                         }
 
@@ -200,6 +199,7 @@ class BuyerInfoModifyActivity : BaseActivity() {
         })
         web.Get_Data(url)
     }
+
     private fun processImage(): File? {
         val drawable = binding.ivShopImg.drawable as BitmapDrawable
         val bmp = drawable.bitmap
@@ -229,7 +229,7 @@ class BuyerInfoModifyActivity : BaseActivity() {
                     mProfileUri = uri
                     try {
                         uri?.let {
-                            if(Build.VERSION.SDK_INT <= 28) {
+                            if (Build.VERSION.SDK_INT <= 28) {
                                 val bitmap =
                                     MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
                                 if (bitmap != null) {
@@ -243,7 +243,7 @@ class BuyerInfoModifyActivity : BaseActivity() {
 
                                     isSelectImage = false
                                 }
-                            }else{
+                            } else {
                                 val source = ImageDecoder.createSource(this.contentResolver, uri!!)
                                 val bitmap = ImageDecoder.decodeBitmap(source)
                                 if (bitmap != null) {
@@ -255,7 +255,7 @@ class BuyerInfoModifyActivity : BaseActivity() {
 
                                     isSelectImage = true
 
-                                }else{
+                                } else {
 
                                     isSelectImage = false
                                 }
@@ -313,6 +313,6 @@ class BuyerInfoModifyActivity : BaseActivity() {
 
             }
         })
-        web.Do_UserImgUpdate(url, userId,postImg)
+        web.Do_UserImgUpdate(url, userId, postImg)
     }
 }

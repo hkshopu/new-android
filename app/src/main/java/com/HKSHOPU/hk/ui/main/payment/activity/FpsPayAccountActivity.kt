@@ -13,7 +13,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.R
 import com.HKSHOPU.hk.databinding.*
-import com.paypal.android.sdk.payments.*
+
 import org.jetbrains.anko.textColor
 import org.json.JSONException
 import java.math.BigDecimal

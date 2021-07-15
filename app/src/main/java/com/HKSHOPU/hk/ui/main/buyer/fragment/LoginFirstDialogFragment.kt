@@ -14,8 +14,9 @@ import androidx.fragment.app.DialogFragment
 import com.HKSHOPU.hk.R
 import com.HKSHOPU.hk.component.EventRefreshShopList
 import com.HKSHOPU.hk.ui.main.store.activity.HelpCenterActivity
+import com.HKSHOPU.hk.ui.user.activity.LoginActivity
 import com.HKSHOPU.hk.utils.rxjava.RxBus
-import com.paypal.android.sdk.payments.LoginActivity
+
 
 class LoginFirstDialogFragment(): DialogFragment(), View.OnClickListener {
 

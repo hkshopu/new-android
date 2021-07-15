@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.databinding.*
+import com.HKSHOPU.hk.ui.main.payment.activity.PaypalActivity
 import com.HKSHOPU.hk.ui.main.store.activity.ShopNotifyActivity
 
 //import kotlinx.android.synthetic.main.activity_main.*
@@ -32,8 +33,8 @@ class GoShopActivity : BaseActivity() {
         }
 
         binding.ivNotifyClick.setOnClickListener {
-//            val intent = Intent(this@GoShopActivity, FpsPayActivity::class.java)
-            val intent = Intent(this@GoShopActivity, ShopNotifyActivity::class.java)
+            val intent = Intent(this@GoShopActivity, PaypalActivity::class.java)
+//            val intent = Intent(this@GoShopActivity, ShopNotifyActivity::class.java)
 //            val intent = Intent(this@GoShopActivity, UserInfoModifyActivity::class.java)
             startActivity(intent)
             finish()

@@ -17,7 +17,7 @@ import com.HKSHOPU.hk.databinding.*
 import com.HKSHOPU.hk.ui.user.activity.RetrieveEmailVerifyActivity
 import com.HKSHOPU.hk.ui.user.vm.AuthVModel
 import com.HKSHOPU.hk.widget.view.KeyboardUtil
-import com.paypal.android.sdk.payments.*
+
 import com.tencent.mmkv.MMKV
 
 import java.util.*

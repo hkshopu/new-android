@@ -27,10 +27,7 @@ import com.google.gson.Gson
 import com.HKSHOPU.hk.R
 import com.HKSHOPU.hk.component.CommonVariable
 import com.HKSHOPU.hk.component.EventToUserProfile
-import com.HKSHOPU.hk.data.bean.HomeAdBean
-import com.HKSHOPU.hk.data.bean.ProductShopPreviewBean
-import com.HKSHOPU.hk.data.bean.ShopCategoryBean
-import com.HKSHOPU.hk.data.bean.ShopRecommendHomeBean
+import com.HKSHOPU.hk.data.bean.*
 import com.HKSHOPU.hk.databinding.FragmentHomepageBinding
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
@@ -44,6 +41,7 @@ import com.HKSHOPU.hk.ui.main.store.activity.ShopPreviewActivity
 import com.HKSHOPU.hk.ui.main.store.adapter.CategorySingleAdapter
 import com.HKSHOPU.hk.ui.main.store.adapter.HomeAdAdapter
 import com.HKSHOPU.hk.ui.user.vm.ShopVModel
+import com.HKSHOPU.hk.utils.extension.load
 import com.HKSHOPU.hk.utils.rxjava.RxBus
 import com.HKSHOPU.hk.widget.view.KeyboardUtil
 import com.tencent.mmkv.MMKV
@@ -93,9 +91,12 @@ class HomePageFragment : Fragment((R.layout.fragment_homepage)) {
         getRecommendedStores(userId.toString())
 
         if (userId!!.isEmpty()) {
+            binding!!.tvUsername.setText(R.string.hello_guest)
             var url_topproduct = ApiConstants.API_HOST + "product/" + "null" + "/product_analytics/"
             getTopProduct(url_topproduct)
         } else {
+            var url_UserPeofile = ApiConstants.API_HOST + "user_detail/"+userId+"/profile/"
+            getUserProfile(url_UserPeofile)
             var url_topproduct = ApiConstants.API_HOST + "product/" + userId + "/product_analytics/"
             getTopProduct(url_topproduct)
         }
@@ -303,26 +304,45 @@ class HomePageFragment : Fragment((R.layout.fragment_homepage)) {
         }
     }
 
-    private fun checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.RECORD_AUDIO
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                val intent = Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + requireContext().packageName)
-                )
-                startActivity(intent)
+    private fun getUserProfile(url: String) {
 
-                Toast.makeText(
-                    requireActivity(),
-                    "Enable Microphone Permission..!!",
-                    Toast.LENGTH_SHORT
-                ).show()
+        val web = Web(object : WebListener {
+            override fun onResponse(response: Response) {
+                var resStr: String? = ""
+                val list = ArrayList<BuyerProfileBean>()
+                list.clear()
+                try {
+                    resStr = response.body()!!.string()
+                    val json = JSONObject(resStr)
+                    val ret_val = json.get("ret_val")
+                    val status = json.get("status")
+                    if (status == 0) {
+                        val jsonObject: JSONObject = json.getJSONObject("data")
+
+                        val buyerProfileBean: BuyerProfileBean =
+                            Gson().fromJson(jsonObject.toString(), BuyerProfileBean::class.java)
+
+                        list.add(buyerProfileBean)
+
+                        requireActivity().runOnUiThread {
+                            binding!!.ivUserPic.load(list[0].pic)
+                            binding!!.tvUsername.text ="你好," + list[0].name
+
+                        }
+
+                    }
+                } catch (e: JSONException) {
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
-        }
+
+            override fun onErrorResponse(ErrorResponse: IOException?) {
+
+            }
+        })
+        web.Get_Data(url)
     }
 
     private fun getHomeAd(url: String) {

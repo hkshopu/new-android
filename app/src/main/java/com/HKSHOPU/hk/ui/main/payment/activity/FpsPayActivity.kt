@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.HKSHOPU.hk.Base.BaseActivity
 import com.HKSHOPU.hk.databinding.*
 import com.HKSHOPU.hk.ui.main.store.activity.OnBoardActivity
-import com.paypal.android.sdk.payments.*
 import org.json.JSONException
 import java.math.BigDecimal
 
