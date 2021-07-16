@@ -7,11 +7,14 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.HKSHOPU.hk.Base.BaseActivity
+import com.HKSHOPU.hk.R
 import com.HKSHOPU.hk.data.bean.*
 
 import com.HKSHOPU.hk.databinding.*
@@ -21,6 +24,9 @@ import com.HKSHOPU.hk.net.WebListener
 import com.HKSHOPU.hk.ui.main.buyer.adapter.BuyerPendingDeliver_OrderDatailAdapter
 import com.HKSHOPU.hk.ui.main.buyer.adapter.ProductLikedAdapter
 import com.HKSHOPU.hk.ui.main.buyer.adapter.StoreFollowAdapter
+import com.HKSHOPU.hk.ui.main.buyer.fragment.LoginFirstDialogFragment
+import com.HKSHOPU.hk.ui.main.buyer.fragment.ProductConfirmDialogFragment
+import com.HKSHOPU.hk.ui.main.buyer.fragment.PurchaseListFragment
 import com.HKSHOPU.hk.ui.main.homepage.adapter.ProductShopPreviewAdapter
 import com.HKSHOPU.hk.ui.main.homepage.adapter.StoreRecommendAdapter
 import com.HKSHOPU.hk.utils.extension.load
@@ -42,7 +48,7 @@ class BuyerPurchaseList_recieveActivity : BaseActivity() {
 
 
     private val adapter = BuyerPendingDeliver_OrderDatailAdapter()
-
+    var orderNumber =""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBuyerorderdetailReceiveBinding.inflate(layoutInflater)
@@ -65,6 +71,15 @@ class BuyerPurchaseList_recieveActivity : BaseActivity() {
             finish()
         }
 
+        binding.ivOrderdone.setOnClickListener {
+            runOnUiThread {
+
+                ProductConfirmDialogFragment(orderNumber).show(
+                    getSupportFragmentManager(),
+                    "MyCustomFragment"
+                )
+            }
+        }
 
     }
     private fun initRecyclerView(){
@@ -98,16 +113,14 @@ class BuyerPurchaseList_recieveActivity : BaseActivity() {
                     val status = json.get("status")
                     if (status == 0) {
 
-                        val jsonArray: JSONArray = json.getJSONArray("data")
-                        Log.d("BuyerPurchaseList_recieve", "返回資料 jsonArray：" + jsonArray.toString())
-                        for (i in 0 until jsonArray.length()) {
-                            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                        val jsonObject = json.getJSONObject("data")
+                        val jsonArray_product: JSONArray = jsonObject.getJSONArray("productList")
+                        for (i in 0 until jsonArray_product.length()) {
                             val state = jsonObject.getString("status")
                             if(state.equals("Pending Good Receive ")) {
                                 val myOrderBean: MyOrderBean =
                                     Gson().fromJson(jsonObject.toString(), MyOrderBean::class.java)
                                 list.add(myOrderBean)
-                                val jsonArray_product: JSONArray = jsonObject.getJSONArray("productList")
                                 val jsonObject_product: JSONObject = jsonArray_product.getJSONObject(i)
                                 for (i in 0 until jsonArray_product.length()) {
                                     val orderProductBean: OrderProductBean =
@@ -134,6 +147,7 @@ class BuyerPurchaseList_recieveActivity : BaseActivity() {
                             binding.tvShippingFee.text = "HKD$"+list[0].shipment_price
                             binding.tvPayment.text = list[0].payment_desc
                             binding.tvOrdernumber.text = list[0].order_number
+                            orderNumber = list[0].order_number
                             binding.tvPaytime.text = list[0].pay_time
                             initRecyclerView()
                             binding.progressBar.isVisible = false

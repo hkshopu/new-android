@@ -2,7 +2,9 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="pixel_3_xl" />
+      </config>
     </shared>
   </component>
   <component name="AndroidLogFilters">
@@ -14,14 +16,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70789240-1794-48b3-94a5-2b73ffc89dcd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_3_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_services_storage_1_4_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_paypal_checkout_android_sdk_0_3_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -33,40 +27,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_3_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_3_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_3_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_2_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_3_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_3_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_paypal_android_PayPalPartnerAuth_1_3_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_paypal_android_PayPalPartnerAuth_1_3_1_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_paypal_checkout_android_sdk_0_2_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_paypal_sdk_paypal_android_sdk_2_16_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_card_android_sdk_5_5_1_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/HKShopU.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/HKShopU.app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/application/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/application/App.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BirthDayChangeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BirthDayChangeActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerInfoModifyActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerInfoModifyActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerNameEditActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerNameEditActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPWchange1Activity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPWchange1Activity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPWchange2Activity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPWchange2Activity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPhoneEditActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPhoneEditActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/GenderChangeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/GenderChangeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPurchaseList_deliverActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPurchaseList_deliverActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPurchaseList_recieveActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/activity/BuyerPurchaseList_recieveActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/adapter/BuyerOrderCompleteAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/adapter/BuyerOrderCompleteAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/adapter/BuyerPendingRecieveAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/adapter/BuyerPendingRecieveAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/BuyerOrderCompleteFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/BuyerOrderCompleteFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/BuyerPendingRecieveFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/BuyerPendingRecieveFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/LoginFirstDialogFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/buyer/fragment/LoginFirstDialogFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/homepage/activity/GoShopActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/homepage/activity/GoShopActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/homepage/fragment/HomePageFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/homepage/fragment/HomePageFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/FpsPayAccountActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/FpsPayAccountActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/FpsPayActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/FpsPayActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/PaypalActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/HKSHOPU/hk/ui/main/payment/activity/PaypalActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_buyerinfomodify.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_buyerinfomodify.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_paypal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_paypal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_homepage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_homepage.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_buyerorderdetail_receive.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_buyerorderdetail_receive.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_order_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_order_complete.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +48,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@89TY0B97D]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@/Users/user/.android/avd/Pixel_3_XL_API_28.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -148,10 +122,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="com.HKSHOPU.hk.ui.main.buyer.adapter" />
-      <recent name="com.HKSHOPU.hk.data.bean" />
       <recent name="com.HKSHOPU.hk.ui.main.buyer.activity" />
       <recent name="com.HKSHOPU.hk.ui.main.buyer.fragment" />
+      <recent name="com.HKSHOPU.hk.ui.main.buyer.adapter" />
+      <recent name="com.HKSHOPU.hk.data.bean" />
       <recent name="com.HKSHOPU.hk.ui.main.payment.activity" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
@@ -330,22 +304,22 @@
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
     <state x="419" y="-733" key="AndroidCreateXmlResourceDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1625110347223" />
-    <state width="1876" height="270" key="GridCell.Tab.0.bottom" timestamp="1626330583538">
+    <state width="1876" height="270" key="GridCell.Tab.0.bottom" timestamp="1626439915096">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state width="1876" height="270" key="GridCell.Tab.0.bottom/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626330583538" />
-    <state width="1876" height="270" key="GridCell.Tab.0.center" timestamp="1626330583537">
+    <state width="1876" height="270" key="GridCell.Tab.0.bottom/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626439915096" />
+    <state width="1876" height="270" key="GridCell.Tab.0.center" timestamp="1626439915093">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state width="1876" height="270" key="GridCell.Tab.0.center/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626330583537" />
-    <state width="1876" height="270" key="GridCell.Tab.0.left" timestamp="1626330583536">
+    <state width="1876" height="270" key="GridCell.Tab.0.center/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626439915093" />
+    <state width="1876" height="270" key="GridCell.Tab.0.left" timestamp="1626439915092">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state width="1876" height="270" key="GridCell.Tab.0.left/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626330583536" />
-    <state width="1876" height="270" key="GridCell.Tab.0.right" timestamp="1626330583538">
+    <state width="1876" height="270" key="GridCell.Tab.0.left/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626439915092" />
+    <state width="1876" height="270" key="GridCell.Tab.0.right" timestamp="1626439915094">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state width="1876" height="270" key="GridCell.Tab.0.right/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626330583538" />
+    <state width="1876" height="270" key="GridCell.Tab.0.right/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626439915094" />
     <state width="1876" height="279" key="GridCell.Tab.1.bottom" timestamp="1623762253307">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
@@ -366,10 +340,10 @@
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
     <state x="173" y="-781" key="IDE.errors.dialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1625207285468" />
-    <state x="379" y="-746" key="chooseDestDirectoryDialog" timestamp="1626083145027">
+    <state x="379" y="-746" key="chooseDestDirectoryDialog" timestamp="1626423162767">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state x="379" y="-746" key="chooseDestDirectoryDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626083145027" />
+    <state x="379" y="-746" key="chooseDestDirectoryDialog/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626423162767" />
     <state x="388" y="-610" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624510553092">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
@@ -378,10 +352,10 @@
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
     <state x="118" y="-795" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1623743396075" />
-    <state width="300" height="36" key="javadoc.popup.new" timestamp="1626327107582">
+    <state width="300" height="36" key="javadoc.popup.new" timestamp="1626424666619">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>
-    <state width="300" height="36" key="javadoc.popup.new/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626327107582" />
+    <state width="300" height="36" key="javadoc.popup.new/0.25.1280.775/-375.-1055.1920.1055@-375.-1055.1920.1055" timestamp="1626424666619" />
     <state x="250" y="-821" width="670" height="676" key="search.everywhere.popup" timestamp="1625126582306">
       <screen x="-375" y="-1055" width="1920" height="1055" />
     </state>

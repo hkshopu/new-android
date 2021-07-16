@@ -62,6 +62,7 @@ class BuyerPendingRecieveAdapter : RecyclerView.Adapter<BuyerPendingRecieveAdapt
     }
 
     var intentClick: ((id: String) -> Unit)? = null
+    var confirmClick: ((id: String) -> Unit)? = null
     override fun onBindViewHolder(holder: BuyerPendingRecieveLinearHolder, position: Int) {
         val viewHolder: BuyerPendingRecieveLinearHolder = holder
         val item = mData.get(position)
@@ -72,6 +73,9 @@ class BuyerPendingRecieveAdapter : RecyclerView.Adapter<BuyerPendingRecieveAdapt
         viewHolder.price.text = "HKD$ "+item.sub_total.toString()
         viewHolder.container.click {
             intentClick?.invoke(item.order_id)
+        }
+        viewHolder.complete.click {
+            confirmClick?.invoke(item.order_number)
         }
     }
 

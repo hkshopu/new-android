@@ -486,6 +486,10 @@
             android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_recieveActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask" />
+        <activity
+            android:name="com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_compeleteActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="com.google.android.gms.version"

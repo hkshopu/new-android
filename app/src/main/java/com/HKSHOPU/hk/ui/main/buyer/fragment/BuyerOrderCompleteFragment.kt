@@ -1,5 +1,6 @@
 package com.HKSHOPU.hk.ui.main.buyer.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,8 @@ import com.HKSHOPU.hk.data.bean.ProductShopPreviewBean
 import com.HKSHOPU.hk.net.ApiConstants
 import com.HKSHOPU.hk.net.Web
 import com.HKSHOPU.hk.net.WebListener
+import com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_compeleteActivity
+import com.HKSHOPU.hk.ui.main.buyer.activity.BuyerPurchaseList_deliverActivity
 import com.HKSHOPU.hk.ui.main.buyer.adapter.BuyerOrderCompleteAdapter
 import com.HKSHOPU.hk.ui.main.buyer.adapter.BuyerPendingDeliverAdapter
 import com.HKSHOPU.hk.ui.main.buyer.adapter.BuyerPendingRecieveAdapter
@@ -80,7 +83,11 @@ class BuyerOrderCompleteFragment : Fragment() {
 
         allProduct.adapter = adapter
         adapter.intentClick = {
-
+            val bundle = Bundle()
+            bundle.putString("order_id", it)
+            val intent = Intent(requireActivity(), BuyerPurchaseList_compeleteActivity::class.java)
+            intent.putExtra("bundle", bundle)
+            requireActivity().startActivity(intent)
         }
 
     }

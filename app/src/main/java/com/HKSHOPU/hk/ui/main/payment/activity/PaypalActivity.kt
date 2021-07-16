@@ -62,7 +62,7 @@ class PaypalActivity : BaseActivity() {
                                 PurchaseUnit.Builder()
                                     .amount(
                                         Amount.Builder()
-                                            .value("0.01")
+                                            .value("0.1")
                                             .currencyCode(CurrencyCode.HKD)
                                             .build()
                                     )

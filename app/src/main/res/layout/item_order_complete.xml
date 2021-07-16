@@ -9,6 +9,11 @@
     android:layout_marginEnd="16dp"
     android:background="@drawable/customborder_onboard_16dp">
 
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/tv_state"
         android:layout_width="wrap_content"
@@ -104,11 +109,11 @@
         android:text="HKD$ 1,905"
         android:textSize="18dp"
         android:textColor="@color/black"/>
-
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/iv_productIcon"
+        android:layout_below="@id/container"
         android:layout_marginTop="8dp"
         android:background="@color/colordivideline" />
 
@@ -119,7 +124,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="12dp"
-        android:layout_below="@id/iv_productIcon"
+        android:layout_below="@id/container"
         android:src="@mipmap/ic_contact2" />
 
 
@@ -130,7 +135,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="12dp"
-        android:layout_below="@id/iv_productIcon"
+        android:layout_below="@id/container"
         android:layout_alignParentEnd="true"
         android:src="@mipmap/ic_comment" />
 

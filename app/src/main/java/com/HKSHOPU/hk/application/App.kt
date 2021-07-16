@@ -26,9 +26,9 @@ class App : Application(), LifecycleOwner {
         initMMKV()
         val config = CheckoutConfig(
             application = this,
-            clientId = "AdBCLHocOrbf94O5WAIkLVi3OAjuwWseJfwNtX6uHSm96tV5gqB_e1g4uBvfvS6TlQeAs9mjT90b-Ok3",
-            environment = Environment.SANDBOX,
-            returnUrl = "com.hkshopu.paypaltest://paypalpay",
+            clientId = "ATQnt-r5Gm45zeZaEkjaDG9qG3jpM2IDrzNqhXUzNJc1-0USna3hg5gt6lm73M5wyvbTQCG_1iD1KoZv",
+            environment = Environment.LIVE,
+            returnUrl = "com.hkshopu.hk://paypalpay",
             currencyCode = CurrencyCode.HKD,
             userAction = UserAction.PAY_NOW,
             settingsConfig = SettingsConfig(

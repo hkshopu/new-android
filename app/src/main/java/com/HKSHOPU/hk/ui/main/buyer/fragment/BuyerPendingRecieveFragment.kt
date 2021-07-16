@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,9 +46,9 @@ class BuyerPendingRecieveFragment : Fragment() {
             return fragment
         }
     }
+    lateinit var manager: FragmentManager
     lateinit var allProduct :RecyclerView
     lateinit var progressBar: ProgressBar
-
     private val adapter = BuyerPendingRecieveAdapter()
 
     override fun onCreateView(
@@ -88,7 +89,13 @@ class BuyerPendingRecieveFragment : Fragment() {
             intent.putExtra("bundle", bundle)
             requireActivity().startActivity(intent)
         }
-
+        manager = childFragmentManager
+        adapter.confirmClick = {
+            ProductConfirmDialogFragment(it).show(
+                manager,
+                "MyCustomFragment"
+            )
+        }
     }
 
     private fun getProduct(url: String,userId:String,status:String) {

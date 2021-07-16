@@ -98,17 +98,14 @@ class BuyerPurchaseList_deliverActivity : BaseActivity() {
                     val status = json.get("status")
                     if (status == 0) {
 
-                        val jsonArray: JSONArray = json.getJSONArray("data")
-                        Log.d("BuyerPurchaseList_deliver", "返回資料 jsonArray：" + jsonArray.toString())
-
-                        for (i in 0 until jsonArray.length()) {
-                            val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                        val jsonObject = json.getJSONObject("data")
+                        val jsonArray_product: JSONArray = jsonObject.getJSONArray("productList")
+                        for (i in 0 until jsonArray_product.length()) {
                             val state = jsonObject.getString("status")
                             if(state.equals("Pending Delivery")) {
                                 val myOrderBean: MyOrderBean =
                                     Gson().fromJson(jsonObject.toString(), MyOrderBean::class.java)
                                 list.add(myOrderBean)
-                                val jsonArray_product: JSONArray = jsonObject.getJSONArray("productList")
                                 val jsonObject_product: JSONObject = jsonArray_product.getJSONObject(i)
                                 for (i in 0 until jsonArray_product.length()) {
                                     val orderProductBean: OrderProductBean =

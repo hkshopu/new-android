@@ -3,6 +3,7 @@ package com.HKSHOPU.hk.ui.main.buyer.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.HKSHOPU.hk.R
@@ -12,6 +13,7 @@ import com.HKSHOPU.hk.data.bean.BuyerOrderDetailBean
 import com.HKSHOPU.hk.data.bean.ShopAddressListBean
 import com.HKSHOPU.hk.utils.extension.inflate
 import com.HKSHOPU.hk.utils.extension.load
+import com.HKSHOPU.hk.widget.view.click
 
 
 import org.jetbrains.anko.find
@@ -68,6 +70,9 @@ class BuyerOrderCompleteAdapter : RecyclerView.Adapter<BuyerOrderCompleteAdapter
         viewHolder.name.text = item.shop_title
         viewHolder.quantity.text = item.count.toString()
         viewHolder.price.text = "HKD$ "+item.sub_total.toString()
+        viewHolder.container.click {
+            intentClick?.invoke(item.order_id)
+        }
     }
 
     interface OnItemClickListener {
@@ -75,6 +80,7 @@ class BuyerOrderCompleteAdapter : RecyclerView.Adapter<BuyerOrderCompleteAdapter
     }
 
     inner class BuyerOrderCompleteLinearHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val container = itemView.find<RelativeLayout>(R.id.container)
         val product = itemView.find<ImageView>(R.id.iv_product)
         val store = itemView.find<ImageView>(R.id.iv_store)
         var name = itemView.find<TextView>(R.id.tv_store_name)
